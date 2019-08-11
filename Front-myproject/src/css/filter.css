@@ -1,0 +1,116 @@
+
+/* COMMON USE */
+#root .filter{
+    background: linear-gradient(40deg, #ff6ec4, #7873f5);
+    border-radius: 40px;
+    color:white;
+    font-size:18px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 5px 0 5px;
+    cursor: pointer;
+    padding: 7px 30px 7px 30px
+
+}
+
+#root .filter:hover{
+    box-shadow: 0 6px 12px 0 rgba(0,0,0,.16),
+    0 6px 22px 0 rgba(0,0,0,.12);
+}
+
+#root .filter-dropdown{
+    display: none;
+    position: absolute;
+    top:100%;
+    left:0;
+    color: black;
+    /* text-align:center; */
+    background-color:white;
+    box-shadow: 0 6px 12px 0 rgba(0,0,0,.16),
+    0 6px 22px 0 rgba(0,0,0,.12);
+    z-index: 9999
+}
+#root .dropdown-item{
+    display: flex;
+    align-items: center;
+}
+
+#root .dropdown-item:hover {
+    background-color:rgb(240, 228, 228);
+}
+
+#root .filter-checkbox{
+    color: rgb(233, 208, 208);
+    position: absolute;
+    right:15px;
+    background-color: rgb(239, 238, 245);
+    padding: 3px;
+}
+
+#root .filter-checkbox-active {
+    color:rgb(15, 211, 25)
+}
+
+/* CATEGORY */
+#root .category-filter{
+}
+
+#root .category-filter:hover .category-filter-dropdown{
+    display: block;
+}
+
+#root .category-filter-dropdown-item{
+    margin: 5px 0 5px 0;
+    width:200px;
+}
+
+
+/* #root .category-filter:active .category-filter-dropdown{
+    display: none;
+} */
+
+/* RATE */
+#root .rate-filter{
+    /* width: 180px; */
+}
+
+/* CREATEDAT */
+#root .createdAt-filter{
+    /* width:140px; */
+}
+
+/* PRICE */
+#root .price-filter{
+    /* width:130px; */
+}
+
+#root .price-filter-dropdown-item{
+    /* width:190px; */
+}
+
+#root .price-filter:hover .price-filter-dropdown{
+    display: block;
+}
+
+/* PAGINATION */
+#root .page-button{
+    color:rgb(156, 158, 12);
+    /* background: linear-gradient(40deg, #b0d4fd, #7873f5); */
+    /* border-radius: 40px; */
+    border: 1px solid rgb(156, 158, 12);
+    padding: 5px 10px 5px 10px;
+    margin-right:5px;
+}
+
+#root .page-button-active{
+    color:white;
+    background-color:rgb(156, 158, 12)
+}
+
+@media (max-width: 1200px) { 
+    #root .filter{
+        padding:5px 10px 5px 10px;
+        font-size:10px;
+    }
+}
