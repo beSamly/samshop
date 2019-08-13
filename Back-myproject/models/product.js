@@ -26,14 +26,31 @@ const reviewsSchema = new mongoose.Schema({
     }
 })
 
+const clothSizeSchema = new mongoose.Schema({
+
+})
+
+const shoesSizeSchema = new mongoose.Schema({
+    size: {
+        enum: [
+            "230", "235", "240", "245", "250", "255", "260",
+            "265", "270", "275", "280", "285", "290", "295",
+        ]
+    }
+
+})
+
 const detailsSchema = new mongoose.Schema({
-    color:String,
-    size:{
+    color: String,
+    size: {
         type: String,
-        enum: ["xs", "s", "m", "l", "xl","fs","ns"]
+        enum: ["xs", "s", "m", "l", "xl", "free-size", "",
+        "230", "235", "240", "245", "250", "255", "260",
+        "265", "270", "275", "280", "285", "290", "295",
+    ],
     },
-    quantity:Number,
-    price:Number
+    quantity: Number,
+    price: Number
 })
 
 
@@ -53,7 +70,7 @@ const productSchema = new mongoose.Schema(
         price: {
             type: Number,
             trim: true,
-            default:10,
+            default: 10,
             maxlength: 32
         },
         category: {
@@ -61,7 +78,7 @@ const productSchema = new mongoose.Schema(
             ref: "Category",
             required: true
         },
-     
+
         sold: {
             type: Number,
             default: 0
@@ -83,7 +100,7 @@ const productSchema = new mongoose.Schema(
             max: 5,
             type: Number
         },
-        details:[detailsSchema]
+        details: [detailsSchema]
     },
     { timestamps: true }
 );

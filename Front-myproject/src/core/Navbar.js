@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
 import { isAuthenticated, signout } from '../auth/index'
 import { getCategories } from "./apiCore";
+import { getCart } from "./cartHelpers";
+import NavCartItem from "./NavCartItem";
 
 const Navbar = ({ history, keywordIn = "" }) => {
-
     const [categories, setCategories] = useState()
     const [keyword, setKeyword] = useState(keywordIn)
+    const [cartItems, setCartItems] = useState()
 
     const handleChange = (e) => {
         var value = e.target.value
@@ -27,44 +29,16 @@ const Navbar = ({ history, keywordIn = "" }) => {
     }
 
     useEffect(() => {
-        if (!categories) {
-            getCategories().then(data => setCategories(data))
-        }
+        // if (!categories) {
+        //     getCategories().then(data => setCategories(data))
+        // }
+
+        getCategories().then(data => setCategories(data))
+        // setCartItems(getCart())
         init()
     }, [])
 
 
-    const showSignOptions = () => {
-        return !isAuthenticated() && (
-            <div className="">
-                <div className="d-inline-block mx-2"><i class="fab grey-text fa-medapps fa-1x mx-2"></i></div>
-                <div className="d-inline-block mx-2"><i class="fas grey-text fa-luggage-cart fa-1x mx-2"></i></div>
-                <div className="d-inline-block mx-2"><i class="far grey-text fa-bell fa-1x mx-2"></i></div>
-                <span class="text-center  mx-0 px-0" style={{ width: 60 }}>
-                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 14 }} data-toggle="modal" data-target="#elegantModalForm" >Sign in</a>
-                </span>
-                <span class="text-center px-0">
-                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 14 }} data-toggle="modal" data-target="#elegantModalForm-signup" >Sign up</a>
-                </span>
-            </div>
-        )
-    }
-    const showUserOptions = () => {
-        return isAuthenticated() && isAuthenticated().user.role === 0 && (
-            <div className="">
-                <div className="d-inline-block mx-2"><i class="fab grey-text fa-medapps fa-1x mx-2"></i></div>
-                <div className="d-inline-block mx-2"><i class="fas grey-text fa-luggage-cart fa-1x mx-2"></i></div>
-                <div className="d-inline-block mx-2"><i class="far grey-text fa-bell fa-1x mx-2"></i></div>
-                <span class="text-center  mx-0 px-0" style={{ width: 60 }}>
-                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 12 }} >Dash board</a>
-                </span>
-                <span class="text-center px-0">
-                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 12 }}
-                        onClick={() => signout(() => <Redirect to='/asd' />)} >Sign out</a>
-                </span>
-            </div>
-        )
-    }
     const dropdown = () => {
         var a = []
         return categories ? (
@@ -77,7 +51,26 @@ const Navbar = ({ history, keywordIn = "" }) => {
         ) : ""
     }
     const { user } = isAuthenticated()
-    const userMenu = () => {
+
+
+
+    const showIcon = () => {
+        return (
+            <div class="row align-items-center">
+                <div className="d-inline-block mx-2"><i class="fab grey-text fa-medapps fa-1x mx-2"></i></div>
+                <div className="d-inline-block mx-2 cart-icon-box position-relative">
+                    <Link to={'/cart'}>
+                        {showNumOfItemInCart()}
+                        <NavCartItem items={items} />
+                        <i class="fas grey-text fa-luggage-cart fa-1x mx-2"></i>
+                    </Link>
+                </div>
+                <div className="d-inline-block mx-2"><i class="far grey-text fa-bell fa-1x mx-2"></i></div>
+            </div>
+        )
+    }
+
+    const showUserMenu = () => {
         if (isAuthenticated() && user.role === 1) {
             return (
                 <div>
@@ -92,18 +85,21 @@ const Navbar = ({ history, keywordIn = "" }) => {
         }
         if (isAuthenticated() && user.role !== 1) {
             return (
-                <div className="user-option-box btn btn-primary px-2">
-                    user option
-                    <div className="user-dropdown">
-                        <ul>
-                            <Link to={'/user/dashboard/profile'}><li className="user-dropdown-item">Profile</li></Link>
-                            <Link to={'/user/dashboard'}><li className="user-dropdown-item">Order history</li></Link>
-                            <li className="user-dropdown-item" onClick={() =>
-                                signout(() => {
-                                    history.push("/");
-                                })
-                            }>Sign Out</li>
-                        </ul>
+                <div className="row justify-content-center">
+                    {showIcon()}
+                    <div className="user-option-box btn btn-primary px-2 py-1">
+                        <Link to={'/user/dashboard'}><span style={{color:'white',fontSize:11}}>user option</span></Link>
+                        <div className="user-dropdown">
+                            <ul>
+                                <Link to={'/user/dashboard/profile'}><li className="user-dropdown-item">Profile</li></Link>
+                                <Link to={'/user/dashboard'}><li className="user-dropdown-item">Order history</li></Link>
+                                <li className="user-dropdown-item" onClick={() =>
+                                    signout(() => {
+                                        history.push("/");
+                                    })
+                                }>Sign Out</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             )
@@ -112,14 +108,81 @@ const Navbar = ({ history, keywordIn = "" }) => {
 
     const showSignMenu = () => {
         return !isAuthenticated() && (
-            <div>
-                {showSignOptions()}
-                {showUserOptions()}
+            <div class="row">
+                {showIcon()}
+                <span class="text-center  mx-0 px-0" >
+                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 14 }} data-toggle="modal" data-target="#elegantModalForm" >Sign in</a>
+                </span>
+                <span class="text-center px-0">
+                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 14 }} data-toggle="modal" data-target="#elegantModalForm-signup" >Sign up</a>
+                </span>
             </div>
         )
     }
 
-    // nested dropdown navbar exercise
+    const showNumOfItemInCart = () => {
+        var items = getCart()
+
+        var length = items.length
+        return (
+            <div className="cart-item-number">
+                {length}
+            </div>
+        )
+    }
+
+    const showNavbar = () => {
+        return (
+            <div>
+                <div className="top-banner row align-items-center justify-content-center">
+                    <span>
+                        Be members only pricing with a 30-day money-back guarantee| Enjoy the benefits of Sammie Shop.
+                    </span>
+                </div>
+                <nav className="navbar navbar-expand-lg py-0">
+                    <ul className="col-xl-3 col-ld-1 col-md-4 col-sm-6 col-10 my-0 px-0">
+                        <Link to={'/'}><li className="d-inline-block"><img src="/img/logo-image.png" style={{ width: 110, height: 50 }}></img></li></Link>
+                        <Link to={'/products'}>
+                            <li className="drop-down-btn py-3 d-inline-block mx-4 position-relative"><i class="fas fa-th grey-text mr-2"></i>Category
+                    {dropdown()}
+                            </li>
+                        </Link>
+                    </ul>
+                    <button class="navbar-toggler mt-2" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation" >
+                        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+                    </button>
+                    <div class="collapse navbar-collapse row justify-content-between align-items-center" id="basicExampleNav">
+                        <div className="col-md-7">
+                            <div class="md-form form-sm my-0">
+                                <input type="text" id="inputSMEx" class="search-bar form-control form-control-sm m-0 w-85 d-inline-block" value={keyword} onChange={handleChange} placeholder="Search for anything" />
+                                <button className="btn btn-danger m-0 px-3 py-2" onClick={handleClick}>
+                                    <i class="fas fa-search fa-xs " ></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-md-5">
+                            {showSignMenu()}
+                            {showUserMenu()}
+                        </div>
+                    </div>
+                </nav >
+            </div>
+        )
+    }
+
+    var items = getCart()
+
+    return (
+        <div >
+            {showNavbar()}
+        </div>
+    )
+};
+
+export default withRouter(Navbar);
+
+ // nested dropdown navbar exercise
     // const dropdown = () => {
     //     return (
     //         <ul className="drop-down">
@@ -166,48 +229,3 @@ const Navbar = ({ history, keywordIn = "" }) => {
     //         </ul>
     //     )
     // }
-
-    const showNavbar = () => {
-        return (
-            <div>
-                <div className="top-banner row align-items-center justify-content-center">
-                    <span>
-                        Be members only pricing with a 30-day money-back guarantee| Enjoy the benefits of Sammie Shop.
-                    </span>
-                </div>
-                <nav className="navbar navbar-expand-lg py-0">
-                    <ul className="col-xl-3 col-ld-1 col-md-4 col-sm-6 col-10 my-0 px-0">
-                        <Link to={'/'}><li className="d-inline-block"><img src="/img/logo-image.png" style={{ width: 110, height: 50 }}></img></li></Link>
-                        <li className="drop-down-btn py-3 d-inline-block mx-4 position-relative"><i class="fas fa-th grey-text mr-2"></i>Category
-                    {dropdown()}
-                        </li>
-                    </ul>
-                    <button class="navbar-toggler mt-2" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-                        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation" >
-                        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
-                    </button>
-                    <div class="collapse navbar-collapse row justify-content-between" id="basicExampleNav">
-                        <div className="col-md-7">
-                            <div class="md-form form-sm my-0">
-                                <input type="text" id="inputSMEx" class="search-bar form-control form-control-sm m-0 w-85 d-inline-block" value={keyword} onChange={handleChange} placeholder="Search for anything" />
-                                <button className="btn btn-danger m-0 px-3 py-2" onClick={handleClick}>
-                                    <i class="fas fa-search fa-xs " ></i>
-                                </button>
-                            </div>
-                        </div>
-                        {showSignMenu()}
-                        {userMenu()}
-                    </div>
-                </nav >
-            </div>
-        )
-    }
-
-    return (
-        <div >
-            {showNavbar()}
-        </div>
-    )
-};
-
-export default withRouter(Navbar);

@@ -31,7 +31,7 @@ const UserDashboardLayout = ({ children, history, location, keywordIn }) => {
 
     return (
         <Layout keywordIn={keywordIn}>
-            <div className="row">
+            <div className="row mt-5">
                 <div className="col-3">
                     {showSideBar()}
                 </div>

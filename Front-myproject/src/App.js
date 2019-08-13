@@ -17,6 +17,10 @@ import NoAccess from './core/NoAccess';
 import AdminProductManage from './admin/AdminProductManage';
 import AdminProductUpdate from './admin/AdminProductUpdate';
 import AdminProductCreate from './admin/AdminProductCreate';
+import PrivateRoute from './auth/PrivateRoute';
+import UserProfile from './user/UserProfile';
+import UserDashboard from './user/UserDashboard';
+import Cart from './core/Cart';
 
 // ipmort css
 import navbar from './css/navbar.css'
@@ -28,9 +32,8 @@ import card from './css/card.css';
 import app from './App.css'
 import adminProductCreate from './css/adminProductCreate.css'
 import adminRouteLayout from './css/adminRouteLayout.css'
-import PrivateRoute from './auth/PrivateRoute';
-import UserProfile from './user/UserProfile';
-import UserDashboard from './user/UserDashboard';
+import cart from './css/cart.css'
+import productDetail from './css/productDetail.css'
 
 
 function App() {
@@ -42,7 +45,7 @@ function App() {
         <Route path="/AboutHook" exact component={AboutHook} />
         <Route exact path="/products/" exact component={Product} />
         <Route path="/product/:productId" exact component={ProductDetail} />
-
+        <Route path="/cart" exact component={Cart} />
         <PrivateRoute path="/user/dashboard/profile" exact component={UserProfile} />
         <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
 

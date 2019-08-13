@@ -4,6 +4,7 @@ import { isAuthenticated, signout } from '../auth/index'
 import ShowImage from './ShowImage'
 import moment from "moment";
 
+
 const Card = ({ product, forWhat = "normal", linkTo='/product/' }) => {
 
     const showRating = () => {

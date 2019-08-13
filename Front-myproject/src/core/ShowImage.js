@@ -14,7 +14,7 @@ const ShowImage = ({ item, url, forWhat }) => {
 
     useEffect(() => {
         init()
-    })
+    },[])
 
     const carouselPhoto = () => {
         let arr = []

@@ -32,19 +32,19 @@ const Product = ({ location, history }) => {
     // its because category is not array now its single value
     const init = () => {
         var query = queryString.parse(location.search)
-        console.log("what is query receivd : ",  query)
-        var category = query.category? query.category:[]
-        var price = query.price? JSON.parse(query.price): []
+        console.log("what is query receivd : ", query)
+        var category = query.category ? query.category : []
+        var price = query.price ? JSON.parse(query.price) : []
         var limit = query.limit ? query.limit : 9
         var skip = query.skip ? query.skip : 0
         var sortBy = query.sortBy ? query.sortBy : '_id'
         var order = query.order ? query.order : 'desc'
-        var keyword=query.keyword?query.keyword:""
+        var keyword = query.keyword ? query.keyword : ""
         console.log("what is keryword : ", keyword)
-        if(!Array.isArray(category)){
-            var newCategory=[]
+        if (!Array.isArray(category)) {
+            var newCategory = []
             newCategory.push(category)
-            category=newCategory
+            category = newCategory
         }
 
         // query.price && price.concat(query.category)
@@ -101,10 +101,15 @@ const Product = ({ location, history }) => {
         }
 
         if (filterBy === 'price') {
+            console.log("whast isfilters : ", filters)
             const priceRange = getPriceRange(filters)
+            console.log("whast priceRange : ", priceRange)
+
             let indexOfDuplicate = undefined
             newFilters['price'].map((c, index) => {
-                if (c['greaterThan'] === priceRange['greaterThan']) {
+                if (c['greaterThan'] === priceRange['greaterThan'] &&
+                    c['lessThan'] === priceRange['lessThan']
+                ) {
                     indexOfDuplicate = index
                 }
             })
@@ -127,8 +132,8 @@ const Product = ({ location, history }) => {
         }
 
         console.log("what is newFilters after handling request : ", newFilters)
-        newFilters['price']=JSON.stringify(newFilters['price'])
-     
+        newFilters['price'] = JSON.stringify(newFilters['price'])
+
         var sendQuery = queryString.stringify(newFilters)
         history.push(`/products?${sendQuery}`)
     };

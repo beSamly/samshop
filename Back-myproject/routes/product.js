@@ -5,7 +5,6 @@ const _ = require("lodash");
 const fs = require("fs");
 const Product = require("../models/product");
 const { errorHandler } = require("../helpers/dbErrorHandler");
-
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 
@@ -64,9 +63,10 @@ const create = (req, res) => {
             });
         }
 
-        JSON.parse(fields.photos).map((c) => {
-            console.log(c)
-        })
+        // JSON.parse(fields.photos).map((c) => {
+        //     console.log(c)
+        // })
+
         fields.details = JSON.parse(fields.details)
 
         let product = new Product(fields);
@@ -110,55 +110,6 @@ const create = (req, res) => {
 };
 
 
-// Create products via postman
-// const create = (req, res) => {
-//     const {
-//         name,
-//         description,
-//         price,
-//         category,
-//         quantity,
-//         shipping
-//     } = req.body;
-
-//     if (
-//         !name ||
-//         !description ||
-//         !price ||
-//         !category ||
-//         !quantity ||
-//         !shipping
-//     ) {
-//         return res.status(400).json({
-//             error: "All fields are required"
-//         });
-//     }
-//     console.log("what is req.body : ", req.body)
-
-//     let product = new Product(req.body);
-//     var photosArr = []
-
-//     if (req.files) {
-//         req.files.photo.map((p) => {
-//             let photo = {
-//                 data: p.data,
-//                 contentType: p.mimetype
-//             }
-//             photosArr.push(photo)
-//         })
-//         product.photos = photosArr
-//     }
-//     console.log("what is product : ", product)
-//     product.save((err, result) => {
-//         if (err) {
-//             return res.status(400).json({
-//                 error: err
-//             });
-//         }
-//         res.json(result);
-//     });
-// }
-
 const remove = (req, res) => {
     let product = req.product;
     product.remove((err, deletedProduct) => {
@@ -178,13 +129,13 @@ const update = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
-        fields.details = JSON.parse(fields.details)
-    
         var product = req.product
-
+     
         for (let key in fields) {
-            product[key] = fields[key]
+            product[key] = JSON.parse(fields[key])
         }
+      
+
         console.log("whatsi rpoduct : ", product)
         product.save((err, data) => {
             if (err) {

@@ -6,7 +6,10 @@ import { isAuthenticated } from "../auth";
 import { Link, Redirect } from "react-router-dom";
 import { getProduct, getCategories, updateProduct } from "./apiAdmin";
 import AdminRouteLayout from "./AdminRouteLayout";
-
+import fs from 'fs-react'
+// var a =fs()
+console.log("whasti fs : ", fs)
+// console.log("whasti a : ", a)
 const AdminProductUpdate = ({ match, history }) => {
     const [values, setValues] = useState({
         name: "",
@@ -15,7 +18,7 @@ const AdminProductUpdate = ({ match, history }) => {
         category: "",
         shipping: "",
         quantity: "",
-        photo: "",
+        photos: [],
         loading: false,
         error: false,
         createdProduct: "",
@@ -32,6 +35,7 @@ const AdminProductUpdate = ({ match, history }) => {
         category,
         shipping,
         loading,
+        photos,
         error,
         createdProduct,
         redirectToProfile,
@@ -47,12 +51,13 @@ const AdminProductUpdate = ({ match, history }) => {
                 setValues({ ...values, error: data.error });
             } else {
                 // populate the state
-
+                console.log("wahtsi data received : ", data)
                 setValues({
                     ...values,
                     name: data.name,
                     description: data.description,
                     price: data.price,
+                    photos: data.photos,
                     category: data.category._id,
                     shipping: data.shipping,
                     details: data.details,
@@ -80,7 +85,17 @@ const AdminProductUpdate = ({ match, history }) => {
 
     const handleChange = name => event => {
         if (name === "photo") {
+            console.log("what is e.t.v : ", event.target.value)
+            console.log("what is e.t.f[0] : ", event.target.files[0])
+            var newPhotoArr = []
 
+            for (var i =0 ; i < event.target.files.length ; i++){
+                // var newPhoto = {}
+                // newPhoto['data']= fs.readFileSync(event.target.files[i].path)
+                // newPhoto['contentType']= fs.readFileSync(event.target.files[i].type)
+                // newPhotoArr.push(newPhoto)
+                console.log("image : ", event.target.files[i].path)
+            }
         } else {
             setValues({ ...values, [name]: event.target.value });
         }
@@ -91,12 +106,9 @@ const AdminProductUpdate = ({ match, history }) => {
         setValues({ ...values, error: "", loading: true });
 
         for (let key in values) {
-            if (key === 'details') {
-                formData.append(key, JSON.stringify(values[key]))
-            } else {
-                formData.append(key, values[key])
-            }
+            formData.append(key, JSON.stringify(values[key]))
         }
+
         updateProduct(match.params.productId, user._id, token, formData).then(
             data => {
                 if (data.error) {
@@ -175,7 +187,7 @@ const AdminProductUpdate = ({ match, history }) => {
                             onChange={handleDetail(i, 'price')}
                         />
                     </div>
-                    <span className="btn btn-danger px-3 py-1 delete-button" onClick={deleteBox(i)}>X</span>
+                    <span className="btn btn-danger px-3 py-1  mt-4 delete-button" onClick={deleteBox(i)}>X</span>
                 </div>
             )
         })
@@ -191,6 +203,7 @@ const AdminProductUpdate = ({ match, history }) => {
                         type="file"
                         name="photo"
                         accept="image/*"
+                        multiple="multiple"
                     />
                 </label>
             </div>
@@ -252,13 +265,17 @@ const AdminProductUpdate = ({ match, history }) => {
                 </select>
             </div>
 
-            <legend>Details<span className="btn btn-primary add-button" onClick={addMoreBox}>+</span></legend>
+            <legend>Details<span className="btn btn-primary add-button px-2 py-1" onClick={addMoreBox}>+</span></legend>
             <div>
                 {showDetails()}
             </div>
             <button className="btn btn-outline-primary">Update Product</button>
         </form>
     );
+
+    const showPhotos = () => {
+      
+    }
 
     const showError = () => (
         <div
@@ -295,6 +312,7 @@ const AdminProductUpdate = ({ match, history }) => {
 
     return (
         <AdminRouteLayout>
+            {showPhotos()}
             {console.log("whatsi values : ", values)}
             <div className="row">
                 <div className="col-md-8 offset-md-2">

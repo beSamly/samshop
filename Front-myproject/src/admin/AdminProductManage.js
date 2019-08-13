@@ -35,7 +35,7 @@ const AdminProductManage = ({ history, location }) => {
         console.log("what is query receivd : ", query)
         var category = query.category ? query.category : []
         var price = query.price ? JSON.parse(query.price) : []
-        var limit = query.limit ? query.limit : 9
+        var limit = query.limit ? query.limit : 12
         var skip = query.skip ? query.skip : 0
         var sortBy = query.sortBy ? query.sortBy : '_id'
         var order = query.order ? query.order : 'desc'

@@ -11,23 +11,51 @@ const Signin = () => {
         password: "",
         error: false,
         loading: false,
-        redirectToReferrer: false
     })
 
     const { email, password, loading, error, redirectToReferrer } = values;
 
+    useEffect(() => {
+
+    }, [])
+    const test = () => {
+        console.log(ValidateEmail(email))
+        console.log("Wjatsi email : ", email)
+        console.log("wahstis values: ", values)
+    }
+
+    const handleTest = (e) => {
+        if (e.key === 'Enter') {
+            if (ValidateEmail(email)) {
+                handleSubmit(e)
+            } else {
+                setValues({ ...values, error: true })
+            }
+        }
+
+    }
+
+    const ValidateEmail = (mail) => {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+            return (true)
+        }
+        return (false)
+    }
+    console.log("wahstis : ", email, password)
+    console.log("wahstis values: ", values)
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setValues({ ...values, email: "", pasword: "", error: false, loading: true });
         signin({ email, password }).then(
             data => {
                 if (data.error) {
-                    setValues({ ...values, redirectToReferrer: true })
-                    setValues({...values, error:true})
+                    console.log("what is errer : ", data.error)
+                    console.log("what is ...values : ", { ...values })
+
+                    setValues({ ...values, error: true })
                 }
                 else {
                     console.log("what is data : ", data)
@@ -35,8 +63,7 @@ const Signin = () => {
                     authenticate(data, () => {
                         setValues({
                             ...values,
-                            error:false,
-                            redirectToReferrer: true
+                            error: false,
                         });
                         window.location.reload()
                     });
@@ -44,21 +71,8 @@ const Signin = () => {
             })
     }
 
-    // const redirectUser = () => {
-    //     if (redirectToReferrer) {
-    //         if (user && user.role === 1) {
-    //             // return <Redirect to="/" />;
-    //         } else {
-    //             window.location.reload()
-    //         }
-    //     }
-    //     if (isAuthenticated()) {
-    //         // return <Redirect to="/" />;
-    //     }
-    // };
-
-    const showError=()=>{
-        if(values.error){
+    const showError = () => {
+        if (error) {
             return <div className="position-absolute showError">please check your email and password</div>
         }
     }
@@ -68,7 +82,7 @@ const Signin = () => {
             <div>
                 <Loader loading={loading} />
 
-                <div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                <div class="modal fade" onKeyPress={handleTest} id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
 
                     <div class="modal-dialog" role="document">
@@ -81,14 +95,14 @@ const Signin = () => {
                             </div>
                             <div class="modal-body mx-4">
                                 <div class="md-form mb-5">
-                                    <input type="email" id="Form-email1" class="form-control validate" onChange={handleChange('email')} />
-                                    <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
+                                    <input type="email" id="Form-email1" class="form-control " onChange={handleChange('email')} />
+                                    <label data-error="wrong" for="Form-email1">Your email</label>
                                     {showError()}
                                 </div>
 
                                 <div class="md-form pb-3">
-                                    <input type="password" id="Form-pass1" class="form-control validate" onChange={handleChange('password')} />
-                                    <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
+                                    <input type="password" id="Form-pass1" class="form-control " onChange={handleChange('password')} />
+                                    <label data-error="wrong" for="Form-pass1">Your password</label>
                                     <p class="font-small blue-text d-flex justify-content-end">Forgot <a href="#" class="blue-text ml-1">
                                         Password?</a></p>
                                 </div>
@@ -109,6 +123,8 @@ const Signin = () => {
                                 <p class="font-small grey-text d-flex justify-content-end">Not a member? <a href="#" class="blue-text ml-1 signup-link close" data-dismiss="modal" aria-label="Close" style={{ fontSize: 14, fontWeight: 0 }} data-toggle="modal" data-target="#elegantModalForm-signup">
                                     Sign Up</a></p>
                             </div>
+                            <button onClick={test}>test</button>
+
                         </div>
                     </div>
                 </div>
@@ -116,7 +132,7 @@ const Signin = () => {
         )
     }
 
-    return !isAuthenticated() && (
+    return (
         <div>
             {showForm()}
             {/* {redirectUser()} */}

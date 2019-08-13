@@ -86,11 +86,12 @@ const AdminProductCreate = () => {
             if (name === "photos") {
                 var arr=[]
                 var length = event.target.files.length
+                console.log("what is e.t.f[0] : ", event.target.files[0])
                 for (let i = 0; i < length; i++) {
-                    // formData.append(`file-${i}`, event.target.files[i])
-                    arr.push(event.target.files[i])
+                    formData.append(`file-${i}`, event.target.files[i])
+                    // arr.push(event.target.files[i])
                 }
-                formData.append('photos', JSON.stringify(arr))
+                // formData.append('photos', JSON.stringify(arr))
 
             } else {
                 const value = event.target.value;
@@ -119,6 +120,8 @@ const AdminProductCreate = () => {
             }
     
             formData.set('details',JSON.stringify(details))
+
+            
 
             setValues({ ...values, error: "", loading: true });
             createProduct(user._id, token, formData).then(data => {

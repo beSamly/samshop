@@ -1,6 +1,11 @@
 #root .showError{
-    top:60px;
+    top:100%;
     left:4px;
     color:red;
     font-size : 14px;
 }
+
+#root select{
+    display:block !important;
+}
+

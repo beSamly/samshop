@@ -108,6 +108,22 @@
     background-color:rgb(156, 158, 12)
 }
 
+/* cart icon */
+#root .fa-luggage-cart{
+    /* color: white;
+    background: black;
+    height: 250px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    resize: vertical;
+    text-align: center;
+    font-size: 35px !important;
+    font-family: 'Exo', sans-serif !important;
+    font-weight: 200 !important; */
+}
+
 @media (max-width: 1200px) { 
     #root .filter{
         padding:5px 10px 5px 10px;

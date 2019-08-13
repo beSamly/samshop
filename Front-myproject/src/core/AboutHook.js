@@ -117,3 +117,8 @@ export default AboutHook
 // empty useEffect trigger everytime render everytime render mean everytime setState happen too
 
 // setState does not happen and does not rerender when it gets same value so when it does not update
+
+// rerender and useEffect(componentDidMount) is totally different
+// becuz it rerender does not mean it is mounted again
+// mount => render =>(can be rerender by setState) this process can be componentUpdate => rerender=>useEffect
+// when useEffect's update array is empty, it only happens when it is mounted, not when it is rerender
