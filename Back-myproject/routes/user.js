@@ -16,18 +16,9 @@ const userById = (req, res, next, id) => {
 };
 
 const read = (req, res) => {
-    // req.profile.hashed_password = undefined;
-    // req.profile.salt = undefined;
-    let user = req.profile
-    user.role=10
-    console.log("what is user  :" , user)
-    user.save((err,data)=>{
-        if(err){
-            res.json({error : err})
-        } 
-        res.json(data)
-    })
-    // return res.json(req.profile);
+    req.profile.hashed_password = undefined;
+    req.profile.salt = undefined;
+    return res.json(req.profile);
 };
 
 const update = (req, res) => {
@@ -51,17 +42,12 @@ const update = (req, res) => {
 // wanna play around with this.
 exports.addOrderToUserHistory = (req, res, next) => {
     let history = [];
-
-    req.body.order.products.forEach(item => {
-        history.push({
-            _id: item._id,
-            name: item.name,
-            description: item.description,
-            category: item.category,
-            quantity: item.count,
-            transaction_id: req.body.order.transaction_id,
-            amount: req.body.order.amount
-        });
+    console.log("req.bodu in addOrderToUserHistory", req.body)
+    history.push({
+        products: req.body.order.products,
+        addresses: req.body.order.addresses,
+        transaction_id: req.body.order.transaction_id,
+        totalPrice: req.body.order.totalPrice
     });
 
     User.findOneAndUpdate(
@@ -70,21 +56,26 @@ exports.addOrderToUserHistory = (req, res, next) => {
         { new: true },
         (error, data) => {
             if (error) {
+                console.log("error in addOrderToUserHistory :")
                 return res.status(400).json({
                     error: "Could not update user purchase history"
                 });
+            } else {
+                next();
             }
-            next();
         }
     );
+
 };
 
-exports.userById=userById
+exports.userById = userById
 
 const purchaseHistory = (req, res) => {
     Order.find({ user: req.profile._id })
         .populate("user", "_id name")
+        .populate("products.product", "-photos")
         .sort("-created")
+        .sort({ 'createdAt': 'desc' })
         .exec((err, orders) => {
             if (err) {
                 return res.status(400).json({

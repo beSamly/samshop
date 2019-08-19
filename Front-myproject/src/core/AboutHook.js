@@ -122,3 +122,6 @@ export default AboutHook
 // becuz it rerender does not mean it is mounted again
 // mount => render =>(can be rerender by setState) this process can be componentUpdate => rerender=>useEffect
 // when useEffect's update array is empty, it only happens when it is mounted, not when it is rerender
+
+// componenetDidmount(===useEffect) is triggered when certain url is opened. it menas that when productId change on "/product/:productId"
+// it does not componentDidMount again. it may rerender and trigger useEffect when there is scoped in useEffect 

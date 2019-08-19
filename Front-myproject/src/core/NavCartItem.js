@@ -34,8 +34,7 @@ const NavCartItem = ({ items, url = 'product' }) => {
             </Link>
         )
     }
-    console.log("whats is times : ", items)
-    return cartItems ? (
+    return cartItems && cartItems.length!==0 ? (
         <div className="nav-cart-item-box">
             {showItems()}
         </div>

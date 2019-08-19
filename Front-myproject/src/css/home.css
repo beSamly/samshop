@@ -72,30 +72,28 @@
 
 #root .trend-product-title{
     height: 60px;
-    border-bottom: 1px solid #f50057;
+    border-bottom: 0.3px solid #f50057;
     margin: 10px 30px 20px 30px;
     font-size:20px;
-
     color: red;
 }
 
 #root .trend-product-title i{
-    color:#f50057;
+    color:#a51648;
     margin-right: 20px;
 }
 
 #root .new-product-title{
     height: 60px;
-    border-bottom: 1px solid #CC66FF;;
+    border-bottom: 0.3px solid rgb(108, 28, 148);;
     margin: 10px 30px 20px 30px;
     font-size:20px;
-
-    color: #CC66FF;
+    color: rgb(50, 4, 73);
 }
 
 #root .new-product-title i {
     margin-right: 20px;
-    color: #CC66FF
+    color: rgb(132, 38, 179)
 }
 
 @media (max-width: 650px) { 

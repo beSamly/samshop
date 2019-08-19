@@ -14,30 +14,58 @@ const Signup = () => {
         name: "",
         email: "",
         password: "",
-        error: "",
+        errorMessage: "",
+        error: false,
         success: false,
-        loading: false
+        loading: false,
     });
 
-    const { name, email, password, success, error, loading } = values;
+    const { name, email, password, success, error, loading, errorMessage } = values;
 
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
     };
+
+    const showErrorMessage = () => {
+        if (error) {
+            return (
+                <div class="signup-error-message">
+                    Email is already taken.
+                </div>
+            )
+        }
+    }
+
+    const handleEnter = (e) => {
+        if (e.key === 'Enter') {
+            if (ValidateEmail(email)) {
+                clickSubmit(e)
+            } else {
+                setValues({ ...values, error: true })
+            }
+        }
+    }
+
+    const ValidateEmail = (mail) => {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+            return (true)
+        }
+        return (false)
+    }
 
     const clickSubmit = event => {
         event.preventDefault();
         setValues({ ...values, error: false, loading: true });
         signup({ name, email, password }).then(data => {
             if (data.error) {
-                setValues({ ...values, error: data.error, success: false, loading:false });
+                setValues({ ...values, error: true, errorMessage: data.error, success: false, loading: false });
             } else {
                 setValues({
                     ...values,
                     name: "",
                     email: "",
                     password: "",
-                    error: "",
+                    error: false,
                     success: true,
                     loading: false
                 });
@@ -64,10 +92,10 @@ const Signup = () => {
         </div>
     );
 
-    return !isAuthenticated()&&(
+    return !isAuthenticated() && (
         <div>
-            <Loader loading={loading}/>
-            <form onSubmit={clickSubmit}>
+            <Loader loading={loading} />
+            <form onSubmit={clickSubmit} onKeyPress={handleEnter}>
                 <div class="modal fade" id="elegantModalForm-signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -79,6 +107,8 @@ const Signup = () => {
                                 </button>
                             </div>
                             <div class="modal-body mx-4">
+                                {showErrorMessage()}
+
                                 <div class="md-form mb-3">
                                     <input type="text" id="Form-name" class="form-control " onChange={handleChange('name')} />
                                     <label data-error="wrong" data-success="right" for="Form-email1" >Your name</label>

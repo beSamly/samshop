@@ -4,8 +4,8 @@ import Layout from "./Layout";
 const NoAccess = ({ location, history }) => {
     return (
         <Layout>
-            <div>
-                 no access
+            <div className="">
+                 <img src="/img/notAuthorized.png" className="no-access-img"/>
             </div>
         </Layout>
     )

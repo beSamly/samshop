@@ -6,3 +6,7 @@
     padding: 3px 10px 3px 10px;
 
 }
+
+#root .admin-product-create-content{
+    background: linear-gradient(40deg, #ffffff, #f2f5f4);
+}

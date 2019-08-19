@@ -8,6 +8,7 @@ import prices from "./fixedPrice.js"
 import PageButton from "./PageButton";
 import queryString from 'query-string';
 import Filter from "./Filter2";
+import Loader from "./Loader";
 
 const Product = ({ location, history }) => {
 
@@ -15,6 +16,7 @@ const Product = ({ location, history }) => {
     const [error, setError] = useState(false);
     const [filteredResults, setFilteredResults] = useState([]);
     const [count, setCount] = useState(0);
+    const [loading, setLoading] = useState(true);
 
 
     const loadFilteredResults = (newFilters) => {
@@ -25,6 +27,7 @@ const Product = ({ location, history }) => {
             } else {
                 setFilteredResults(data.data);
                 setCount(data.count)
+                setLoading(false)
             }
         });
     };
@@ -35,7 +38,7 @@ const Product = ({ location, history }) => {
         console.log("what is query receivd : ", query)
         var category = query.category ? query.category : []
         var price = query.price ? JSON.parse(query.price) : []
-        var limit = query.limit ? query.limit : 9
+        var limit = query.limit ? query.limit : 12
         var skip = query.skip ? query.skip : 0
         var sortBy = query.sortBy ? query.sortBy : '_id'
         var order = query.order ? query.order : 'desc'
@@ -153,7 +156,8 @@ const Product = ({ location, history }) => {
         <Layout keywordIn={myFilters.keyword}>
             <Filter myFilters={myFilters} count={count} handleFilters={handleFilters} />
             <PageButton myFilters={myFilters} filters={myFilters} count={count} handleFilters={handleFilters} skip={myFilters.skip} />
-            Total product : {count}
+            
+            <h3 className="ml-3" ><i class="far fa-laugh"></i>{count} products are found</h3>
             <div className="row">
                 {filteredResults.map((product) => {
                     return (<div className="col-lg-3 col-md-4 col-6">
@@ -161,6 +165,7 @@ const Product = ({ location, history }) => {
                     </div>)
                 })}
             </div>
+            <Loader loading={loading}/>
         </Layout>
     ) : ""
 

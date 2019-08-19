@@ -7,7 +7,6 @@ const reviewsSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "User",
         required: true,
-        unique: true
     },
     rating: {
         type: Number,
@@ -26,25 +25,11 @@ const reviewsSchema = new mongoose.Schema({
     }
 })
 
-const clothSizeSchema = new mongoose.Schema({
-
-})
-
-const shoesSizeSchema = new mongoose.Schema({
-    size: {
-        enum: [
-            "230", "235", "240", "245", "250", "255", "260",
-            "265", "270", "275", "280", "285", "290", "295",
-        ]
-    }
-
-})
-
 const detailsSchema = new mongoose.Schema({
     color: String,
     size: {
         type: String,
-        enum: ["xs", "s", "m", "l", "xl", "free-size", "",
+        enum: ["XS", "S", "M", "L", "XL", "FREE-SIZE",
         "230", "235", "240", "245", "250", "255", "260",
         "265", "270", "275", "280", "285", "290", "295",
     ],

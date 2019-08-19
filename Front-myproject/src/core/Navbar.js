@@ -21,7 +21,7 @@ const Navbar = ({ history, keywordIn = "" }) => {
     }
 
     const init = () => {
-        document.querySelector('.md-form').addEventListener('keydown', (e) => {
+        document.querySelector('#inputSMEx').addEventListener('keydown', (e) => {
             if (e.key === "Enter") {
                 handleClick()
             }
@@ -56,16 +56,16 @@ const Navbar = ({ history, keywordIn = "" }) => {
 
     const showIcon = () => {
         return (
-            <div class="row align-items-center">
-                <div className="d-inline-block mx-2"><i class="fab grey-text fa-medapps fa-1x mx-2"></i></div>
-                <div className="d-inline-block mx-2 cart-icon-box position-relative">
+            <div class="row align-items-center ">
+                <div className="d-inline-block  p-3"><i class="fab grey-text fa-medapps fa-1x "></i></div>
+                <div className="d-inline-block  p-3  cart-icon-box position-relative">
                     <Link to={'/cart'}>
                         {showNumOfItemInCart()}
                         <NavCartItem items={items} />
-                        <i class="fas grey-text fa-luggage-cart fa-1x mx-2"></i>
+                        <i class="fas grey-text  fa-luggage-cart fa-1x "></i>
                     </Link>
                 </div>
-                <div className="d-inline-block mx-2"><i class="far grey-text fa-bell fa-1x mx-2"></i></div>
+                <div className="d-inline-block p-3"><i class="far grey-text fa-bell fa-1x "></i></div>
             </div>
         )
     }
@@ -73,9 +73,10 @@ const Navbar = ({ history, keywordIn = "" }) => {
     const showUserMenu = () => {
         if (isAuthenticated() && user.role === 1) {
             return (
-                <div>
-                    <Link to={'/admin/dashboard'}><button class="btn btn-danger px-4 py-2">Admin</button></Link>
-                    <button class="btn btn-primary px-4 py-2" onClick={() =>
+                <div className="row align-items-center">
+                    {showIcon()}
+                    <Link to={'/admin/dashboard/product/create'}><button class="btn btn-warning px-3 py-2">Admin</button></Link>
+                    <button class="btn btn-default px-2 py-2" onClick={() =>
                         signout(() => {
                             history.push("/");
                         })
@@ -85,14 +86,16 @@ const Navbar = ({ history, keywordIn = "" }) => {
         }
         if (isAuthenticated() && user.role !== 1) {
             return (
-                <div className="row justify-content-center">
+                <div className="row justify-content-center align-items-center">
                     {showIcon()}
-                    <div className="user-option-box btn btn-primary px-2 py-1">
-                        <Link to={'/user/dashboard'}><span style={{color:'white',fontSize:11}}>user option</span></Link>
+                    <div className="user-option-box py-3">
+                        <div className=" btn btn-info px-2 py-1 m-0">
+                            <Link to={'/user/dashboard'}><span style={{ color: 'white', fontSize: 11 }}>user option</span></Link>
+                        </div>
                         <div className="user-dropdown">
                             <ul>
                                 <Link to={'/user/dashboard/profile'}><li className="user-dropdown-item">Profile</li></Link>
-                                <Link to={'/user/dashboard'}><li className="user-dropdown-item">Order history</li></Link>
+                                <Link to={'/user/dashboard/history'}><li className="user-dropdown-item">Order history</li></Link>
                                 <li className="user-dropdown-item" onClick={() =>
                                     signout(() => {
                                         history.push("/");
@@ -101,6 +104,7 @@ const Navbar = ({ history, keywordIn = "" }) => {
                             </ul>
                         </div>
                     </div>
+
                 </div>
             )
         }
@@ -108,7 +112,7 @@ const Navbar = ({ history, keywordIn = "" }) => {
 
     const showSignMenu = () => {
         return !isAuthenticated() && (
-            <div class="row">
+            <div class="row align-items-center">
                 {showIcon()}
                 <span class="text-center  mx-0 px-0" >
                     <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 14 }} data-toggle="modal" data-target="#elegantModalForm" >Sign in</a>

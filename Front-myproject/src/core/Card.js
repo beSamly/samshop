@@ -84,7 +84,7 @@ const Card = ({ product, forWhat = "normal", linkTo='/product/' }) => {
             {showNoStock()}
             <Link style={{ color: 'black' }} to={{ pathname: `${linkTo}${product._id}` }}>
                 <div className="card-header">
-                    <ShowImage item={product} url="product" />
+                    <ShowImage item={product} url="product" forWhat={forWhat} />
                 </div>
                 <div className="card-body">
                     {/* {shouldRedirect(redirect)} */}

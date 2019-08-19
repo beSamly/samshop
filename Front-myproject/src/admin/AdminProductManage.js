@@ -161,10 +161,14 @@ const AdminProductManage = ({ history, location }) => {
     const showSearchBar = () => {
         return (
             <div className="my-3">
-                <input type="text-area" placeholder="Search product" value={myFilters.keyword} onChange={handleChange} />
-                <button className="btn btn-primary px-3 py-1" onClick={handleSearch} >
-                    <i className="fas fa-search fa-xs"></i>
-                </button>
+                <div className="row">
+                    <div className="col-4 row">
+                        <input className="form-control w-75" type="text-area" placeholder="Search product" value={myFilters.keyword} onChange={handleChange} />
+                        <button className="btn btn-primary px-3 py-1" onClick={handleSearch} >
+                            <i className="fas fa-search fa-xs"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         )
     }

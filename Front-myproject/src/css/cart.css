@@ -19,3 +19,10 @@
     margin:0;
     box-shadow: 0px 0px 0px 0px;
 }
+
+#root .cart-component h2{
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.47em;
+    color: #505763;
+}

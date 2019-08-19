@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect,withRouter } from "react-router-dom";
 import { signin, authenticate, isAuthenticated } from '../auth/index'
 import Loader from "../core/Loader";
 
 const { user } = isAuthenticated()
-const Signin = () => {
+const Signin = ({history}) => {
 
     const [values, setValues] = useState({
         email: "",
@@ -13,18 +13,13 @@ const Signin = () => {
         loading: false,
     })
 
-    const { email, password, loading, error, redirectToReferrer } = values;
+    const { email, password, loading, error } = values;
 
     useEffect(() => {
 
     }, [])
-    const test = () => {
-        console.log(ValidateEmail(email))
-        console.log("Wjatsi email : ", email)
-        console.log("wahstis values: ", values)
-    }
 
-    const handleTest = (e) => {
+    const handleEnter = (e) => {
         if (e.key === 'Enter') {
             if (ValidateEmail(email)) {
                 handleSubmit(e)
@@ -32,7 +27,6 @@ const Signin = () => {
                 setValues({ ...values, error: true })
             }
         }
-
     }
 
     const ValidateEmail = (mail) => {
@@ -41,8 +35,10 @@ const Signin = () => {
         }
         return (false)
     }
-    console.log("wahstis : ", email, password)
-    console.log("wahstis values: ", values)
+
+  
+
+
     const handleChange = name => event => {
         setValues({ ...values, error: false, [name]: event.target.value });
     };
@@ -52,19 +48,16 @@ const Signin = () => {
         signin({ email, password }).then(
             data => {
                 if (data.error) {
-                    console.log("what is errer : ", data.error)
-                    console.log("what is ...values : ", { ...values })
-
-                    setValues({ ...values, error: true })
+                    setValues({ ...values, error: true, errorMessage:data.error })
                 }
                 else {
-                    console.log("what is data : ", data)
 
                     authenticate(data, () => {
                         setValues({
                             ...values,
                             error: false,
                         });
+                        // history.push('/')
                         window.location.reload()
                     });
                 }
@@ -82,7 +75,7 @@ const Signin = () => {
             <div>
                 <Loader loading={loading} />
 
-                <div class="modal fade" onKeyPress={handleTest} id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                <div class="modal fade" onKeyPress={handleEnter} id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
 
                     <div class="modal-dialog" role="document">
@@ -123,8 +116,6 @@ const Signin = () => {
                                 <p class="font-small grey-text d-flex justify-content-end">Not a member? <a href="#" class="blue-text ml-1 signup-link close" data-dismiss="modal" aria-label="Close" style={{ fontSize: 14, fontWeight: 0 }} data-toggle="modal" data-target="#elegantModalForm-signup">
                                     Sign Up</a></p>
                             </div>
-                            <button onClick={test}>test</button>
-
                         </div>
                     </div>
                 </div>
@@ -140,4 +131,4 @@ const Signin = () => {
     )
 }
 
-export default Signin
+export default withRouter(Signin)

@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "./Layout";
-import { getCart } from "./cartHelpers";
+import { getCart, removeItem, replaceCart } from "./cartHelpers";
 import Card from "./Card";
 import Checkout from "./Checkout";
 import ShowImage from './ShowImage'
-
 const Cart = () => {
     const [items, setItems] = useState();
 
     useEffect(() => {
         var a = getCart()
-        console.log("afte getcart : ", a)
         setItems(a)
     }, []);
 
     const handleChange = (product, selecteDetailIndex) => (e) => {
-        console.log("what is JSON.parse(e.target.value) : ", JSON.parse(e.target.value))
-        console.log("selecteDetailIndex (2) : ", selecteDetailIndex)
         var itemsCopy = [...items]
         // console.log("prodcut_id : ", product._id)
         itemsCopy = itemsCopy.map((c) => {
-            console.log("c.product._id === product._id : ", c.product._id === product._id, c.product._id,product._id)
 
             if (c.product._id === product.product._id) {
 
@@ -34,6 +29,7 @@ const Cart = () => {
         }
         )
         setItems(itemsCopy)
+        replaceCart(itemsCopy)
     }
 
     const handleAdd = (index) => (e) => {
@@ -57,31 +53,31 @@ const Cart = () => {
     // details[index] = e.target.value and quantity
     // need to know which product and which index
     const handleQuantity = (inceaseOrDecrease, itemIndex, selectedDetailIndex) => (e) => {
+        var itemsCopy = [...items]
         if (inceaseOrDecrease === "increase") {
-            var itemsCopy = [...items]
             var value = e.target.parentNode.querySelector('.quantity').value
             itemsCopy[itemIndex].selectedDetails[selectedDetailIndex].quantity = parseInt(value) + 1
             setItems(itemsCopy)
         } else {
-            var itemsCopy = [...items]
             var value = e.target.parentNode.querySelector('.quantity').value
             if (value > 1) {
                 itemsCopy[itemIndex].selectedDetails[selectedDetailIndex].quantity = parseInt(value) - 1
                 setItems(itemsCopy)
+
             }
         }
+        replaceCart(itemsCopy)
     }
     // index = index of item in item array
     const showDetails = (product, index) => {
 
         // i = index of selectedDetail array
-        console.log("product : ", product)
         var a = product.selectedDetails.map((d, i) => {
             return (
                 <div className="row">
                     <div className="col-6 px-0" >
                         <select className="form-control" onChange={handleChange(product, i)}>
-                            <option>Select option</option>
+                            <option value={JSON.stringify({})}>Select option</option>
                             {product.product.details.map((c) => {
                                 return (
                                     <option value={JSON.stringify(c)} selected={isSelected(d, c)}>
@@ -92,9 +88,9 @@ const Cart = () => {
                         </select>
                     </div>
                     <div className="col-3 px-0 row justify-content-center align-items-center">
-                        <button className="btn btn-default py-1 px-3 my-2" onClick={handleQuantity('increase', index, i)}>+</button>
-                        <input className="quantity form-control p-0 m-0" type="number" value={product.selectedDetails[i].quantity} style={{ width: 30 }} />
-                        <button className="btn btn-default py-1 px-3 my-2" onClick={handleQuantity('decrease', index, i)} >-</button>
+                        <button className="btn btn-default py-1 px-2 m-0" onClick={handleQuantity('increase', index, i)}>+</button>
+                        <input className="quantity form-control p-0 m-1" type="number" value={product.selectedDetails[i].quantity} style={{ width: 30 }} />
+                        <button className="btn btn-default py-1 px-2 m-0" onClick={handleQuantity('decrease', index, i)} >-</button>
                     </div>
                     <div className="col-3 px-0 row align-items-center">
                         <button className="btn btn-primary py-1 px-3" onClick={handleAdd(index)}>+</button>
@@ -118,6 +114,7 @@ const Cart = () => {
         var itemsCopy = [...items]
         itemsCopy.splice(index, 1)
         setItems(itemsCopy)
+        removeItem(index)
     }
 
     const showEachItem = (item, index) => {
@@ -128,7 +125,6 @@ const Cart = () => {
                 </div>
                 <div className="col-9">
                     <button className="btn delete-item" onClick={deleteItem(index)}>X</button>
-
                     <div>{item.product.name}</div>
                     <div>{item.product.description}</div>
                     {showDetails(item, index)}
@@ -161,7 +157,7 @@ const Cart = () => {
             description="Manage your cart items. Add remove checkout or continue shopping."
             className="container-fluid"
         >
-            <div className="row mt-5">
+            <div className="row mt-5 cart-component">
                 <div className="col-7">
                     {items.length > 0 ? showItems() : noItemsMessage()}
                 </div>
@@ -169,12 +165,10 @@ const Cart = () => {
                 <div className="col-5">
                     <h2 className="mb-4">Your cart summary</h2>
                     <hr />
-                    {console.log("items : ", items)}
                     <Checkout products={items} />
                 </div>
             </div>
         </Layout>
     ) : ""
 };
-
 export default Cart;

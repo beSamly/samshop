@@ -24,6 +24,9 @@ const UserDashboardLayout = ({ children, history, location, keywordIn }) => {
                     <Link to={'/user/dashboard'}>
                         <li className={isActive(history, '/user/dashboard')}>Dashboard</li>
                     </Link>
+                    <Link to={'/user/dashboard/history'}>
+                        <li className={isActive(history, '/user/dashboard/history')}>History</li>
+                    </Link>
                 </ul>
             </div>
         )

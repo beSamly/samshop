@@ -1,10 +1,16 @@
 /* CAROUSEL */
 #root .productDetail .carousel-inner{
-    height:700px;
+}
+
+#root .productDetail .carousel-item{
+    height:500px;
+    width:600px;
+    padding:5px
 }
 
 #root .carousel-item img{
-    height:700px;
+    height:100%;
+    width: 100%;
 }
 
 #root .productDetail .carousel-indicators{
@@ -16,24 +22,17 @@
     0 6px 22px 0 rgba(0,0,0,.12);
 }
 
+#root .productDetail .carousel-indicators li{
+    width:70px;
+    height:70px;
+}
+
 #root .productDetail #carousel-thumb{
     margin-bottom:140px;
     position: relative;;
 }
 
-/* REVIEWS*/
-#root .review-container h4{
-    border-bottom: 0.5px solid grey;
-}
 
-#root .review-box{
-    /* box-shadow: 0 6px 12px 0 rgba(0,0,0,.16),
-    0 6px 22px 0 rgba(0,0,0,.12); */
-    /* border-radius: 20px; */
-    padding: 20px 40px 20px 40px;
-    margin-bottom:15px;
-    border-bottom: 0.5px solid grey;
-}
 
 /* product-information */
 

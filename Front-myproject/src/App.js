@@ -34,6 +34,11 @@ import adminProductCreate from './css/adminProductCreate.css'
 import adminRouteLayout from './css/adminRouteLayout.css'
 import cart from './css/cart.css'
 import productDetail from './css/productDetail.css'
+import signup from './css/signup.css'
+import checkout from './css/checkout.css'
+import dashboardHistory from './css/dashboardHistory.css'
+import review from './css/review.css'
+import UserDashboardHistory from './user/UserDashboardHistory';
 
 
 function App() {
@@ -48,8 +53,9 @@ function App() {
         <Route path="/cart" exact component={Cart} />
         <PrivateRoute path="/user/dashboard/profile" exact component={UserProfile} />
         <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
-
-        <AdminRoute path="/admin/dashboard" exact component={AdminDashboard}/>
+        <PrivateRoute path="/user/dashboard/history" exact component={UserDashboardHistory} />
+        
+        {/* <AdminRoute path="/admin/dashboard" exact component={AdminDashboard}/> */}
         <AdminRoute path="/admin/dashboard/product/create" exact component={AdminProductCreate}/>
         <AdminRoute path="/admin/dashboard/product/manage" exact component={AdminProductManage}/>
         <AdminRoute path="/admin/dashboard/product/update/:productId" exact component={AdminProductUpdate}/>

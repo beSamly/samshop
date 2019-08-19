@@ -111,8 +111,8 @@
   /* USER DASHBOARD */
   #root .user-option-box{
     position:relative;
-    padding:10px 0 10px 0;
-    height:100%;
+    /* padding:10px 0 10px 0; */
+    /* height:100%; */
   }
 
   #root .user-dropdown{
@@ -171,22 +171,22 @@
 
   #root .cart-item-number{
     position: absolute;
-    top:-60%;
-    right:-20%;
+    top:3%;
+    right:2%;
     display:inline-block;
     /* background-color: rgb(218, 133, 235); */
     border-radius: 80px;
     padding: 0px 7px 0px 7px;
     color:white;
-    background: linear-gradient(40deg, #2096ff, #3b4642);
+    background: linear-gradient(40deg,#4e4b4b,#d39999)!important;
 
   }
 
   /* Navbar cart item */
   #root .nav-cart-item-box{
     position: absolute;
-    top:130%;
-    left:0;
+    top:100%;
+    left:-30px;
     display:none;
     width:300px;
     /* padding: 10px; */
@@ -202,7 +202,7 @@
     content: ''!important;
     height: 0;
     position: absolute;
-    left: 14px;
+    left: 60px;
     width: 0;
     box-sizing: border-box;
   }
@@ -215,7 +215,7 @@
     content: ''!important;
     height: 0;
     position: absolute;
-    left: 14px;
+    left: 60px;
     width: 0;
     box-sizing: border-box;
   }

@@ -7,23 +7,7 @@ import { isAuthenticated } from "../auth";
 import { createProduct, getCategories } from "./apiAdmin";
 import reactElementToJSXString from 'react-element-to-jsx-string'
 import { renderToString } from 'react-dom/server'
-
-// const AdminProductCreate = () => {
-//     const []
-//     const showForm=()=>{
-//         <div>
-//             <label>name</label>
-//                 <input value={product.name} />
-//         </div>  
-//     }
-
-//     return(
-//         <AdminRouteLayout>
-//             {showForm()}
-//         </AdminRouteLayout>
-//     )
-// }
-
+import fixedSize from '../core/fixedSizeTable'
 
 
 const AdminProductCreate = () => {
@@ -33,44 +17,49 @@ const AdminProductCreate = () => {
             name: "",
             description: "",
             price: "",
-            categories: [],
             photos: [],
             category: "",
             shipping: "",
-            quantity: "",
+            details: [{ color: "", size: "", quantity: "", price: "" }],
+        });
+
+        const [otherValue, setOtherValue] = useState({
+            categories: [],
             loading: false,
             error: "",
-            details:[{color:"",size:"", quantity:"", price:""}],
             createdProduct: "",
             redirectToProfile: false,
             formData: ""
-        });
+        })
 
         const { user, token } = isAuthenticated();
         const {
             name,
             description,
             price,
-            categories,
             category,
             photos,
             shipping,
+            details,
+        } = values;
+
+        const {
+            categories,
             loading,
             error,
             createdProduct,
             redirectToProfile,
-            details,
             formData
-        } = values;
+        } = otherValue
 
         // load categories and set form data
         const init = () => {
             getCategories().then(data => {
                 if (data.error) {
-                    setValues({ ...values, error: data.error });
+                    setOtherValue({ ...otherValue, error: data.error });
                 } else {
-                    setValues({
-                        ...values,
+                    setOtherValue({
+                        ...otherValue,
                         categories: data,
                         formData: new FormData()
                     });
@@ -82,95 +71,109 @@ const AdminProductCreate = () => {
             init();
         }, []);
 
+        // test!!
+        const handleDetail = (index, target) => (e) => {
+            var newDetails = details
+            var value = e.target.value
+            newDetails[index][target] = value
+            setValues({ ...values, details: newDetails })
+        }
+
+        const addMoreBox = () => {
+            var newDetail = {}
+            for (let key in details[0]) {
+                if (key !== '_id') {
+                    newDetail[key] = ""
+                }
+            }
+            var newDetails = details
+            newDetails.push(newDetail)
+
+            setValues({ ...values, details: newDetails })
+        }
+
+        const deleteBox = (index) => (e) => {
+            var newDetails = details
+            newDetails.splice(index, 1)
+            alert("haeppen")
+            setValues({ ...values, details: newDetails })
+        }
+        // testend
+
         const handleChange = name => event => {
             if (name === "photos") {
-                var arr=[]
+                var arr = []
                 var length = event.target.files.length
-                console.log("what is e.t.f[0] : ", event.target.files[0])
                 for (let i = 0; i < length; i++) {
                     formData.append(`file-${i}`, event.target.files[i])
-                    // arr.push(event.target.files[i])
                 }
-                // formData.append('photos', JSON.stringify(arr))
 
             } else {
                 const value = event.target.value;
-                formData.set(name, value);
                 setValues({ ...values, [name]: value });
             }
         };
 
         const clickSubmit = e => {
             e.preventDefault();
-            var details = []
-            for (let i = 1; i <= numOfDetail; i++) {
-                var colorField = e.target.querySelector(`.color-field-${i}`)
-                var sizeField = e.target.querySelector(`.size-field-${i}`)
-                var quantityField = e.target.querySelector(`.quantity-field-${i}`)
-                var priceField = e.target.querySelector(`.price-field-${i}`)
 
-                colorField && sizeField && quantityField && (
-                    details.push({
-                        color: colorField.value,
-                        size: sizeField.value,
-                        quantity: quantityField.value,
-                        price: priceField.value
-                    })
-                )
+            for (let key in values) {
+                console.log(values[key])
+                formData.append(key, JSON.stringify(values[key]))
             }
-    
-            formData.set('details',JSON.stringify(details))
 
-            
-
-            setValues({ ...values, error: "", loading: true });
+            setOtherValue({ ...otherValue, error: "", loading: true });
             createProduct(user._id, token, formData).then(data => {
                 if (data.error) {
-                    setValues({ ...values, error: data.error });
-                } else {
-                    setValues({
-                        ...values,
-                        name: "",
-                        description: "",
-                        photo: "",
-                        price: "",
-                        quantity: "",
-                        loading: false,
-                        createdProduct: data.name
-                    });
+                    setOtherValue({ ...otherValue, error: data.error });
                 }
+                if (!data.error) {
+                    window.location.reload()
+                }
+                else {
+                    setOtherValue({ ...otherValue, error: "All field is required" })
+                }
+                window.scrollTo(0, 0);
+
             });
         };
-
-        const handleDelete = (e) => {
-            var targetToDelete = e.target.parentElement
-            var targetOfParent = targetToDelete.parentElement
-            targetOfParent.removeChild(targetToDelete)
-        }
-
-        const addMoreBox = () => {
-            const detailsItem = (i) => {
+        console.log("what is data : ", values)
+        const showDetails = () => {
+            return details.map((c, i) => {
                 return (
-                    <div className="row details-item align-items-center">
+                    <div className={`row details-item-${i} align-items-center`}>
                         <div className="col-3">
                             <label className="text-muted">color</label>
                             <input
                                 type="text-muted"
                                 className={`form-control color-field-${i}`}
+                                value={c.color}
+                                onChange={handleDetail(i, 'color')}
                             />
                         </div>
                         <div className="col-2">
                             <label className="text-muted">size</label>
-                            <input
+                            {/* <input
                                 type="text-muted"
                                 className={`form-control size-field-${i}`}
-                            />
+                                value={c.size}
+                                onChange={handleDetail(i, 'size')}
+                            /> */}
+                            <select className={`form-control size-field-${i}`} onChange={handleDetail(i, 'size')}>
+                                <option value={""} >Select size</option>
+                                {fixedSize.map((c) =>
+                                    <option value={c} >{c}</option>
+                                )}
+                            </select>
                         </div>
+
                         <div className="col-2">
                             <label className="text-muted">quantity</label>
                             <input
                                 type="number"
                                 className={`form-control quantity-field-${i}`}
+                                value={c.quantity}
+                                onChange={handleDetail(i, 'quantity')}
                             />
                         </div>
                         <div className="col-2">
@@ -178,18 +181,14 @@ const AdminProductCreate = () => {
                             <input
                                 type="number"
                                 className={`form-control price-field-${i}`}
+                                value={c.price}
+                                onChange={handleDetail(i, 'price')}
                             />
                         </div>
-                        <span className="btn btn-danger px-3 py-1 delete-button" onClick={handleDelete}>X</span>
+                        <span className="btn btn-danger px-3 py-1  mt-4 delete-button" onClick={deleteBox(i)}>X</span>
                     </div>
                 )
-            }
-            var arr = []
-            for (let i = 1; i <= numOfDetail; i++) {
-                arr.push(detailsItem(i))
-            }
-
-            return arr
+            })
         }
 
         const newPostForm = () => (
@@ -260,10 +259,9 @@ const AdminProductCreate = () => {
                 </div>
 
                 {/* Details box */}
-                <legend>Details<span className="btn btn-primary add-button" onClick={() => { setNumOfDetail(numOfDetail + 1) }}>+</span></legend>
+                <legend>Details<span className="btn btn-primary add-button" onClick={addMoreBox}>+</span></legend>
                 <div className="form-group details-box">
-                  
-                    {addMoreBox()}
+                    {showDetails()}
                 </div>
                 <button className="btn btn-outline-primary">Create Product</button>
             </form>
@@ -299,7 +297,7 @@ const AdminProductCreate = () => {
                 title="Add a new product"
                 description={`G'day ${user.name}, ready to add a new product?`}
             >
-                <div className="row justify-content-center">
+                <div className="row justify-content-center admin-product-create-content">
                     <div className="col-10">
                         {showLoading()}
                         {showSuccess()}

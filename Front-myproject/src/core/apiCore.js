@@ -26,7 +26,7 @@ export const getFilteredProducts = (filters = {}) => {
 
     // NEED TO SEND ORDER, SORTBY TOO
     console.log("what is filter in apiCore: ", filters)
-   
+
     const data = filters
 
     return fetch(`${API}/products/by/search`, {
@@ -124,4 +124,47 @@ export const createOrder = (userId, token, createOrderData) => {
         .catch(err => console.log(err));
 };
 
+export const createReview = (review, productId) => {
+    return fetch(`${API}/product/create/review/${productId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(review)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+}
 
+export const updateReview = (productId, userId, updatedReview ) => {
+    console.log("what is updatedReview : ", updatedReview)
+    return fetch(`${API}/product/update/review/${productId}/${userId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedReview)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+}
+
+export const deleteReview = (productId, userId ) => {
+    return fetch(`${API}/product/delete/review/${productId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+}

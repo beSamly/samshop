@@ -9,6 +9,7 @@ import TestCarousel from "./TestCarousel";
 import moment from "moment";
 import { findDOMNode } from "react-dom";
 import $ from "jquery";
+import Review from "./Review";
 
 const ProductDetail = (props) => {
     const [product, setProduct] = useState();
@@ -16,30 +17,28 @@ const ProductDetail = (props) => {
     const [error, setError] = useState();
     const [dummy, setDummy] = useState(1)
 
-    // $('.add-to-cart-btn').click(()=>{
-    //     $(".cart-icon-box").effect("shake",{direction:"left", distance:2});
-    // })
-
     useEffect(() => {
         const productId = props.match.params.productId;
         loadSingleProduct(productId);
-        
+        window.scrollTo(0, 0);
     }, [props]);
 
-    const addToCart = () => {
+    const addToCart = (purpose) => (e) => {
         alert("add to cart!")
         addItem(product, () => {
-            setDummy(dummy+1)
+            setDummy(dummy + 1)
         });
+        if (purpose === "buy") {
+            props.history.push('/cart')
+        }
     };
-
-
 
     const loadSingleProduct = productId => {
         read(productId).then(data => {
             if (data.error) {
                 setError(data.error);
             } else {
+                console.log("Whast ida data : ", data)
                 setProduct({
                     product: data,
                     selectedDetails: [{
@@ -58,57 +57,6 @@ const ProductDetail = (props) => {
             }
         });
     };
-
-    // const showDetails = () => {
-    //     return (
-    //         <select className="form-control">
-    //             <option>Select option</option>
-    //             {product.details.map((c, i) => {
-    //                 console.log("Whats is c:", c)
-    //                 return (
-    //                     <option key={i} >
-    //                         {`${c.color} | ${c.size} | $${c.price} | ${c.quantity} left`}
-    //                     </option>
-    //                 )
-    //             }
-    //             )}
-    //         </select>
-    //     )
-    // }
-
-    const showReview = () => {
-        var reviews = product.product.reviews
-        var arr = reviews.map((c) => {
-            var star = Math.floor(c.rating)
-            var remaining = c.rating % 1 >= 0.5 ? 1 : 0
-            console.log("? : ", star, remaining)
-            var starArr = []
-            for (var i = 0; i < star; i++) {
-                starArr.push(<i class="fas fa-star" style={{ color: '#f4c150' }}></i>)
-            }
-            if (remaining === 1) {
-                starArr.push(<i class="fas fa-star-half-alt" style={{ color: '#f4c150' }}></i>)
-            }
-            return (
-                <div className="review-box">
-                    <div className="mb-2 row">
-                        <div className="mx-2">{c.reviewer}</div>
-                        <div className="mx-2">{starArr}</div>
-                        <div className="mx-2">({c.rating})</div>
-                    </div>
-                    <div>
-                        "{c.comment}"
-                    </div>
-                </div>
-            )
-        })
-        return (
-            <div className="review-container">
-                <h4>Reviews</h4>
-                {arr}
-            </div>
-        )
-    }
 
     // test
     const handleChange = (selecteDetailIndex) => (e) => {
@@ -158,7 +106,6 @@ const ProductDetail = (props) => {
     }
     // index = index of item in item array
     const showDetails = () => {
-        console.log("product.selectedDetails : ", product.selectedDetails)
         // i = index of selectedDetail array
         var a = product.selectedDetails.map((d, i) => {
             return (
@@ -202,12 +149,11 @@ const ProductDetail = (props) => {
     const showTotalPrice = () => {
         var totalPrice = 0
         product.selectedDetails.map((c) => {
-            console.log(c.selectedOption.price, c.quantity)
             totalPrice = totalPrice + parseInt(c.selectedOption.price) * parseInt(c.quantity)
         })
         return (
             <div className="total-price">
-                Total price: {!isNaN(totalPrice) ? `$${totalPrice}` : "Please select option"}
+                Total price: {!isNaN(totalPrice) && totalPrice !== 0 ? `$${totalPrice}` : "Please select option"}
             </div>
         )
     }
@@ -299,10 +245,10 @@ const ProductDetail = (props) => {
         return (
             <div className="row justify-content-center add-to-cart">
                 <div>
-                    <button className="btn btn-primary py-3 px-5 add-to-cart-btn"  onClick={addToCart}>Add to cart</button>
+                    <button className="btn btn-outline-info py-3 px-5 add-to-cart-btn" onClick={addToCart("add")}>Add to cart</button>
                 </div>
                 <div>
-                    <button className="btn btn-danger py-3 px-5">Buy Now</button>
+                    <button className="btn btn-outline-success  py-3 px-5" onClick={addToCart("buy")}>Buy Now</button>
                 </div>
             </div>
         )
@@ -323,13 +269,14 @@ const ProductDetail = (props) => {
         <Layout>
             {console.log("what is prodict : ", product)}
             <div className="row mt-5 productDetail">
-                <div className="col-7">
+                <div className="col-7 justify-content-center">
                     {showProductInformation()}
                     <TestCarousel item={product.product} />
+                    <Review reviews={product.product.reviews} product={product.product}/>
                 </div>
                 <div className="col-5">
                     {showSelectDetail()}
-                    {showReview()}
+                    
                 </div>
             </div>
             <div className="row">
@@ -338,4 +285,4 @@ const ProductDetail = (props) => {
         </Layout>
     ) : ""
 }
-export default ProductDetail
+export default withRouter(ProductDetail)

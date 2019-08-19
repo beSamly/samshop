@@ -8,68 +8,71 @@ import {
 import { emptyCart } from "./cartHelpers";
 import Card from "./Card";
 import { isAuthenticated } from "../auth";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import "braintree-web";
 import DropIn from "braintree-web-drop-in-react";
 
-const Checkout = ({ products }) => {
+// Products arugment is products Array on localStorage
+//  Products:[{
+//     product:{},
+//     selectedOptions:{
+//     color:"",
+//     size:"",
+//     quantity:""
+// }
+// }]
+
+const Checkout = ({ products, history }) => {
     const [data, setData] = useState({
-        loading: false,
+        loading: true,
         success: false,
         clientToken: null,
         error: "",
         instance: {},
-        address: ""
+        addresses: {}
     });
+
+    const { addresses } = data
 
     const [totalPrice, setTotalPrice] = useState()
 
+    const user = isAuthenticated() && isAuthenticated().user
     const userId = isAuthenticated() && isAuthenticated().user._id;
     const token = isAuthenticated() && isAuthenticated().token;
 
     const getToken = (userId, token) => {
-        getBraintreeClientToken(userId, token).then(data => {
-            if (data.error) {
-                setData({ ...data, error: data.error });
+        getBraintreeClientToken(userId, token).then(ct => {
+            if (ct.error) {
+                setData({ ...data, error: ct.error });
             } else {
-                setData({ clientToken: data.clientToken });
+                setData({ ...data, clientToken: ct.clientToken });
             }
         });
     };
-    const init = () => {
+
+    const calTotalPrice = () => {
         var totalPrice = 0
         products.map((c) => {
             c.selectedDetails.map((c) => {
-                console.log(c.selectedOption.price, c.quantity)
                 totalPrice = totalPrice + parseInt(c.selectedOption.price) * parseInt(c.quantity)
             })
         })
-        totalPrice = !isNaN(totalPrice) ? `${totalPrice}` : "Please select option"
+        totalPrice = !isNaN(totalPrice) && totalPrice !== 0 ? `${totalPrice}` : "Please select option"
         setTotalPrice(totalPrice)
-        // return (
-        //     <div className="total-price">
-        //         Total price: {!isNaN(totalPrice) ? `$${totalPrice}` : "Please select option"}
-        //     </div>
-        // )
     }
+
+    const init = () => {
+        calTotalPrice()
+    }
+
     useEffect(() => {
-        // getToken(userId, token);
+        getToken(userId, token);
         init()
     }, [products]);
 
-    const handleAddress = event => {
-        setData({ ...data, address: event.target.value });
+    const handleAddress = (target) => e => {
+        setData({ ...data, addresses: { ...addresses, [target]: e.target.value } });
     };
-
-    const getTotal = () => {
-        return products.reduce((currentValue, nextValue) => {
-            return currentValue + nextValue.count * nextValue.price;
-        }, 0);
-    };
-
-    const showTotalPrice = () => {
-
-    }
 
     const showCheckout = () => {
         return isAuthenticated() ? (
@@ -80,11 +83,10 @@ const Checkout = ({ products }) => {
                 </Link>
             );
     };
-
     let deliveryAddress = data.address;
-
     const buy = () => {
         setData({ loading: true });
+
         // send the nonce to your server
         // nonce = data.instance.requestPaymentMethod()
         let nonce;
@@ -102,38 +104,48 @@ const Checkout = ({ products }) => {
                 // );
                 const paymentData = {
                     paymentMethodNonce: nonce,
-                    amount: getTotal(products)
+                    amount: totalPrice
                 };
+
 
                 processPayment(userId, token, paymentData)
                     .then(response => {
-                        console.log(response);
                         // empty cart
                         // create order
+                        // user update with addresses
 
-                        const createOrderData = {
-                            products: products,
-                            transaction_id: response.transaction.id,
-                            amount: response.transaction.amount,
-                            address: deliveryAddress
-                        };
+                        // this is error handling.
+                        if (response.message) {
+                            setData({ ...data, error: response.message })
+                        } else {
 
-                        createOrder(userId, token, createOrderData)
-                            .then(response => {
-                                emptyCart(() => {
-                                    console.log(
-                                        "payment success and empty cart"
-                                    );
-                                    setData({
-                                        loading: false,
-                                        success: true
+                            const createOrderData = {
+                                products: products,
+                                transaction_id: response.transaction.id,
+                                totalPrice: response.transaction.amount,
+                                addresses: addresses
+                            };
+
+                            createOrder(userId, token, createOrderData)
+                                .then(response => {
+                                    emptyCart(() => {
+                                        console.log(
+                                            "payment success and empty cart"
+                                        );
+                                        setData({
+                                            loading: false,
+                                            success: true
+                                        });
                                     });
+                                    history.push("/user/dashboard/history")
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    setData({ loading: false });
                                 });
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                setData({ loading: false });
-                            });
+                        }
+
+
                     })
                     .catch(error => {
                         console.log(error);
@@ -147,10 +159,10 @@ const Checkout = ({ products }) => {
     };
 
     const showDropIn = () => (
-        <div onBlur={() => setData({ ...data, error: "" })}>
+        <div onBlur={() => { setData({ ...data, error: "" }) }}>
             {data.clientToken !== null && products.length > 0 ? (
                 <div>
-                    <div className="gorm-group mb-3">
+                    {/* <div className="gorm-group mb-3">
                         <label className="text-muted">Delivery address:</label>
                         <textarea
                             onChange={handleAddress}
@@ -158,7 +170,20 @@ const Checkout = ({ products }) => {
                             value={data.address}
                             placeholder="Type your delivery address here..."
                         />
-                    </div>
+                    </div> */}
+                    {/* show addresses */}
+                    <form className="address-form" >
+                        <label>address</label>
+                        <input type="text-area" className="form-control" required onChange={handleAddress('address')} />
+                        <label>address2</label>
+                        <input className="form-control" onChange={handleAddress('address2')} />
+                        <label>city</label>
+                        <input className="form-control" required onChange={handleAddress('city')} />
+                        <label>province</label>
+                        <input className="form-control" required onChange={handleAddress('province')} />
+                        <label>zip code</label>
+                        <input type="number" className="form-control" required onChange={handleAddress('zipcode')} />
+                    </form>
 
                     <DropIn
                         options={{
@@ -167,10 +192,14 @@ const Checkout = ({ products }) => {
                                 flow: "vault"
                             }
                         }}
-                        onInstance={instance => (data.instance = instance)}
+                        onInstance={instance => {
+                            data.instance = instance;
+                            setData({ ...data, loading: false })
+                        }
+                        }
                     />
-                    <button onClick={buy} className="btn btn-success btn-block">
-                        Pay
+                    <button onClick={buy} className="btn btn-success btn-block" disabled={!isNaN(totalPrice) ? "" : "disabled"}>
+                        {!isNaN(totalPrice) ? "Pay" : "Please select option"}
                     </button>
                 </div>
             ) : null}
@@ -195,13 +224,29 @@ const Checkout = ({ products }) => {
         </div>
     );
 
-    const showLoading = loading =>
-        loading && <h2 className="text-danger">Loading...</h2>;
+    const showLoading = loading => {
+        return loading && (
+            <div className="payment-loading row align-items-center justify-content-center">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-yellow-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
     return products ? (
-        <div>
-            <h2>Total: ${totalPrice}</h2>
-            <h2>{showTotalPrice()}</h2>
+        <div className="checkout-box">
+            <h2 className="checkout-box-title">Total: ${totalPrice}</h2>
             {showLoading(data.loading)}
             {showSuccess(data.success)}
             {showError(data.error)}
@@ -210,4 +255,4 @@ const Checkout = ({ products }) => {
     ) : ""
 };
 
-export default Checkout;
+export default withRouter(Checkout);

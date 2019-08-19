@@ -14,9 +14,10 @@ const photoNumber = (req, res, next, photoNumber) => {
 }
 
 const productById = (req, res, next, id) => {
-    console.log("what is id : ", id)
+
     Product.findById(id)
         .populate("category")
+        .populate("reviews.reviewer")
         .exec((err, product) => {
             if (err || !product) {
                 return res.status(400).json({
@@ -67,17 +68,19 @@ const create = (req, res) => {
         //     console.log(c)
         // })
 
-        fields.details = JSON.parse(fields.details)
+        // fields.details = JSON.parse(fields.details)
+        for(key in fields){
+            fields[key]= JSON.parse(fields[key])
+        }
 
         let product = new Product(fields);
-        console.log("whatis new product : ", product)
+        console.log("whastis fields : ", fields)
         // 1kb = 1000
         // 1mb = 1000000
 
 
         if (files) {
             // console.log("FILES PHOTO: ", files.photo);
-            console.log("what is files : ", files)
             var photosArr = []
             for (let key in files) {
                 if (files[key].size > 1000000) {
@@ -94,13 +97,14 @@ const create = (req, res) => {
             }
             product.photos = photosArr
         }
+        console.log("new product : ", product)
 
         product.save((err, result) => {
             if (err) {
                 console.log("err : ", err)
 
                 return res.status(400).json({
-                    error: errorHandler(err)
+                    error: err
                 });
             }
             console.log("result : ", result)
@@ -126,22 +130,29 @@ const remove = (req, res) => {
 
 // BIG PROBLEM changed a lot from original one
 const update = (req, res) => {
+    console.log("update happen")
+
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
         var product = req.product
-     
         for (let key in fields) {
-            product[key] = JSON.parse(fields[key])
+            console.log("fileds[key] : ", fields[key], key)
+            if (fields[key] !== 'undefined' && fields[key] !== undefined) {
+                console.log("happen")
+
+                product[key] = JSON.parse(fields[key])
+
+            }
         }
-      
+
 
         console.log("whatsi rpoduct : ", product)
         product.save((err, data) => {
             if (err) {
                 console.log("wahtsi erer : ", err)
                 res.status(404).json({ error: err })
-            } else{
+            } else {
                 data.photos = undefined
                 console.log("wharts is dat : ", data)
                 res.send(data)
@@ -343,6 +354,7 @@ const getReview = (req, res) => {
 
 const createReview = (req, res) => {
     // inserting revies
+    console.log("what isreq.body in createReview : ", req.body)
     req.product.reviews.push(req.body)
 
     // update totlaRating
@@ -360,7 +372,7 @@ const createReview = (req, res) => {
     } else {
         product.totalRate = 0
     }
-
+    console.log("Wahstis product beofre save : ", product)
     product.save((err, data) => {
         if (data) {
             console.log("what is data !!: ", data)
@@ -368,9 +380,79 @@ const createReview = (req, res) => {
             res.send(data)
         }
         if (err) {
+            console.log("error : ", err)
             res.status(404).json({ "Err : ": err })
         }
 
+    })
+}
+
+const updateReview = (req, res) => {
+    var product = req.product
+    var userId = req.profile._id
+    // console.log("whasti sproduct : ", product)
+    // console.log("whasti userId : ", userId)
+    console.log("req.body fisrt : ", req.body)
+    var newArr = []
+    newArr = product.reviews.map((c, i) => {
+        // console.log(c.reviewer._id)===parseInt(userId) , c.reviewer._id, userId)
+        if (parseInt(c.reviewer._id) === parseInt(userId)) {
+            console.log("we found it?")
+            return {
+                comment: req.body.comment,
+                rating: req.body.rating,
+                reviewer: userId
+            }
+        }
+        return c
+    })
+
+    console.log("Whst is newArr : ", newArr)
+    product.reviews = newArr
+    product.save((err, data) => {
+        if (err) {
+            res.status(404).send({ error: err })
+        } else {
+            // console.log("data after saving : ", data)
+            res.send(data)
+        }
+    })
+}
+
+const deleteReview = (req, res) => {
+    var product = req.product
+    var userId = req.profile._id
+
+    var index = 0
+    product.reviews.map((c, i) => {
+        if (c.reviewer._id.toString() === userId.toString()) {
+            index = i
+        }
+    })
+    product.reviews.splice(index, 1)
+
+    // update totlaRating
+    let sum = 0
+    let length = product.reviews.length
+    let avg = undefined
+    if (length > 0) {
+        for (let i = 0; i < length; i++) {
+            sum = sum + product.reviews[i].rating
+        }
+        avg = sum / length
+        avg = Math.round(avg * 10) / 10
+        product.totalRate = avg
+    } else {
+        product.totalRate = 0
+    }
+
+    product.save((err, data) => {
+        if (err) {
+            res.status(404).send({ error: err })
+        } else {
+            console.log("data after saving : ", data)
+            res.send(data)
+        }
     })
 }
 
@@ -397,9 +479,55 @@ exports.listSearch = (req, res) => {
     }
 };
 
-//MYSTERY
 exports.decreaseQuantity = (req, res, next) => {
+
+    let bulkOps = req.body.order.products.map(product => {
+
+        var productFromDB = Product.findOne({ _id: product.product._id }).exec((err, productData) => {
+
+            var selectedOptionId = []
+            var selectedOptionQuantity = []
+            product.selectedDetails.map((c) => {
+                selectedOptionId.push(c.selectedOption._id)
+                selectedOptionQuantity.push(c.quantity)
+            })
+            // productData.details= JSON.parse(productData.details)
+            productData.details.map((d) => {
+                var index = selectedOptionId.indexOf(d._id.toString())
+
+                if (index !== -1) {
+                    d.quantity = parseInt(d.quantity) - parseInt(selectedOptionQuantity[index])
+
+                }
+            })
+            productData.save((err, data) => {
+                if (err) {
+                    console.log("error in decreaseQuantity :", err)
+                    res.send({ error: err })
+                } else {
+                    console.log("succesfull and next function()")
+                    next()
+                }
+            })
+        })
+    })
+}
+
+//MYSTERY
+exports.decreaseQuantityOriginal = (req, res, next) => {
     let bulkOps = req.body.order.products.map(item => {
+        // item.product => ARR
+        // item.selectedDetails => ARR
+
+        var filter = undefined
+        var update = undefined
+
+        item.product._id
+        item.selectedDetails.map((sd) => {
+            sd.selectedOptions.quantity
+            sd.selectedOptions._id
+        })
+
         return {
             updateOne: {
                 filter: { _id: item._id },
@@ -413,8 +541,9 @@ exports.decreaseQuantity = (req, res, next) => {
             return res.status(400).json({
                 error: "Could not update product"
             });
+        } else {
+            next();
         }
-        next();
     });
 };
 
@@ -430,13 +559,15 @@ const { userById } = require("../routes/user");
 router.get("/product/:productId", read);
 router.post("/product/create/:userId", requireSignin, isAuth, isAdmin, create);
 router.delete("/product/:productId/:userId", requireSignin, isAuth, isAdmin, remove);
-router.post("/product/:productId/:userId", requireSignin, isAuth, isAdmin, update);
+router.post("/product/update/:productId/:userId", requireSignin, isAuth, isAdmin, update);
 
 // review
 // router.get("/product/review/:productId", getReview);
 // router.post("/product/createreview/:productId",createReview, calculateRating);
 
 router.post("/product/create/review/:productId", createReview);
+router.post("/product/update/review/:productId/:userId", updateReview);
+router.delete("/product/delete/review/:productId/:userId", deleteReview);
 
 
 router.get("/products", list);
