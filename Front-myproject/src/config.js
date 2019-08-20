@@ -1,2 +1,3 @@
 require("dotenv").config();
-export const API = process.env.REACT_APP_API_URL;
+const port = 'https://samleeshop.herokuapp.com/api'
+export const API = port;

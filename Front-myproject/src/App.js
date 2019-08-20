@@ -47,6 +47,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/test" exact component={Footer} />
         <Route path="/AboutHook" exact component={AboutHook} />
         <Route exact path="/products/" exact component={Product} />
         <Route path="/product/:productId" exact component={ProductDetail} />

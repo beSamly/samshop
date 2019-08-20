@@ -1,16 +1,19 @@
 import { API } from "../config";
 import queryString from "query-string";
 
+console.log("what is API :", API)
+console.log("what is EXAM query :", `${API}/products?limit=6`)
+
 export const getProducts = sortBy => {
     return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
         method: "GET"
     })
         .then(response => {
+            console.log("whsti sr resposne : ",  response)
             return response.json();
         })
         .catch(err => console.log(err));
 };
-
 
 export const getCategories = () => {
     return fetch(`${API}/categories`, {
