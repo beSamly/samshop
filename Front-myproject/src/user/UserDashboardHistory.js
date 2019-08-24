@@ -6,9 +6,11 @@ import moment from "moment";
 import UserDashboardLayout from "./UserDashboardLayout";
 import ShowImage from "../core/ShowImage"
 import $ from 'jquery'
+import Loader from "../core/Loader";
 
 const UserDashboardHistory = () => {
     const [purchaseHistory, setPurchaseHistory] = useState([])
+    const [loading, setLoading] = useState(true)
     const init = () => {
 
     }
@@ -17,7 +19,10 @@ const UserDashboardHistory = () => {
         const user = isAuthenticated().user
         const token = isAuthenticated().token
         getPurchaseHistory(user._id, token).then(
-            res => setPurchaseHistory(res)
+            res => {
+                setPurchaseHistory(res);
+                setLoading(false)
+            }
         )
         window.scrollTo(0, 0);
     }, [])
@@ -38,7 +43,6 @@ const UserDashboardHistory = () => {
     }
 
     const showEachSelectedProduct = (eachSelectedProduct, index) => {
-        console.log("eachSelectedProduct : ", eachSelectedProduct)
 
         return (
             <Link to={`/product/${eachSelectedProduct.product._id}`}>
@@ -103,7 +107,6 @@ const UserDashboardHistory = () => {
 
     const showEachHistory = (eachHistory, index) => {
 
-        console.log("eachHistory : ", eachHistory)
         return (
             <div className="show-history-container" >
                 <div className="row justify-content-between align-items-center show-history-header" onClick={handleActive}>
@@ -121,7 +124,6 @@ const UserDashboardHistory = () => {
                     {eachHistory.products.map((eachSelectedProduct) =>
                         showEachSelectedProduct(eachSelectedProduct)
                     )}
-                    {console.log("eachHistory.addresses : ", eachHistory.addresses)}
                     {showAddresses(eachHistory.addresses)}
                 </div>
             </div>
@@ -130,7 +132,7 @@ const UserDashboardHistory = () => {
 
     return (
         <UserDashboardLayout>
-            {console.log("history :", purchaseHistory)}
+            <Loader loading={loading}/>
             <h2 className="mb-4">There are {purchaseHistory.length} purchase history</h2>
             {purchaseHistory.map((eachHistory, index) => (
                 showEachHistory(eachHistory, index)

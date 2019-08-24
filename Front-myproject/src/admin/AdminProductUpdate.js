@@ -7,6 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import { getProduct, getCategories, updateProduct } from "./apiAdmin";
 import AdminRouteLayout from "./AdminRouteLayout";
 import fs from 'fs-react'
+import Loader from "../core/Loader";
 // var a =fs()
 console.log("whasti fs : ", fs)
 // console.log("whasti a : ", a)
@@ -19,7 +20,7 @@ const AdminProductUpdate = ({ match, history }) => {
         shipping: "",
         quantity: "",
         photos: [],
-        loading: false,
+        loading: true,
         error: false,
         createdProduct: "",
         redirectToProfile: false,
@@ -52,6 +53,7 @@ const AdminProductUpdate = ({ match, history }) => {
             } else {
                 // populate the state
                 console.log("wahtsi data received : ", data)
+
                 setValues({
                     ...values,
                     name: data.name,
@@ -61,6 +63,7 @@ const AdminProductUpdate = ({ match, history }) => {
                     category: data.category._id,
                     shipping: data.shipping,
                     details: data.details,
+                    loading: false,
                     formData: new FormData()
                 });
             }
@@ -78,7 +81,7 @@ const AdminProductUpdate = ({ match, history }) => {
             }
         });
     };
-
+    console.log("rerender : ", loading)
     useEffect(() => {
         init(match.params.productId);
     }, []);
@@ -89,7 +92,7 @@ const AdminProductUpdate = ({ match, history }) => {
             console.log("what is e.t.f[0] : ", event.target.files[0])
             var newPhotoArr = []
 
-            for (var i =0 ; i < event.target.files.length ; i++){
+            for (var i = 0; i < event.target.files.length; i++) {
                 // var newPhoto = {}
                 // newPhoto['data']= fs.readFileSync(event.target.files[i].path)
                 // newPhoto['contentType']= fs.readFileSync(event.target.files[i].type)
@@ -112,7 +115,7 @@ const AdminProductUpdate = ({ match, history }) => {
         updateProduct(match.params.productId, user._id, token, formData).then(
             data => {
                 if (data.error) {
-                    setValues({ ...values, error: data.error });
+                    setValues({ ...values, error: data.error, loading: false });
                 } else {
                     history.push('/admin/dashboard/product/manage')
                 }
@@ -273,9 +276,6 @@ const AdminProductUpdate = ({ match, history }) => {
         </form>
     );
 
-    const showPhotos = () => {
-      
-    }
 
     const showError = () => (
         <div
@@ -295,12 +295,6 @@ const AdminProductUpdate = ({ match, history }) => {
         </div>
     );
 
-    const showLoading = () =>
-        loading && (
-            <div className="alert alert-success">
-                <h2>Loading...</h2>
-            </div>
-        );
 
     const redirectUser = () => {
         if (redirectToProfile) {
@@ -312,11 +306,9 @@ const AdminProductUpdate = ({ match, history }) => {
 
     return (
         <AdminRouteLayout>
-            {showPhotos()}
-            {console.log("whatsi values : ", values)}
+            <Loader loading={loading} />
             <div className="row">
                 <div className="col-md-8 offset-md-2">
-                    {showLoading()}
                     {showSuccess()}
                     {showError()}
                     {newPostForm()}

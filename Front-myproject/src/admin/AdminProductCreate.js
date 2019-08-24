@@ -8,6 +8,7 @@ import { createProduct, getCategories } from "./apiAdmin";
 import reactElementToJSXString from 'react-element-to-jsx-string'
 import { renderToString } from 'react-dom/server'
 import fixedSize from '../core/fixedSizeTable'
+import Loader from "../core/Loader";
 
 
 const AdminProductCreate = () => {
@@ -153,14 +154,8 @@ const AdminProductCreate = () => {
                         </div>
                         <div className="col-2">
                             <label className="text-muted">size</label>
-                            {/* <input
-                                type="text-muted"
-                                className={`form-control size-field-${i}`}
-                                value={c.size}
-                                onChange={handleDetail(i, 'size')}
-                            /> */}
-                            <select className={`form-control size-field-${i}`} onChange={handleDetail(i, 'size')}>
-                                <option value={""} >Select size</option>
+                            <select className={`form-control size-field-${i}`} onChange={handleDetail(i, 'size')} required>
+                                <option value="">Select size</option>
                                 {fixedSize.map((c) =>
                                     <option value={c} >{c}</option>
                                 )}
@@ -170,6 +165,7 @@ const AdminProductCreate = () => {
                         <div className="col-2">
                             <label className="text-muted">quantity</label>
                             <input
+                                required
                                 type="number"
                                 className={`form-control quantity-field-${i}`}
                                 value={c.quantity}
@@ -179,6 +175,7 @@ const AdminProductCreate = () => {
                         <div className="col-2">
                             <label className="text-muted">price</label>
                             <input
+                                required
                                 type="number"
                                 className={`form-control price-field-${i}`}
                                 value={c.price}
@@ -197,13 +194,14 @@ const AdminProductCreate = () => {
 
                 <div className="form-group">
                     <label className="btn btn-secondary w-100">
-                        <input type="file" name="filefield" multiple="multiple" onChange={handleChange("photos")}></input>
+                        <input type="file" name="filefield" multiple="multiple" onChange={handleChange("photos")} required></input>
                     </label>
                 </div>
 
                 <div className="form-group">
                     <label className="text-muted">Name</label>
                     <input
+                        required
                         onChange={handleChange("name")}
                         type="text"
                         className="form-control"
@@ -217,12 +215,14 @@ const AdminProductCreate = () => {
                         onChange={handleChange("description")}
                         className="form-control"
                         value={description}
+                        required
                     />
                 </div>
 
                 <div className="form-group">
                     <label className="text-muted">Price</label>
                     <input
+                        required
                         onChange={handleChange("price")}
                         type="number"
                         className="form-control"
@@ -233,10 +233,11 @@ const AdminProductCreate = () => {
                 <div className="form-group">
                     <label className="text-muted">Category</label>
                     <select
+                        required
                         onChange={handleChange("category")}
                         className="form-control"
                     >
-                        <option>Please select</option>
+                        <option value="">Please select</option>
                         {categories &&
                             categories.map((c, i) => (
                                 <option key={i} value={c._id}>
@@ -249,10 +250,11 @@ const AdminProductCreate = () => {
                 <div className="form-group">
                     <label className="text-muted">Shipping</label>
                     <select
+                        required
                         onChange={handleChange("shipping")}
                         className="form-control"
                     >
-                        <option>Please select</option>
+                        <option value="">Please select</option>
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </select>
@@ -297,9 +299,9 @@ const AdminProductCreate = () => {
                 title="Add a new product"
                 description={`G'day ${user.name}, ready to add a new product?`}
             >
+                <Loader loading={loading}/>
                 <div className="row justify-content-center admin-product-create-content">
                     <div className="col-10">
-                        {showLoading()}
                         {showSuccess()}
                         {showError()}
                         {newPostForm()}

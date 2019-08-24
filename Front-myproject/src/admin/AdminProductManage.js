@@ -10,6 +10,7 @@ import PageButton from "../core/PageButton";
 import queryString from 'query-string';
 import Filter from "../core/Filter2";
 import AdminRouteLayout from "./AdminRouteLayout";
+import Loader from "../core/Loader";
 
 const AdminProductManage = ({ history, location }) => {
     console.log("what is location : ", location)
@@ -17,6 +18,7 @@ const AdminProductManage = ({ history, location }) => {
     const [error, setError] = useState(false);
     const [filteredResults, setFilteredResults] = useState([]);
     const [count, setCount] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const loadFilteredResults = (newFilters) => {
         console.log("what is newfiletr : ", newFilters)
@@ -26,6 +28,7 @@ const AdminProductManage = ({ history, location }) => {
             } else {
                 setFilteredResults(data.data);
                 setCount(data.count)
+                setLoading(false)
             }
         });
     };
@@ -46,10 +49,6 @@ const AdminProductManage = ({ history, location }) => {
             newCategory.push(category)
             category = newCategory
         }
-
-        // query.price && price.concat(query.category)
-
-        // console.log("what is query : ", query)
 
         var go = {
             category,
@@ -175,6 +174,7 @@ const AdminProductManage = ({ history, location }) => {
 
     return myFilters ? (
         <AdminRouteLayout keywordIn={myFilters.keyword}>
+            <Loader loading={loading}/>
             <Filter myFilters={myFilters} count={count} handleFilters={handleFilters} />
             <PageButton myFilters={myFilters} filters={myFilters} count={count} handleFilters={handleFilters} skip={myFilters.skip} />
             Total product : {count}

@@ -1,3 +1,7 @@
+#root {
+    min-width:1263px;
+}
+
 #root .showError{
     top:100%;
     left:4px;
@@ -14,5 +18,25 @@
     
 }
 
+#root .admin-category-manage button{
+    font-size:11px;
+}
 
+/* Product carousel on Home page */
+#root .product-carousel {
+    border-top: 2px solid grey;
+    border-bottom: 2px solid grey;
+}
+
+#root .product-carousel .left-btn{
+    position: absolute;
+    left:-3%;
+    top:45%;
+}
+
+#root .product-carousel .right-btn{
+    position: absolute;
+    right:-3%;
+    top:45%;
+}
 

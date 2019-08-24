@@ -71,7 +71,7 @@
 }
 
 #root .trend-product-title{
-    height: 60px;
+    padding: 20px 0 20px 0;
     border-bottom: 0.3px solid #f50057;
     margin: 10px 30px 20px 30px;
     font-size:20px;
@@ -96,18 +96,4 @@
     color: rgb(132, 38, 179)
 }
 
-@media (max-width: 650px) { 
-    #root .video-content .video-text{
-        font-size:14px;
-    }
 
-    #root .video-content-button{
-        font-size:15px;
-        padding: 6px 25px 6px 25px;
-
-    }
-
-    #root .below-video b, #root .below-video span, #root .below-video i{
-        font-size:8px;
-    }
-}

@@ -56,7 +56,7 @@
   left:10%;
   border-radius: 10px;
   animation: test 1.0s infinite;
-  z-index:9999
+  z-index:99
 }
 
 @keyframes test{

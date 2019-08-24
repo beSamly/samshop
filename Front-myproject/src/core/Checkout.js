@@ -162,16 +162,6 @@ const Checkout = ({ products, history }) => {
         <div onBlur={() => { setData({ ...data, error: "" }) }}>
             {data.clientToken !== null && products.length > 0 ? (
                 <div>
-                    {/* <div className="gorm-group mb-3">
-                        <label className="text-muted">Delivery address:</label>
-                        <textarea
-                            onChange={handleAddress}
-                            className="form-control"
-                            value={data.address}
-                            placeholder="Type your delivery address here..."
-                        />
-                    </div> */}
-                    {/* show addresses */}
                     <form className="address-form" >
                         <label>address</label>
                         <input type="text-area" className="form-control" required onChange={handleAddress('address')} />

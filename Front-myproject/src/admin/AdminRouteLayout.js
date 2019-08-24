@@ -12,7 +12,7 @@ const AdminRouteLayout = ({ children, history, location, keywordIn }) => {
         if (history.location.pathname === path) {
             return "dashboard-sidebar-item dashboard-sidebar-item-active ";
         } else {
-            return  "dashboard-sidebar-item ";
+            return "dashboard-sidebar-item ";
         }
     };
 
@@ -21,12 +21,19 @@ const AdminRouteLayout = ({ children, history, location, keywordIn }) => {
             <div className="dashboard-sidebar" >
                 <div className="dashboard-sidebar-title">Admin Options</div>
                 <ul className="dashboard-sidebar-item-box">
+                    <Link to={'/admin/dashboard/category/create'}>
+                        <li className={isActive(history, '/admin/dashboard/category/create')}>create category</li>
+                    </Link>
+                    <Link to={'/admin/dashboard/category/manage'}>
+                        <li className={isActive(history, '/admin/dashboard/category/manage')}>manage category</li>
+                    </Link>
                     <Link to={'/admin/dashboard/product/create'}>
-                        <li className={isActive(history,'/admin/dashboard/product/create')}>create</li>
+                        <li className={isActive(history, '/admin/dashboard/product/create')}>create</li>
                     </Link>
                     <Link to={'/admin/dashboard/product/manage'}>
                         <li className={isActive(history, '/admin/dashboard/product/manage')}>manage product</li>
                     </Link>
+
                 </ul>
             </div>
         )

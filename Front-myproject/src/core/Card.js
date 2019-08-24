@@ -29,7 +29,7 @@ const Card = ({ product, forWhat = "normal", linkTo='/product/' }) => {
             )
         } else {
             arr.push(
-                <div>
+                <div className="card-body-rating">
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
@@ -85,10 +85,11 @@ const Card = ({ product, forWhat = "normal", linkTo='/product/' }) => {
             <Link style={{ color: 'black' }} to={{ pathname: `${linkTo}${product._id}` }}>
                 <div className="card-header">
                     <ShowImage item={product} url="product" forWhat={forWhat} />
+                    
                 </div>
                 <div className="card-body">
                     {/* {shouldRedirect(redirect)} */}
-                    <p className="lead mt-1" style={{ fontWeight: 600, fontSize: 17 }}>
+                    <p className="mt-1" style={{ fontWeight: 600 }}>
                         {product.name}
                     </p>
                     {showRating()}
@@ -98,16 +99,6 @@ const Card = ({ product, forWhat = "normal", linkTo='/product/' }) => {
                         <div className="float-left">{showTrendyOrNew(product)}</div>
                         <div className="float-right price-tag">${product.price}</div>
                     </div>
-                    {/* {showStock(product.quantity)}
-                <br />
-
-                {showViewButton(showViewProductButton)}
-
-                {showAddToCart(showAddToCartButton)}
-
-                {showRemoveButton(showRemoveProductButton)}
-
-                {showCartUpdateOptions(cartUpdate)} */}
                 </div >
             </Link>
         </div>

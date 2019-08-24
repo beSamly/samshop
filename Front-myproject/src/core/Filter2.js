@@ -117,10 +117,12 @@ const Filter = ({ myFilters, handleFilters }) => {
     const showCategory = () => {
         return (
             <div className="filter category-filter row">
-                Category<i class="fas fa-angle-down fa-1x ml-1"></i>
+                <i class="fas fa-tags mx-1"></i>
+                Category
+                <i class="fas fa-angle-down fa-1x ml-1"></i>
                 <div className="filter-dropdown category-filter-dropdown">
                     {categories.map((c) =>
-                        <div className="category-filter-dropdown-item dropdown-item" title={c._id} onClick={handleClick("category")}>
+                        <div className="category-filter-dropdown-item dropdown-item waves-effect" title={c._id} onClick={handleClick("category")}>
                             {c.name}
                             <i class="fas fa-check filter-checkbox"></i>
                         </div>
@@ -133,7 +135,9 @@ const Filter = ({ myFilters, handleFilters }) => {
     const showPriceRange = () => {
         return (
             <div className="filter price-filter row">
-                Price<i class="fas fa-angle-down fa-1x ml-1"></i>
+                <i class="fas fa-comment-dollar mx-1"></i>
+                Price
+                <i class="fas fa-angle-down fa-1x ml-1"></i>
                 <div className="filter-dropdown price-filter-dropdown">
                     {prices.map((c) =>
                         <div className="price-filter-dropdown-item dropdown-item" title={c._id} onClick={handleClick("price")}>
@@ -148,6 +152,7 @@ const Filter = ({ myFilters, handleFilters }) => {
     const showByRate = () => {
         return (
             <div className="filter rate-filter row align-items-center" title="totalRate" onClick={handleClick('sortBy')}>
+                <i class="far fa-thumbs-up mx-1"></i>
                 Highest Review<i class="fas fa-angle-down fa-1x ml-1"></i>
             </div>
         )
@@ -156,6 +161,7 @@ const Filter = ({ myFilters, handleFilters }) => {
     const showByCreatedAt = () => {
         return (
             <div className="filter createdAt-filter row align-items-center" title="createdAt" onClick={handleClick('sortBy')}>
+                <i class="fab fa-angellist mx-1"></i>
                 Newest<i class="fas fa-angle-down fa-1x ml-1"></i>
             </div>
         )
@@ -164,12 +170,10 @@ const Filter = ({ myFilters, handleFilters }) => {
     return categories.length !== 0 ? (
         <div>
             <div className="row justify-content-center my-3">
-                <div className="col-9 row">
                     {showCategory()}
                     {showPriceRange()}
                     {showByRate()}
                     {showByCreatedAt()}
-                </div>
             </div>
         </div>
     ) : ""

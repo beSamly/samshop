@@ -10,12 +10,14 @@ import moment from "moment";
 import { findDOMNode } from "react-dom";
 import $ from "jquery";
 import Review from "./Review";
+import Loader from "./Loader";
 
 const ProductDetail = (props) => {
     const [product, setProduct] = useState();
     const [relatedProduct, setRelatedProduct] = useState([]);
     const [error, setError] = useState();
     const [dummy, setDummy] = useState(1)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const productId = props.match.params.productId;
@@ -52,6 +54,7 @@ const ProductDetail = (props) => {
                         setError(data.error);
                     } else {
                         setRelatedProduct(data);
+                        setLoading(false)
                     }
                 });
             }
@@ -267,7 +270,7 @@ const ProductDetail = (props) => {
 
     return product ? (
         <Layout>
-            {console.log("what is prodict : ", product)}
+            <Loader loading={loading}/>
             <div className="row mt-5 productDetail">
                 <div className="col-7 justify-content-center">
                     {showProductInformation()}

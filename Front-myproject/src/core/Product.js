@@ -65,6 +65,7 @@ const Product = ({ location, history }) => {
         }
 
         setMyFilters(go)
+        setLoading(true)
         loadFilteredResults(go);
     }
 
@@ -152,20 +153,33 @@ const Product = ({ location, history }) => {
         return returnValue
     }
 
+    const showResult = () => {
+        return (
+            <div className="product-show-result row justify-content-center align-items-center">
+                <h3 className="ml-3" ><i class="far fa-laugh"></i>  {count} products are found</h3>
+            </div>
+        )
+    }
+
     return myFilters ? (
         <Layout keywordIn={myFilters.keyword}>
-            <Filter myFilters={myFilters} count={count} handleFilters={handleFilters} />
-            <PageButton myFilters={myFilters} filters={myFilters} count={count} handleFilters={handleFilters} skip={myFilters.skip} />
-            
-            <h3 className="ml-3" ><i class="far fa-laugh"></i>{count} products are found</h3>
+            {showResult()}
+            <div className="row justy-content-between align-items-center my-2">
+                <div className="col-9">
+                    <Filter myFilters={myFilters} count={count} handleFilters={handleFilters} />
+                </div>
+                <div className="col-3">
+                    <PageButton myFilters={myFilters} filters={myFilters} count={count} handleFilters={handleFilters} skip={myFilters.skip} />
+                </div>
+            </div>
             <div className="row">
                 {filteredResults.map((product) => {
-                    return (<div className="col-lg-3 col-md-4 col-6">
+                    return (<div className="col-3">
                         <Card product={product} />
                     </div>)
                 })}
             </div>
-            <Loader loading={loading}/>
+            <Loader loading={loading} />
         </Layout>
     ) : ""
 

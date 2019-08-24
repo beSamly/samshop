@@ -119,7 +119,7 @@ const PageButton = ({ myFilters, count, handleFilters }) => {
         }
 
         return (
-            <div className="col-9 row align-items-center justify-content-end page-button-container">
+            <div className="row align-items-center justify-content-end page-button-container">
                 {returnArr}
             </div>
         )

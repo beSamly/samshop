@@ -83,6 +83,7 @@ const Review = ({ reviews, product }) => {
     // submit review to serevr
     const handleSubmit = (doWhat) => (e) => {
         if (doWhat === "create") {
+            console.log("craete fucntion")
             createReview(reviewByUser, product._id)
         }
         if (doWhat === "delete") {

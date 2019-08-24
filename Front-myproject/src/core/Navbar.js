@@ -56,8 +56,8 @@ const Navbar = ({ history, keywordIn = "" }) => {
 
     const showIcon = () => {
         return (
-            <div class="row align-items-center ">
-                <div className="d-inline-block  p-3"><i class="fab grey-text fa-medapps fa-1x "></i></div>
+            <div class="row align-items-center icon-container">
+                <div className="d-inline-block p-3"><i class="fab grey-text fa-medapps fa-1x "></i></div>
                 <div className="d-inline-block  p-3  cart-icon-box position-relative">
                     <Link to={'/cart'}>
                         {showNumOfItemInCart()}
@@ -75,7 +75,7 @@ const Navbar = ({ history, keywordIn = "" }) => {
             return (
                 <div className="row align-items-center">
                     {showIcon()}
-                    <Link to={'/admin/dashboard/product/create'}><button class="btn btn-warning px-3 py-2">Admin</button></Link>
+                    <Link to={'/admin/dashboard/product/create'}><button class="btn btn-warning px-2 py-2">Admin</button></Link>
                     <button class="btn btn-default px-2 py-2" onClick={() =>
                         signout(() => {
                             history.push("/");
@@ -144,31 +144,25 @@ const Navbar = ({ history, keywordIn = "" }) => {
                     </span>
                 </div>
                 <nav className="navbar navbar-expand-lg py-0">
-                    <ul className="col-xl-3 col-ld-1 col-md-4 col-sm-6 col-10 my-0 px-0">
-                        <Link to={'/'}><li className="d-inline-block"><img src="/img/logo-image.png" style={{ width: 110, height: 50 }}></img></li></Link>
+                    <ul className="col-3 my-0 px-0">
+                        <Link to={'/'}><li className="d-inline-block"><img src="/img/logo-image2.png" style={{ width: 110, height: 50 }}></img></li></Link>
                         <Link to={'/products'}>
                             <li className="drop-down-btn py-3 d-inline-block mx-4 position-relative"><i class="fas fa-th grey-text mr-2"></i>Category
-                    {dropdown()}
+                                {dropdown()}
                             </li>
                         </Link>
                     </ul>
-                    <button class="navbar-toggler mt-2" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-                        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation" >
-                        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
-                    </button>
-                    <div class="collapse navbar-collapse row justify-content-between align-items-center" id="basicExampleNav">
-                        <div className="col-md-7">
-                            <div class="md-form form-sm my-0">
-                                <input type="text" id="inputSMEx" class="search-bar form-control form-control-sm m-0 w-85 d-inline-block" value={keyword} onChange={handleChange} placeholder="Search for anything" />
-                                <button className="btn btn-danger m-0 px-3 py-2" onClick={handleClick}>
-                                    <i class="fas fa-search fa-xs " ></i>
-                                </button>
-                            </div>
+                    <div className="col-5">
+                        <div class="md-form form-sm my-0">
+                            <input type="text" id="inputSMEx" class="search-bar form-control form-control-sm m-0 w-85 d-inline-block" value={keyword} onChange={handleChange} placeholder="Search for anything" />
+                            <button className="btn btn-danger m-0 px-3 py-2 search-button" onClick={handleClick}>
+                                <i class="fas fa-search fa-xs " ></i>
+                            </button>
                         </div>
-                        <div className="col-md-5">
-                            {showSignMenu()}
-                            {showUserMenu()}
-                        </div>
+                    </div>
+                    <div className="col-4 px-0 mx-0">
+                        {showSignMenu()}
+                        {showUserMenu()}
                     </div>
                 </nav >
             </div>

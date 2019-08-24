@@ -80,7 +80,9 @@ const Filter = ({ category, handleFilters }) => {
                     {showPriceRange()}
                     {showByRate()}
                     {showByCreatedAt()}
+                    <div class="btn btn-primary ">heqwfqwello</div>
                 </div>
+
             </div>
         </div>
     )

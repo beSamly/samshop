@@ -1,22 +1,27 @@
 
 /* COMMON USE */
 #root .filter{
-    background: linear-gradient(40deg, #ff6ec4, #7873f5);
+    /* background: linear-gradient(40deg, #9bccdb, #6ccdda); */
+    color: rgb(54, 185, 61);
+    border:2px solid rgb(68, 201, 75);
     border-radius: 40px;
-    color:white;
+    /* color:white; */
     font-size:18px;
     align-items: center;
     justify-content: center;
     position: relative;
     margin: 0 5px 0 5px;
     cursor: pointer;
-    padding: 7px 30px 7px 30px
-
+    padding: 7px 30px 7px 30px;
+    transition:0.2s;
 }
 
 #root .filter:hover{
     box-shadow: 0 6px 12px 0 rgba(0,0,0,.16),
     0 6px 22px 0 rgba(0,0,0,.12);
+    color:white;
+    border: 1px solid white;
+    background: linear-gradient(40deg, #fafdfa, #7ddb95);
 }
 
 #root .filter-dropdown{
@@ -115,25 +120,3 @@
     background-color:rgb(156, 158, 12)
 }
 
-/* cart icon */
-#root .fa-luggage-cart{
-    /* color: white;
-    background: black;
-    height: 250px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    resize: vertical;
-    text-align: center;
-    font-size: 35px !important;
-    font-family: 'Exo', sans-serif !important;
-    font-weight: 200 !important; */
-}
-
-@media (max-width: 1200px) { 
-    #root .filter{
-        padding:5px 10px 5px 10px;
-        font-size:10px;
-    }
-}

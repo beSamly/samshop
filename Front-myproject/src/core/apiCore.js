@@ -1,9 +1,6 @@
 import { API } from "../config";
 import queryString from "query-string";
 
-console.log("what is API :", API)
-console.log("what is EXAM query :", `${API}/products?limit=6`)
-
 export const getProducts = sortBy => {
     return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
         method: "GET"
@@ -128,6 +125,8 @@ export const createOrder = (userId, token, createOrderData) => {
 };
 
 export const createReview = (review, productId) => {
+    console.log("craetReveiw's review  :",review )
+
     return fetch(`${API}/product/create/review/${productId}`, {
         method: "POST",
         headers: {
@@ -137,6 +136,7 @@ export const createReview = (review, productId) => {
         body: JSON.stringify(review)
     })
         .then(response => {
+            console.log("craetReveiw response :",response )
             return response.json();
         })
         .catch(err => console.log(err));

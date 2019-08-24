@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route, withRouter, Redirect,Link } from "react-router-dom";
+import { BrowserRouter, Switch, Route, withRouter, Redirect, Link } from "react-router-dom";
 import { isAuthenticated, signout } from '../auth/index'
 import Layout from "./Layout";
 import Card from "./Card";
 import { getProducts } from './apiCore'
+import CateSection from "./CateSection";
+import ProductCarousel from "./ProductCarousel";
+import Contact from "./Contact";
 const Home = () => {
 
     const init = () => {
@@ -36,15 +39,15 @@ const Home = () => {
 
                 </div>
                 <div className="row below-video align-items-center justify-content-between ">
-                    <div className="row ">
+                    <div className="row col-4">
                         <i class="far fa-check-circle fa-2x"></i>
                         <span className="bold"><b>100,000 online courses</b><br></br>Explore a variety of products</span>
                     </div>
-                    <div className="row">
+                    <div className="row col-4">
                         <i class="fas fa-bullseye fa-2x"></i>
                         <span className="bold"><b>Expert customer service</b><br></br>Ask any questions</span>
                     </div>
-                    <div className="row ">
+                    <div className="row col-4">
                         <i class="fas fa-history fa-2x"></i>
                         <span className="bold"><b>Credible Refund policy</b><br></br>Shop freely</span>
                     </div>
@@ -61,8 +64,8 @@ const Home = () => {
                 </div>
                 <div className="row">
                     {trendyProduct.map((product) => {
-                        return (<div className="col-lg-3 col-6">
-                            <Card product={product} forWhat="trendyProduct"/>
+                        return (<div className="col-3">
+                            <Card product={product} forWhat="trendyProduct" />
                         </div>)
                     })}
                 </div>
@@ -81,7 +84,7 @@ const Home = () => {
                 </div>
                 <div className="row">
                     {newProduct.map((product) => {
-                        return (<div className="col-lg-3 col-6">
+                        return (<div className="col-3">
                             <Card product={product} forWhat="newProduct" />
                         </div>)
                     })}
@@ -90,15 +93,18 @@ const Home = () => {
         )
     }
 
-    return newProduct?(
+    return newProduct ? (
         <Layout>
             {landing()}
             <div className="mx-5">
                 {showTrendProduct()}
                 {showNewProduct()}
             </div>
+            <CateSection />
+            <ProductCarousel trendyProduct={trendyProduct} newProduct={newProduct} />
+            <Contact/>
         </Layout>
-    ):""
+    ) : ""
 
 }
 

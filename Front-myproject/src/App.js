@@ -38,7 +38,11 @@ import signup from './css/signup.css'
 import checkout from './css/checkout.css'
 import dashboardHistory from './css/dashboardHistory.css'
 import review from './css/review.css'
+import cateSection from './css/cateSection.css'
 import UserDashboardHistory from './user/UserDashboardHistory';
+import AdminCateCreate from './admin/AdminCateCreate';
+import AdminCateManage from './admin/AdminCateManage';
+import AdminCateUpdate from './admin/AdminCateUpdate';
 
 
 function App() {
@@ -60,7 +64,10 @@ function App() {
         <AdminRoute path="/admin/dashboard/product/create" exact component={AdminProductCreate}/>
         <AdminRoute path="/admin/dashboard/product/manage" exact component={AdminProductManage}/>
         <AdminRoute path="/admin/dashboard/product/update/:productId" exact component={AdminProductUpdate}/>
-
+        
+        <AdminRoute path="/admin/dashboard/category/create" exact component={AdminCateCreate}/>
+        <AdminRoute path="/admin/dashboard/category/manage" exact component={AdminCateManage}/>
+        <AdminRoute path="/admin/dashboard/category/update/:categoryId" exact component={AdminCateUpdate}/>
         <Route exact path="/noAccess" component={NoAccess} />
         <Route path='*' component={PageNotFound} />
       </Switch>
