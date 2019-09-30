@@ -117,7 +117,7 @@ const AdminProductCreate = () => {
 
         const clickSubmit = e => {
             e.preventDefault();
-
+           
             for (let key in values) {
                 console.log(values[key])
                 formData.append(key, JSON.stringify(values[key]))
@@ -128,17 +128,25 @@ const AdminProductCreate = () => {
                 if (data.error) {
                     setOtherValue({ ...otherValue, error: data.error });
                 }
-                if (!data.error) {
-                    window.location.reload()
-                }
                 else {
-                    setOtherValue({ ...otherValue, error: "All field is required" })
+                    // setValues({
+                    //     name: "",
+                    //     description: "",
+                    //     price: "",
+                    //     photos: [],
+                    //     category: "",
+                    //     shipping: "",
+                    //     details: [{ color: "", size: "", quantity: "", price: "" }],
+                    // })
+                    // setOtherValue({...otherValue, loading:false})
+                    window.location.reload()
                 }
                 window.scrollTo(0, 0);
 
             });
         };
         console.log("what is data : ", values)
+
         const showDetails = () => {
             return details.map((c, i) => {
                 return (
@@ -155,7 +163,7 @@ const AdminProductCreate = () => {
                         <div className="col-2">
                             <label className="text-muted">size</label>
                             <select className={`form-control size-field-${i}`} onChange={handleDetail(i, 'size')} required>
-                                <option value="">Select size</option>
+                                <option value="" selected>Select size</option>
                                 {fixedSize.map((c) =>
                                     <option value={c} >{c}</option>
                                 )}
@@ -237,7 +245,7 @@ const AdminProductCreate = () => {
                         onChange={handleChange("category")}
                         className="form-control"
                     >
-                        <option value="">Please select</option>
+                        <option value="" selected>Please select</option>
                         {categories &&
                             categories.map((c, i) => (
                                 <option key={i} value={c._id}>
@@ -254,7 +262,7 @@ const AdminProductCreate = () => {
                         onChange={handleChange("shipping")}
                         className="form-control"
                     >
-                        <option value="">Please select</option>
+                        <option value="" selected>Please select</option>
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </select>
@@ -274,7 +282,7 @@ const AdminProductCreate = () => {
                 className="alert alert-danger"
                 style={{ display: error ? "" : "none" }}
             >
-                {error}
+                {JSON.stringify(error)}
             </div>
         );
 

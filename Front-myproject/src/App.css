@@ -40,3 +40,42 @@
     top:45%;
 }
 
+/* Contact */
+#root .contact-background-img{
+    position: relative;
+}
+
+#root .contact-background-img::after{
+    background-image: url("/img/background.jpg"); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+    content: "";
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+}
+
+#root .contact-background-img input, #root .contact-background-img textarea{
+    border-bottom: 1px solid rgb(111, 111, 211);
+}
+
+#root .navbar{
+    margin:auto;
+    max-width:1263px;
+}
+/* overwrite bootstrap navbar style */
+#root .navbar{box-shadow: 0 0 0 0}
+#root .navbar-wrapper{
+    box-shadow:  0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.19);  
+}
+
+#root .children-wrapper{
+    margin:auto;
+    max-width:1400px;
+}
+

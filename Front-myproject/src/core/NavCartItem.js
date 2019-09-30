@@ -24,11 +24,13 @@ const NavCartItem = ({ items, url = 'product' }) => {
             <Link to={`/product/${c.product._id}`}>
                 <div className="row nav-cart-item">
                     <div className="col-4">
-                        <img class="d-block w-100" src={`${API}/${url}/photo/${c.product._id}/1`} />
+                        {console.log("why c : ", c)}
+                        {console.log("why c.product : ", c.product)}
+                        {console.log("why erro : ", c.product.photos[0].image_url)}
+                        <img class="d-block w-100" src={c.product.photos[0].image_url} />
                     </div>
                     <div className="col-8">
                         <div className="product-name">{c.product.name} </div>
-                        <div className="description">{c.product.description} </div>
                     </div>
                 </div>
             </Link>

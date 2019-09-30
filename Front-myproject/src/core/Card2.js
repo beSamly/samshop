@@ -4,9 +4,9 @@ import { isAuthenticated, signout } from '../auth/index'
 import ShowImage from './ShowImage'
 import moment from "moment";
 import { API } from '../config'
+import CardPreview from "./CardPreview";
 
-
-const Card = ({ product, forWhat = "normal", linkTo = '/product/' }) => {
+const Card = ({ product, forWhat = "normal", linkTo = '/product/', index = null, addToCartcallback }) => {
 
     const showRating = () => {
         let arr = [];
@@ -81,27 +81,27 @@ const Card = ({ product, forWhat = "normal", linkTo = '/product/' }) => {
     }
 
     return product ? (
-        <div className="card mb-4">
-            {showNoStock()}
-            <Link style={{ color: 'black' }} to={{ pathname: `${linkTo}${product._id}` }}>
-                <div className="card-header">
-                    <img class="d-block w-100" src={`${API}/product/photo/${product._id}/${1}`}
-                        alt="Second slide" style={{ width: 400, height: 200 }} />
-                </div>
-                <div className="card-body">
-                    {/* {shouldRedirect(redirect)} */}
-                    <p className="mt-1" style={{ fontWeight: 600 }}>
-                        {product.name}
-                    </p>
-                    {showRating()}
-                    <p className="black-9">
-                    </p>
-                    <div className="clearfix">
-                        <div className="float-left">{showTrendyOrNew(product)}</div>
-                        <div className="float-right price-tag">${product.price}</div>
+        <div className="card-box mx-3">
+            <div className="card mb-4">
+                {index !== null && (<CardPreview product={product} forWhat={forWhat} index={index} addToCartcallback={addToCartcallback} />)}
+                <Link style={{ color: 'black' }} to={{ pathname: `${linkTo}${product._id}` }}>
+                    <div className="card-header">
+                        <img class="d-block w-100" src={product.photos[0].image_url}
+                            alt="Second slide" style={{ width: 400, height: 200 }} />
                     </div>
-                </div >
-            </Link>
+                    <div className="card-body">
+                        {/* {shouldRedirect(redirect)} */}
+                        <p className="mt-1" style={{ fontWeight: 600 }}>
+                            {product.name}
+                        </p>
+                        {showRating()}
+                        <div className="clearfix">
+                            <div className="float-left">{showTrendyOrNew(product)}</div>
+                            <div className="float-right price-tag">${product.price}</div>
+                        </div>
+                    </div >
+                </Link>
+            </div>
         </div>
     ) : ""
 }

@@ -6,23 +6,12 @@ import $ from 'jquery';
 
 const TestCarousel = ({ item, url = "product", forWhat }) => {
 
-    const init = () => {
-        fetch(`${API}/product/numberOfPhoto/${item._id}`).then(res =>
-            res.json()
-        ).then(res => { setNumberOfPhoto(res) })
-    }
-    const [numberOfPhoto, setNumberOfPhoto] = useState(0)
-
-    useEffect(() => {
-        init()
-    }, [])
-
     const showImages = () => {
         var arr = []
-        for (var i = 0; i < numberOfPhoto; i++) {
+        for (var i = 0; i < item.photos.length; i++) {
             arr.push(
                 <div class={i === 0 ? "carousel-item active" : "carousel-item"}>
-                    <img class="d-block w-100" src={`${API}/${url}/photo/${item._id}/${i}`}
+                    <img class="d-block w-100" src={item.photos[i].image_url}
                         alt="Second slide" />
                 </div>
             )
@@ -33,10 +22,10 @@ const TestCarousel = ({ item, url = "product", forWhat }) => {
     const showThumbNail = () => {
 
         var arr = []
-        for (var i = 0; i < numberOfPhoto; i++) {
+        for (var i = 0; i < item.photos.length; i++) {
             arr.push(
                 <li data-target="#carousel-thumb" data-slide-to={`${i}`} class="">
-                    <img class="d-block w-100" src={`${API}/${url}/photo/${item._id}/${i}`}
+                    <img class="d-block w-100" src={item.photos[i].image_url}
                         alt="Second slide" />
                 </li>
             )

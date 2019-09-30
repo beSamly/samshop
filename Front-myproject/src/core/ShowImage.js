@@ -5,16 +5,18 @@ import { API } from '../config'
 
 const ShowImage = ({ item, url, forWhat }) => {
 
-    const init = () => {
-        fetch(`${API}/product/numberOfPhoto/${item._id}`).then(res =>
-            res.json()
-        ).then(res => {  setNumberOfPhoto(res) })
+    const photosize={
+        width:200,
+        height:220
     }
-    const [numberOfPhoto, setNumberOfPhoto] = useState(0)
+    const init = () => {
+     
+    }
 
     useEffect(() => {
         init()
     },[])
+    var numberOfPhoto=item?item.photos.length:0
 
     const carouselPhoto = () => {
         let arr = []
@@ -22,15 +24,15 @@ const ShowImage = ({ item, url, forWhat }) => {
             if (i === 0) {
                 arr.push(
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src={`${API}/${url}/photo/${item._id}/${i}`}
-                            alt="Second slide" style={{ width: 400, height: 200 }} />
+                        <img class="d-block w-100" src={item.photos[i].image_url}
+                            alt="Second slide" style={{ width: photosize.width, height: photosize.height }} />
                     </div>
                 )
             } else {
                 arr.push(
                     <div class="carousel-item">
-                        <img class="d-block w-100" src={`${API}/${url}/photo/${item._id}/${i}`}
-                            alt="Second slide" style={{ width: 400, height: 200 }} />
+                        <img class="d-block w-100" src={item.photos[i].image_url}
+                            alt="Second slide" style={{ width: photosize.width, height: photosize.height }} />
                     </div>
                 )
             }

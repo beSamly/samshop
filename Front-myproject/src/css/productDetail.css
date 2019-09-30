@@ -1,10 +1,10 @@
 /* CAROUSEL */
 #root .productDetail .carousel-inner{
 }
-
+/* div containing image, this decide size of image */
 #root .productDetail .carousel-item{
     height:500px;
-    width:600px;
+    /* width:490px; */
     padding:5px
 }
 
@@ -28,8 +28,11 @@
 }
 
 #root .productDetail #carousel-thumb{
-    margin-bottom:140px;
     position: relative;;
+    width:70%;
+    margin:auto;
+    margin-bottom:140px;
+
 }
 
 
@@ -41,8 +44,8 @@
 }
 
 #root .product-information .product-description{
-    font-size:25px;
-    font-weight: 700;
+    font-size:17px;
+    font-weight: 500;
 }
 
 #root .product-information .product-name{

@@ -20,8 +20,8 @@
     box-shadow: 0 6px 12px 0 rgba(0,0,0,.16),
     0 6px 22px 0 rgba(0,0,0,.12);
     color:white;
-    border: 1px solid white;
-    background: linear-gradient(40deg, #fafdfa, #7ddb95);
+    border: 1px solid rgb(226, 209, 209)26, 209, 209);
+    background: linear-gradient(40deg, #63bd63, #7ddb95);
 }
 
 #root .filter-dropdown{

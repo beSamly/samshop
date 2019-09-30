@@ -75,17 +75,14 @@ const CateSection = () => {
                 </div>
 
                 <div className="col-3 row justify-content-center align-items-center cate-section-item">
-                    <Link to={'/products?category=5d60e20d5687640017c82dd8'}>
+                    <Link to={'/products?category=5d623850a6092000176fd215'}>
                         <img src='/img/cate-section-kid.jpg' />
                     </Link>
-
                     <div className="cate-section-item-content">
                         Kid
                     </div>
                 </div>
-
             </div>
-
         )
     }
 

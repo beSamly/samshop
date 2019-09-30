@@ -29,8 +29,13 @@
     integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
   <link href="%PUBLIC_URL%/css/mdbpro.min.css" rel="stylesheet">
 
+  <!-- slick -->
+  <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/slick/slick-theme.css" />
+
   <title>Samshop</title>
 </head>
+
 <body class="p-0">
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
@@ -64,21 +69,23 @@
   <script type="text/javascript" src="https://mdbootstrap.com/previews/docs/latest/js/mdb.min.js"></script>
   <script type="text/javascript" src="%PUBLIC_URL%/js/mdbpro.min.js"></script>
 
+  <!-- slick -->
+  <script type="text/javascript" src="%PUBLIC_URL%/slick/slick.min.js"></script>
+
   <!-- shake effect is available from jqueyr UI -->
   <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script>
-    // $(document).ready(function () {
-     
-    // });
+    $(document).ready(function () {
+      var a =document.querySelector('.multi-item-slick')
+      var b =document.querySelector('.slick-container')
+      console.log(a,b)
+      $('.multi-item-slick .slick-container').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3
+      });
+    });
 
-    // $(function(){
-    //   var a = document.querySelector(".add-to-cart-btn")
-    //   console.log("Waht is a : ", a)
-    //   $(a).click(function () {
-    //     // fa-luggage-cart
-    //     $(".cart-icon-box").effect("shake",{direction:"left", distance:2});
-    //   });
-    // })
   </script>
 </body>
 

@@ -7,7 +7,15 @@ import { getProducts } from './apiCore'
 import CateSection from "./CateSection";
 import ProductCarousel from "./ProductCarousel";
 import Contact from "./Contact";
+import { addItem, updateItem, removeItem } from "./cartHelpers";
+import $ from 'jquery'
+import {previewInit} from "./previewJquery"
+
+console.log("what sis previewInit  : ", previewInit)
 const Home = () => {
+    $(document).ready(function () {
+       previewInit()
+    })
 
     const init = () => {
         getProducts("createdAt").then(data => setNewProduct(data))
@@ -16,10 +24,17 @@ const Home = () => {
 
     const [trendyProduct, setTrendyProduct] = useState([])
     const [newProduct, setNewProduct] = useState()
+    const [dummy, setDummy] = useState(0)
 
     useEffect(() => {
         init()
     }, [])
+
+    const addToCart = (product) => {
+        addItem(product, () => {
+            setDummy(dummy + 1)
+        });
+    };
 
     const landing = () => {
         return (
@@ -63,9 +78,9 @@ const Home = () => {
                     <div className="trend-product-title row align-items-center"><i class="fab fa-hotjar fa-2x"></i>Enjoy Our Trendy products</div>
                 </div>
                 <div className="row">
-                    {trendyProduct.map((product) => {
+                    {trendyProduct.map((product, index) => {
                         return (<div className="col-3">
-                            <Card product={product} forWhat="trendyProduct" />
+                            <Card product={product} forWhat="trendyProduct" index={index} addToCartcallback={addToCart} />
                         </div>)
                     })}
                 </div>
@@ -83,9 +98,9 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="row">
-                    {newProduct.map((product) => {
+                    {newProduct.map((product, index) => {
                         return (<div className="col-3">
-                            <Card product={product} forWhat="newProduct" />
+                            <Card product={product} forWhat="newProduct" index={index} addToCartcallback={addToCart} />
                         </div>)
                     })}
                 </div>
@@ -101,8 +116,10 @@ const Home = () => {
                 {showNewProduct()}
             </div>
             <CateSection />
-            <ProductCarousel trendyProduct={trendyProduct} newProduct={newProduct} />
-            <Contact/>
+            {console.log("trendyProduct : ", trendyProduct)}
+            <ProductCarousel products={trendyProduct} addToCartcallback={addToCart} />
+            <Contact />
+            {console.log("the end")}
         </Layout>
     ) : ""
 

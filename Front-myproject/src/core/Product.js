@@ -9,14 +9,21 @@ import PageButton from "./PageButton";
 import queryString from 'query-string';
 import Filter from "./Filter2";
 import Loader from "./Loader";
+import { addItem, updateItem, removeItem } from "./cartHelpers";
+import $ from 'jquery'
+import { previewInit } from "./previewJquery"
 
 const Product = ({ location, history }) => {
+    $(document).ready(function () {
+        previewInit()
+    })
 
     const [myFilters, setMyFilters] = useState();
     const [error, setError] = useState(false);
     const [filteredResults, setFilteredResults] = useState([]);
     const [count, setCount] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [dummy, setDummy] = useState(0)
 
 
     const loadFilteredResults = (newFilters) => {
@@ -161,23 +168,31 @@ const Product = ({ location, history }) => {
         )
     }
 
+    const addToCart = (product) => {
+        addItem(product, () => {
+            setDummy(dummy + 1)
+        });
+    };
+
     return myFilters ? (
         <Layout keywordIn={myFilters.keyword}>
-            {showResult()}
-            <div className="row justy-content-between align-items-center my-2">
-                <div className="col-9">
-                    <Filter myFilters={myFilters} count={count} handleFilters={handleFilters} />
+            <div className="product-page-box">
+                {showResult()}
+                <div className="row justy-content-between align-items-center my-2">
+                    <div className="col-9">
+                        <Filter myFilters={myFilters} count={count} handleFilters={handleFilters} />
+                    </div>
+                    <div className="col-3">
+                        <PageButton myFilters={myFilters} filters={myFilters} count={count} handleFilters={handleFilters} skip={myFilters.skip} />
+                    </div>
                 </div>
-                <div className="col-3">
-                    <PageButton myFilters={myFilters} filters={myFilters} count={count} handleFilters={handleFilters} skip={myFilters.skip} />
+                <div className="row">
+                    {filteredResults.map((product, index) => {
+                        return (<div className="col-3">
+                            <Card product={product} index={index} addToCartcallback={addToCart} />
+                        </div>)
+                    })}
                 </div>
-            </div>
-            <div className="row">
-                {filteredResults.map((product) => {
-                    return (<div className="col-3">
-                        <Card product={product} />
-                    </div>)
-                })}
             </div>
             <Loader loading={loading} />
         </Layout>

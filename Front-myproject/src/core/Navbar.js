@@ -70,6 +70,28 @@ const Navbar = ({ history, keywordIn = "" }) => {
         )
     }
 
+    const showAvatar = () => {
+        var name = user.name
+        var reviewerId = user._id
+
+        var res = reviewerId.slice(2, 8)
+        var matches = name.match(/\b(\w)/g); // ['J','S','O','N']
+        var acronym = matches.join('').toUpperCase(); // JSON
+
+        var bgColor = `#${res}`
+        return (
+            <div class="row">
+                <div className="review-avatar mr-3" style={{ backgroundColor: bgColor }}>
+                    {acronym}
+                </div>
+                <div>
+                    <div className="user-name">{user.name}</div>
+                    <div className="user-email">{user.email}</div>
+                </div>
+            </div>
+        )
+    }
+
     const showUserMenu = () => {
         if (isAuthenticated() && user.role === 1) {
             return (
@@ -94,6 +116,10 @@ const Navbar = ({ history, keywordIn = "" }) => {
                         </div>
                         <div className="user-dropdown">
                             <ul>
+                                <li className="user-dropdown-item-userinfo" >
+                                    {showAvatar()}
+
+                                </li>
                                 <Link to={'/user/dashboard/profile'}><li className="user-dropdown-item">Profile</li></Link>
                                 <Link to={'/user/dashboard/history'}><li className="user-dropdown-item">Order history</li></Link>
                                 <li className="user-dropdown-item" onClick={() =>

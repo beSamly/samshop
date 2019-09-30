@@ -1,0 +1,20 @@
+#root .slick-container{
+    width:70%;
+    margin: auto;
+}
+
+
+#root .slick-prev::before, #root .slick-next::before{
+    color:rgb(63, 108, 204);
+    font-size:40px;
+    z-index:300;
+    /* padding:20px; */
+}
+
+#root .slick-next{
+    right:-17px
+}
+
+#root .slick-prev{
+    left:-40px
+}

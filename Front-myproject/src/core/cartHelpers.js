@@ -7,6 +7,7 @@ export const addItem = (item, next) => {
         }
         // remove duplicate
         cart.map((c, index) => {
+            console.log("what is c : ", c)
             if (c.product._id === item.product._id) {
                 cart.splice(index, 1)
             }

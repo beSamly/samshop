@@ -119,7 +119,7 @@
 
   #root .user-dropdown{
     position: absolute;
-    width:200%;
+    width:300%;
     top:100%;
     right:0%;
     /* border: 0.3px solid black; */
@@ -132,11 +132,21 @@
     display:block;
   }
 
+  #root .user-dropdown-item-userinfo{
+    margin: 0 3px 0 3px;
+    padding:10px;
+    border-bottom: 0.5px solid grey;
+  }
+
+  #root .user-dropdown-item-userinfo .user-name{
+    font-weight: 700;
+  }
+
   #root .user-dropdown-item{
-    font-size:13px;
+    font-size:15px;
     text-align: left;
     padding:10px 15px 10px 15px;
-    color:#24292e;
+    color:#343c44;
   }
 
   #root .user-dropdown-item:hover{

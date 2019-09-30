@@ -22,11 +22,17 @@
 
 #root .card .price-tag{
     font-weight: 700;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 
 /* PRODUCT: CARD */
+
+#root .card-box{
+  z-index:100;
+  font-size:12px;
+}
+
 #root .card:hover .card-body{
     box-shadow: 0 6px 12px 0 rgba(0,0,0,.16),
     0 6px 22px 0 rgba(0,0,0,.12);
@@ -38,6 +44,7 @@
     transform: scale(1.1); 
     filter: brightness(0.8)  ;
   }
+ 
   #root .card{
     /* background-color:grey; */
     position: relative;

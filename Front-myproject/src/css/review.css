@@ -71,7 +71,6 @@
 
 #root .review-alert-message::before{
   animation: test2 1.0s infinite;
-
   /* border-color: rgb(144, 144, 206) transparent transparent transparent;   */
   bottom: -22%;
   border-style: solid;

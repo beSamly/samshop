@@ -6,48 +6,40 @@ import { getCart } from "./cartHelpers";
 import NavCartItem from "./NavCartItem";
 import Card2 from "./Card2";
 import Footer from "./Footer";
+import { addItem, updateItem, removeItem } from "./cartHelpers";
+import Slider from "react-slick";
+import $ from 'jquery'
+import CardPreview from "./CardPreview";
 
-const ProductCarousel = ({ trendyProduct, newProduct }) => {
 
-    const show = () => {
+// receive array of products that admin want to show in carousel
+const ProductCarousel = ({ products = [], addToCartcallback }) => {
+
+    const setting = {
+        // infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 4
+    }
+
+    const test = () => {
+        var limit = 6
         return (
-            <div id="carousel-with-lb" class="product-carousel carousel slide carousel-multi-item" data-ride="carousel">
-                <a class="btn-floating btn-secondary left-btn " href="#carousel-with-lb" data-slide="prev"><i
-                    class="fas fa-chevron-left"></i></a>
-                <a class="btn-floating btn-secondary right-btn" href="#carousel-with-lb" data-slide="next"><i
-                    class="fas fa-chevron-right"></i></a>
-
-                <div class="carousel-inner mdb-lightbox" role="listbox">
-                    <div id="mdb-lightbox-ui"></div>
-                    <div class=" carousel-item active text-center">
-                        {trendyProduct.map((product) => {
-                            return (
-                                <figure class="col-3 d-md-inline-block">
-                                    <Card2 product={product} />
-                                </figure>
-                            )
-                        })}
-                    </div>
-
-                    <div class="carousel-item text-center">
-                        {newProduct.map((product) => {
-                            return (
-                                <figure class="col-3 d-md-inline-block">
-                                    <Card2 product={product} />
-                                </figure>
-                            )
-                        })}
-
-                    </div>
-                </div>
-            </div>
+            <Slider {...setting}>
+                {products.map((c, index) => {
+                    if (index < limit) {
+                        return (
+                                <Card2 product={products[index]} index={index} addToCartcallback={addToCartcallback} />
+                        )
+                    }
+                })}
+            </Slider>
         )
     }
 
-    return (
-        <div className="mx-5 py-5">
+    return products.length !== 0 && (
+        <div className="mx-5 py-5 clearfix">
             <h3>Featured Products</h3>
-            {show()}
+            {test()}
         </div>
     )
 }

@@ -7,15 +7,17 @@ import Footer from "./Footer";
 
 const Layout = ({
     children,
-    className="",
-    keywordIn=""
+    className = "",
+    keywordIn = ""
 }) => {
     return (
         <div>
             <Signin />
             <Signup />
-            <Navbar keywordIn={keywordIn} />
-            <div className={className}>{children}</div>
+            <div className="navbar-wrapper">
+                <Navbar keywordIn={keywordIn} />
+            </div>
+            <div className="children-wrapper">{children}</div>
             <Footer />
         </div>
     )

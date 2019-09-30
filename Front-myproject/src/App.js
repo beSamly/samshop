@@ -39,6 +39,10 @@ import checkout from './css/checkout.css'
 import dashboardHistory from './css/dashboardHistory.css'
 import review from './css/review.css'
 import cateSection from './css/cateSection.css'
+import cardPreview from './css/cardPreview.css'
+import productCarousel from './css/productCarousel.css'
+
+
 import UserDashboardHistory from './user/UserDashboardHistory';
 import AdminCateCreate from './admin/AdminCateCreate';
 import AdminCateManage from './admin/AdminCateManage';
