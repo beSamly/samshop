@@ -51,7 +51,7 @@ const AdminCateCreate = () => {
 
     const showForm=()=>{
         return(
-            <form onSubmit={handleSubmit} className="form-control">
+            <form onSubmit={handleSubmit} className="form-control create-category-cont">
                 <label>Category name</label>
                 <input required value={name} onChange={handleChange} className="form-control"></input>
                 <button className="btn btn-primary">submit</button>

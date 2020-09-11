@@ -31,7 +31,7 @@ const UserDashboardHistory = () => {
         var returnArr = []
         selectedDetails.map((c) => {
             returnArr.push(
-                <div className="row my-2">
+                <div className="row select-form">
                     <select className="form-control" disabled>
                         <option >{c.selectedOption.color} | {c.selectedOption.size} | ${c.selectedOption.price} | Quantity:{c.quantity} </option>
                     </select>
@@ -65,15 +65,15 @@ const UserDashboardHistory = () => {
         const { address, address2, province, zipcode, city } = addresses
         return (
             <form className="address-form" disabled>
-                <label>address</label>
+                <label>Address</label>
                 <input type="text-area" className="form-control" required disabled value={address} />
-                <label>address2</label>
+                <label>Address2</label>
                 <input className="form-control" disabled value={address2} />
-                <label>city</label>
+                <label>City</label>
                 <input className="form-control" disabled value={city} />
-                <label>province</label>
+                <label>Province</label>
                 <input className="form-control" disabled value={province} />
-                <label>zip code</label>
+                <label>Zip code</label>
                 <input type="number" className="form-control" disabled value={zipcode} />
             </form>
         )
@@ -117,7 +117,7 @@ const UserDashboardHistory = () => {
 
                     </div>
                     <div className="col-2 row justify-content-end align-items-center">
-                        <div class="plusOrMinus" style={{ color: 'grey', fontSize: 25 }}>+</div>
+                        <div class="plusOrMinus" >+</div>
                     </div>
                 </div>
                 <div className="show-history-content-box mb-5">
@@ -133,7 +133,7 @@ const UserDashboardHistory = () => {
     return (
         <UserDashboardLayout>
             <Loader loading={loading}/>
-            <h2 className="mb-4">There are {purchaseHistory.length} purchase history</h2>
+            <div className="history-header">There are {purchaseHistory.length} purchase history</div>
             {purchaseHistory.map((eachHistory, index) => (
                 showEachHistory(eachHistory, index)
             ))}

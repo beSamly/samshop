@@ -5,6 +5,7 @@ import { BrowserRouter, Router, Switch, Route, Link, withRouter } from "react-ro
 import AdminProductCreate from "./AdminProductCreate";
 import AdminProductManage from "./AdminProductManage";
 import AdminProductUpdate from "./AdminProductUpdate";
+import adminRouteLayout from '../css/adminRouteLayout.scss'
 
 const AdminRouteLayout = ({ children, history, location, keywordIn }) => {
 
@@ -22,16 +23,16 @@ const AdminRouteLayout = ({ children, history, location, keywordIn }) => {
                 <div className="dashboard-sidebar-title">Admin Options</div>
                 <ul className="dashboard-sidebar-item-box">
                     <Link to={'/admin/dashboard/category/create'}>
-                        <li className={isActive(history, '/admin/dashboard/category/create')}>create category</li>
+                        <li className={isActive(history, '/admin/dashboard/category/create')}>Create category</li>
                     </Link>
                     <Link to={'/admin/dashboard/category/manage'}>
-                        <li className={isActive(history, '/admin/dashboard/category/manage')}>manage category</li>
+                        <li className={isActive(history, '/admin/dashboard/category/manage')}>Manage category</li>
                     </Link>
                     <Link to={'/admin/dashboard/product/create'}>
-                        <li className={isActive(history, '/admin/dashboard/product/create')}>create</li>
+                        <li className={isActive(history, '/admin/dashboard/product/create')}>Create</li>
                     </Link>
                     <Link to={'/admin/dashboard/product/manage'}>
-                        <li className={isActive(history, '/admin/dashboard/product/manage')}>manage product</li>
+                        <li className={isActive(history, '/admin/dashboard/product/manage')}>Manage product</li>
                     </Link>
 
                 </ul>
@@ -41,7 +42,7 @@ const AdminRouteLayout = ({ children, history, location, keywordIn }) => {
 
     return (
         <Layout keywordIn={keywordIn}>
-            <div className="row mt-5">
+            <div className="row mt-5 dashboard-cont">
                 <div className="col-3">
                     {showSideBar()}
                 </div>

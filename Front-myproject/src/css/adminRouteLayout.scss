@@ -1,0 +1,74 @@
+.dashboard-cont {
+    margin-top: 3vw !important;
+    .dashboard-sidebar {
+        border: 0.2vw solid rgb(240, 234, 234) !important;
+        border-radius: 0.3vw;
+        padding: 2vw;
+        background-color: rgb(255, 253, 253);
+
+        .dashboard-sidebar-title {
+            font-size: 1.9vw;
+            padding: 0.2vw 0.4vw 0.2vw 0.4vs;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .dashboard-sidebar-item {
+            font-size: 1.6vw !important;
+            text-decoration: none;
+            // margin-bottom: 0.6vw;
+            padding: 0.3vw 0.3vw 0.3vw 0.9vw;
+            // border: 0.05vw solid rgb(173, 163, 163) !important;
+            // background-color:rgba(235, 235, 235, 0.267);
+            
+            // li{
+            //     border: 0.05vw solid rgb(173, 163, 163);
+            // }
+        }
+
+        .dashboard-sidebar-item-active {
+            background-color:rgba(218, 218, 218, 0.267);
+            border-left: 0.3vw solid red !important;
+            // border-right: 0.05vw solid rgb(173, 163, 163);
+            // border-top: 0.05vw solid rgb(173, 163, 163);
+            // border-bottom: 0.05vw solid rgb(173, 163, 163);
+            // background-color:rgba(190, 190, 190, 0.267);
+        }
+    }
+}
+
+.product-update-cont{
+    font-size:1.6vw !important;
+}
+
+.admin-product-create-content{
+    font-size:1.6vw !important;
+
+}
+.admin-category-manage{
+    input{
+        font-size:1.2vw !important;
+
+    }
+
+    button{
+        font-size:1.2vw !important;
+        margin: 0 0.15vw 0 0.15vw;
+        margin-top:0.6vw;
+        text-transform: none !important;
+
+    }
+
+}
+
+.create-category-cont{
+    font-size:1.6vw !important;
+
+}
+
+.total-product-text{
+    font-size:1.5vw;
+}

@@ -24,8 +24,8 @@ const Card = ({ product, forWhat = "normal", linkTo = '/product/', index=null, a
             }
             arr.push(
                 <span>
-                    <span className="mx-1 font-small" style={{ color: '#505763', fontWeight: 600 }}>{avg}</span>
-                    <span className="mx-1 font-small" style={{ color: '#686f7a', fontWeight: 400 }}>({length})</span>
+                    <span className="mx-1 " style={{ color: '#505763', fontWeight: 600 }}>{avg}</span>
+                    <span className="mx-1 " style={{ color: '#686f7a', fontWeight: 400 }}>({length})</span>
                 </span>
             )
         } else {
@@ -36,7 +36,7 @@ const Card = ({ product, forWhat = "normal", linkTo = '/product/', index=null, a
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
-                    <span className="mx-1 font-small" style={{ color: '#505763', fontWeight: 600 }}>No review</span>
+                    <span className="mx-1 " style={{ color: '#505763', fontWeight: 600 }}>No review</span>
                 </div>
             )
         }
@@ -85,7 +85,7 @@ const Card = ({ product, forWhat = "normal", linkTo = '/product/', index=null, a
                         </div>
                         {showRating()}
                         <div className="clearfix">
-                            <div className="float-left">{showTrendyOrNew(product)}</div>
+                            {/* <div className="float-left">{showTrendyOrNew(product)}</div> */}
                             <div className="float-right price-tag">${product.price}</div>
                         </div>
                     </div >

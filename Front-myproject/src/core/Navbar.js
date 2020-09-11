@@ -5,10 +5,17 @@ import { getCategories } from "./apiCore";
 import { getCart } from "./cartHelpers";
 import NavCartItem from "./NavCartItem";
 
+import SignIn from "../user/SignOptions/SignIn"
+import SignUp from "../user/SignOptions/SignUp"
+
 const Navbar = ({ history, keywordIn = "" }) => {
     const [categories, setCategories] = useState()
     const [keyword, setKeyword] = useState(keywordIn)
     const [cartItems, setCartItems] = useState()
+
+    const [modalOpened, setModalOpened] = useState(false)
+    // 0 for sign in and 1 for sign up / -1 for not opened
+    const [visible, setVisible] = useState(-1)
 
     const handleChange = (e) => {
         var value = e.target.value
@@ -42,7 +49,7 @@ const Navbar = ({ history, keywordIn = "" }) => {
     const dropdown = () => {
         var a = []
         return categories ? (
-            <ul className="drop-down">
+            <ul className="drop-down ">
                 {categories.map((c) =>
                     <Link to={`/products?category=${c._id}`}><li title={c._id} class="drop-down-item">{c.name}
                     </li></Link>
@@ -56,40 +63,38 @@ const Navbar = ({ history, keywordIn = "" }) => {
 
     const showIcon = () => {
         return (
-            <div class="row align-items-center icon-container">
-                <div className="d-inline-block p-3"><i class="fab grey-text fa-medapps fa-1x "></i></div>
-                <div className="d-inline-block  p-3  cart-icon-box position-relative">
+            <div class="row align-items-center icon-container ">
+                <div className="d-inline-block   cart-icon-box position-relative">
                     <Link to={'/cart'}>
                         {showNumOfItemInCart()}
                         <NavCartItem items={items} />
                         <i class="fas grey-text  fa-luggage-cart fa-1x "></i>
                     </Link>
                 </div>
-                <div className="d-inline-block p-3"><i class="far grey-text fa-bell fa-1x "></i></div>
             </div>
         )
     }
 
     const showAvatar = () => {
-        var name = user.name
-        var reviewerId = user._id
+        // var name = user.name
+        // var reviewerId = user._id
 
-        var res = reviewerId.slice(2, 8)
-        var matches = name.match(/\b(\w)/g); // ['J','S','O','N']
-        var acronym = matches.join('').toUpperCase(); // JSON
+        // var res = reviewerId.slice(2, 8)
+        // var matches = name.match(/\b(\w)/g); // ['J','S','O','N']
+        // var acronym = matches.join('').toUpperCase(); // JSON
 
-        var bgColor = `#${res}`
-        return (
-            <div class="row">
-                <div className="review-avatar mr-3" style={{ backgroundColor: bgColor }}>
-                    {acronym}
-                </div>
-                <div>
-                    <div className="user-name">{user.name}</div>
-                    <div className="user-email">{user.email}</div>
-                </div>
-            </div>
-        )
+        // var bgColor = `#${res}`
+        // return (
+        //     <div class="row">
+        //         <div className="review-avatar mr-3" style={{ backgroundColor: bgColor }}>
+        //             {acronym}
+        //         </div>
+        //         <div>
+        //             <div className="user-name">{user.name}</div>
+        //             <div className="user-email">{user.email}</div>
+        //         </div>
+        //     </div>
+        // )
     }
 
     const showUserMenu = () => {
@@ -98,7 +103,7 @@ const Navbar = ({ history, keywordIn = "" }) => {
                 <div className="row align-items-center">
                     {showIcon()}
                     <Link to={'/admin/dashboard/product/create'}><button class="btn btn-warning px-2 py-2">Admin</button></Link>
-                    <button class="btn btn-default px-2 py-2" onClick={() =>
+                    <button class="btn btn-default" onClick={() =>
                         signout(() => {
                             history.push("/");
                         })
@@ -108,27 +113,30 @@ const Navbar = ({ history, keywordIn = "" }) => {
         }
         if (isAuthenticated() && user.role !== 1) {
             return (
-                <div className="row justify-content-center align-items-center">
-                    {showIcon()}
-                    <div className="user-option-box py-3">
-                        <div className=" btn btn-info px-2 py-1 m-0">
-                            <Link to={'/user/dashboard'}><span style={{ color: 'white', fontSize: 11 }}>user option</span></Link>
-                        </div>
-                        <div className="user-dropdown">
-                            <ul>
-                                <li className="user-dropdown-item-userinfo" >
+                <div className="row align-items-center">
+                    <div className="user-option-box row AIC ">
+                        {showIcon()}
+                        <div className=" user-option-btn m-0" >
+                            <Link to={'/user/dashboard/profile'}>
+                                User options
+                             </Link>
+                            <div className="user-dropdown">
+                                <ul>
+                                    {/* <li className="user-dropdown-item-userinfo" >
                                     {showAvatar()}
 
-                                </li>
-                                <Link to={'/user/dashboard/profile'}><li className="user-dropdown-item">Profile</li></Link>
-                                <Link to={'/user/dashboard/history'}><li className="user-dropdown-item">Order history</li></Link>
-                                <li className="user-dropdown-item" onClick={() =>
-                                    signout(() => {
-                                        history.push("/");
-                                    })
-                                }>Sign Out</li>
-                            </ul>
+                                </li> */}
+                                    <Link to={'/user/dashboard/profile'}><li className="user-dropdown-item">Profile</li></Link>
+                                    <Link to={'/user/dashboard/history'}><li className="user-dropdown-item">Order history</li></Link>
+                                    <li className="user-dropdown-item" onClick={() =>
+                                        signout(() => {
+                                            history.push("/");
+                                        })
+                                    }>Sign Out</li>
+                                </ul>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -140,11 +148,11 @@ const Navbar = ({ history, keywordIn = "" }) => {
         return !isAuthenticated() && (
             <div class="row align-items-center">
                 {showIcon()}
-                <span class="text-center  mx-0 px-0" >
-                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 14 }} data-toggle="modal" data-target="#elegantModalForm" >Sign in</a>
+                <span class="text-center " >
+                    <span href="" class="btn btn-default btn-rounded " onClick={() => { setVisible(0) }} >Sign in</span>
                 </span>
                 <span class="text-center px-0">
-                    <a href="" class="btn btn-default btn-rounded px-3 py-2" style={{ fontSize: 14 }} data-toggle="modal" data-target="#elegantModalForm-signup" >Sign up</a>
+                    <span href="" class="btn btn-default btn-rounded " onClick={() => { setVisible(1) }} >Sign up</span>
                 </span>
             </div>
         )
@@ -163,93 +171,55 @@ const Navbar = ({ history, keywordIn = "" }) => {
 
     const showNavbar = () => {
         return (
-            <div>
+            <>
                 <div className="top-banner row align-items-center justify-content-center">
                     <span>
                         Be members only pricing with a 30-day money-back guarantee| Enjoy the benefits of Sammie Shop.
                     </span>
                 </div>
-                <nav className="navbar navbar-expand-lg py-0">
-                    <ul className="col-3 my-0 px-0">
-                        <Link to={'/'}><li className="d-inline-block"><img src="/img/logo-image2.png" style={{ width: 110, height: 50 }}></img></li></Link>
+                <nav className="nav-bar row justify-content-conter ">
+                    <ul className=" first row align-items-center">
+                        <Link to={'/'}><li className="d-inline-block"><img src="/img/logo-image2.png" ></img></li></Link>
                         <Link to={'/products'}>
-                            <li className="drop-down-btn py-3 d-inline-block mx-4 position-relative"><i class="fas fa-th grey-text mr-2"></i>Category
+                            <li className="drop-down-btn  d-inline-block position-relative"><i class="fas fa-th grey-text "></i>Category
                                 {dropdown()}
                             </li>
                         </Link>
                     </ul>
-                    <div className="col-5">
-                        <div class="md-form form-sm my-0">
+                    <div className="second">
+                        <div class="">
                             <input type="text" id="inputSMEx" class="search-bar form-control form-control-sm m-0 w-85 d-inline-block" value={keyword} onChange={handleChange} placeholder="Search for anything" />
-                            <button className="btn btn-danger m-0 px-3 py-2 search-button" onClick={handleClick}>
+                            <button className="btn btn-danger  search-button" onClick={handleClick}>
                                 <i class="fas fa-search fa-xs " ></i>
                             </button>
                         </div>
                     </div>
-                    <div className="col-4 px-0 mx-0">
+                    <div className="third row align-items-center ">
                         {showSignMenu()}
                         {showUserMenu()}
                     </div>
                 </nav >
-            </div>
+            </>
         )
     }
 
     var items = getCart()
 
+    const flipVisibility = () => {
+        if (visible === 1) {
+            setVisible(0)
+        } else {
+            setVisible(1)
+        }
+    }
+
     return (
-        <div >
+        <div className="navbar-cont">
+            <SignIn visible={visible} closeForm={() => { setVisible(-1) }} flipVisibility={flipVisibility} history={history} />
+            <SignUp visible={visible} closeForm={() => { setVisible(-1) }} flipVisibility={flipVisibility} history={history} />
             {showNavbar()}
         </div>
     )
 };
 
 export default withRouter(Navbar);
-
- // nested dropdown navbar exercise
-    // const dropdown = () => {
-    //     return (
-    //         <ul className="drop-down">
-
-    //             <li >Web programming
-    //                                     <ul className="submenu-ul">
-    //                     <li ><a href="#">React</a>
-    //                         <ul className="submenu-ul2">
-    //                             <li ><a href="#">Javascript</a></li>
-    //                             <li ><a href="#">Css</a></li>
-    //                             <li ><a href="#">Html</a></li>
-    //                         </ul>
-    //                     </li>
-    //                     <li >PHP
-    //                                         <ul className="submenu-ul2">
-    //                             <li >JAVA</li>
-    //                             <li >JSP</li>
-    //                             <li >HIBERNATE</li>
-    //                         </ul>
-    //                     </li>
-    //                     <li >NODE JS</li>
-    //                 </ul>
-    //             </li>
-    //             <li >Web programming
-    //                                 <ul className="submenu-ul">
-    //                     <li >IOT
-    //                                            <ul className="submenu-ul2 ">
-    //                             <li >PI</li>
-    //                             <li >PYTHON</li>
-    //                             <li >FLASK</li>
-    //                         </ul>
-    //                     </li>
-    //                     <li >APP
-    //                                         <ul className="submenu-ul2">
-    //                             <li >ANDROIT STUDIO</li>
-    //                             <li >SWIFT</li>
-    //                             <li >KOTLIN</li>
-    //                         </ul>
-    //                     </li>
-    //                     <li >NODE JS</li>
-    //                 </ul>
-    //             </li>
-    //             <li >Web programming</li>
-    //         </ul>
-    //     )
-    // }

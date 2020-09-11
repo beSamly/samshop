@@ -5,7 +5,7 @@ import { getCategories } from "./apiCore";
 import { getCart } from "./cartHelpers";
 import NavCartItem from "./NavCartItem";
 import Card2 from "./Card2";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 import { addItem, updateItem, removeItem } from "./cartHelpers";
 import Slider from "react-slick";
 import $ from 'jquery'

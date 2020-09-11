@@ -307,8 +307,8 @@ const AdminProductUpdate = ({ match, history }) => {
     return (
         <AdminRouteLayout>
             <Loader loading={loading} />
-            <div className="row">
-                <div className="col-md-8 offset-md-2">
+            <div className="row product-update-cont">
+                <div className="col-md-10 ">
                     {showSuccess()}
                     {showError()}
                     {newPostForm()}

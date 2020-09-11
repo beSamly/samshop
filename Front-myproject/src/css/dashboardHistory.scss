@@ -1,0 +1,103 @@
+#root .show-history-container{
+    margin: 0.3vw 0 0.3vw 0;
+    font-size:1.6vw;
+    .select-form{
+        .form-control{
+            font-size:1.2vw !important; 
+            // margin:0.3vw 0.8vw 0.3vw 0.8vw;
+            padding:0 !important;
+            height:3vw;
+        }
+    }
+ 
+    .plusOrMinus{
+        color:grey;
+        font-size:2.5vw;
+    }
+}
+
+#root .show-history-container a{
+    color: black;
+}
+#root .show-history-container a:hover{
+    color: black;
+}
+
+#root .show-history-header{
+    padding:0.3vw;
+    border: 0.3vw solid rgb(224, 211, 211);
+    border-radius: 3vw;
+    cursor: pointer;
+}
+
+#root .show-history-header:hover{
+    border: 0.3vw solid rgb(235, 149, 149);
+}
+
+#root .show-history-header div{
+    margin: 0 0.3vw 0 0.3vw;
+}
+
+#root .show-history-content-box{
+    font-size:1.4vw;
+
+    margin:0 0.8vw 0 0.8vw;
+    position: relative;
+    top:-1vw;
+    border-left: 2px  solid rgb(226, 212, 212);
+    border-right: 2px  solid rgb(226, 212, 212);
+    border-bottom: 2px  solid rgb(226, 212, 212);
+    padding:0.5vw;
+    display: none;
+    border-bottom-left-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+
+    .col-2{
+        padding:0 !important;
+        margin:0 !important;
+
+        div{
+            // width:100% !important;
+            // height:100% !important;
+
+            img{
+                width:100% !important;
+                height:100% !important;
+            }
+        }
+    }
+
+    .address-form{
+        font-size:1.5vw !important;
+
+        input{
+            font-size:1.5vw !important;
+
+        }
+
+    }
+}
+
+#root .show-history-content-box-active{
+    display: block
+}
+
+.history-header{
+    font-size:2.5vw;
+    font-weight: 700;
+}
+
+/* #root .cart-show-item .col-2 div{
+    height:100px !important;
+    width:100px !important;
+} */
+
+#root .history-show-product{
+    padding:17px 2px 17px 2px;
+    margin: 10px 0 10px 0;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.16);
+}
+
+#root .history-show-product .col-2 img{
+    height:100px !important;
+}

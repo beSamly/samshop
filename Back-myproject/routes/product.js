@@ -30,7 +30,7 @@ const productById = (req, res, next, id) => {
 };
 
 const read = (req, res) => {
-    req.product.photos = undefined;
+    // req.product.photos = undefined;
     return res.json(req.product);
 };
 
@@ -138,22 +138,28 @@ const update = (req, res) => {
         var product = req.product
         for (let key in fields) {
             console.log("fileds[key] : ", fields[key], key)
+
             if (fields[key] !== 'undefined' && fields[key] !== undefined) {
                 console.log("happen")
+                if(key==="photos"){
+                    var photos =  JSON.parse(fields[key])
+                    product[photos]=0;
+                    product[photos]=photos
 
-                product[key] = JSON.parse(fields[key])
-
+                } else{
+                    product[key] = JSON.parse(fields[key])
+                }
             }
         }
 
-
+        
         console.log("whatsi rpoduct : ", product)
         product.save((err, data) => {
             if (err) {
                 console.log("wahtsi erer : ", err)
                 res.status(404).json({ error: err })
             } else {
-                data.photos = undefined
+                // data.photos = undefined
                 console.log("wharts is dat : ", data)
                 res.send(data)
             }
@@ -200,7 +206,7 @@ const list = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
     Product.find()
-        .select("-photos")
+        // .select("-photos")
         .populate("category")
         .limit(limit)
         .sort({ [sortBy]: order })
@@ -225,7 +231,7 @@ const listRelated = (req, res) => {
     // Product.find({ _id: { $ne: req.product }, category: req.product.category })
     Product.find({ category: req.product.category })
         .where("_id").ne(req.product)
-        .select("-photos")
+        // .select("-photos")
         .sort([["totalRate", "desc"]])
         .limit(limit)
         .populate("category", "_id name")
@@ -301,7 +307,7 @@ const listBySearch = (req, res) => {
 
     Product.count(findArgs, (err, count) => {
         Product.find(findArgs)
-            .select("-photos")
+            // .select("-photos")
             .populate("category")
             .sort([[sortBy, order]])
             .skip(skip)
@@ -475,7 +481,8 @@ exports.listSearch = (req, res) => {
                 });
             }
             res.json(products);
-        }).select("-photo");
+        })
+        // .select("-photo");
     }
 };
 

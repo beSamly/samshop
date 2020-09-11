@@ -5,6 +5,7 @@ import { API } from '../config'
 import $ from 'jquery';
 
 const TestCarousel = ({ item, url = "product", forWhat }) => {
+    console.log("what is itme :", item)
 
     const showImages = () => {
         var arr = []

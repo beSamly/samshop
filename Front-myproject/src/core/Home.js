@@ -6,15 +6,14 @@ import Card from "./Card";
 import { getProducts } from './apiCore'
 import CateSection from "./CateSection";
 import ProductCarousel from "./ProductCarousel";
-import Contact from "./Contact";
 import { addItem, updateItem, removeItem } from "./cartHelpers";
 import $ from 'jquery'
-import {previewInit} from "./previewJquery"
+import { previewInit } from "./previewJquery"
 
 console.log("what sis previewInit  : ", previewInit)
 const Home = () => {
     $(document).ready(function () {
-       previewInit()
+        previewInit()
     })
 
     const init = () => {
@@ -73,9 +72,9 @@ const Home = () => {
 
     const showTrendProduct = () => {
         return (
-            <div>
+            <div className="mx-2">
                 <div>
-                    <div className="trend-product-title row align-items-center"><i class="fab fa-hotjar fa-2x"></i>Enjoy Our Trendy products</div>
+                    <div className="trend-product-title row align-items-center"><i class="fab fa-hotjar fa-2x"></i>Our Trendy products</div>
                 </div>
                 <div className="row">
                     {trendyProduct.map((product, index) => {
@@ -90,7 +89,7 @@ const Home = () => {
 
     const showNewProduct = () => {
         return (
-            <div>
+            <div className="mx-2">
                 <div>
                     <div className="new-product-title row align-items-center">
                         <i class="fas fa-check-double fa-2x"></i>
@@ -110,16 +109,11 @@ const Home = () => {
 
     return newProduct ? (
         <Layout>
-            {landing()}
-            <div className="mx-5">
-                {showTrendProduct()}
-                {showNewProduct()}
-            </div>
+            {/* {landing()} */}
+            {showTrendProduct()}
             <CateSection />
-            {console.log("trendyProduct : ", trendyProduct)}
-            <ProductCarousel products={trendyProduct} addToCartcallback={addToCart} />
-            <Contact />
-            {console.log("the end")}
+            {showNewProduct()}
+            {/* <ProductCarousel products={trendyProduct} addToCartcallback={addToCart} /> */}
         </Layout>
     ) : ""
 

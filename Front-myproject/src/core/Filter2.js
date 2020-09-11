@@ -153,7 +153,7 @@ const Filter = ({ myFilters, handleFilters }) => {
         return (
             <div className="filter rate-filter row align-items-center" title="totalRate" onClick={handleClick('sortBy')}>
                 <i class="far fa-thumbs-up mx-1"></i>
-                Highest Review<i class="fas fa-angle-down fa-1x ml-1"></i>
+                Highest Rate<i class="fas fa-angle-down fa-1x ml-1"></i>
             </div>
         )
     }
@@ -168,13 +168,11 @@ const Filter = ({ myFilters, handleFilters }) => {
     }
 
     return categories.length !== 0 ? (
-        <div>
-            <div className="row justify-content-center my-3">
-                    {showCategory()}
-                    {showPriceRange()}
-                    {showByRate()}
-                    {showByCreatedAt()}
-            </div>
+        <div className="row justify-content-center my-3">
+            {showCategory()}
+            {showPriceRange()}
+            {showByRate()}
+            {showByCreatedAt()}
         </div>
     ) : ""
 }

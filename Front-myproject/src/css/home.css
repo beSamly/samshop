@@ -71,11 +71,15 @@
 }
 
 #root .trend-product-title{
-    padding: 20px 0 20px 0;
-    border-bottom: 0.3px solid #f50057;
-    margin: 10px 30px 20px 30px;
-    font-size:20px;
+    padding: 1vw 0 1vw 0;
+    border-bottom: 0.2vw solid #f50057;
+    margin: 1vw 2vw 1vw 2vw;
+    font-size:1.8vw;
     color: red;
+
+    i{
+        /* font-size: ; */
+    }
 }
 
 #root .trend-product-title i{
@@ -84,15 +88,17 @@
 }
 
 #root .new-product-title{
-    height: 60px;
-    border-bottom: 0.3px solid rgb(108, 28, 148);;
-    margin: 10px 30px 20px 30px;
-    font-size:20px;
+    /* height: 60px; */
     color: rgb(50, 4, 73);
+
+    padding: 1vw 0 1vw 0;
+    border-bottom: 0.2vw solid rgb(132, 38, 179);
+    margin: 1vw 2vw 1vw 2vw;
+    font-size:1.8vw;
 }
 
 #root .new-product-title i {
-    margin-right: 20px;
+    margin-right: 1vw;
     color: rgb(132, 38, 179)
 }
 

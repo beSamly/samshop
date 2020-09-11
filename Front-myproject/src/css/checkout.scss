@@ -1,0 +1,42 @@
+$fontSize: 1.5vw;
+
+#root .checkout-box {
+    font-size: $fontSize !important;
+    margin-bottom: 3vw;
+    padding: 0.9vw;
+    box-shadow: 0 0 2px 2px rgba(20, 23, 28, 0.1), 0 6px 6px 0 rgba(20, 23, 28, 0.1);
+    border-radius: 0.2vw;
+    position: relative;
+
+    button{
+        font-size: 1.4vw !important;
+
+    }
+
+    .btn-primary{
+        font-size: $fontSize !important;
+        padding: 0.5vw 0.8vw 0.5vw 0.8vw;
+        border-radius: 0.3vw;
+        margin-left:52%;
+        border:0px;
+    }
+}
+
+#root .checkout-box-title {
+    font-size: 1.8vw !important;
+    font-weight: 700;
+    color: grey;
+    border-bottom: 1px solid rgb(219, 203, 203);
+    padding-bottom: 0.5vw;
+    margin-bottom: 0.5vw;
+}
+
+#root .payment-loading {
+    z-index: 10000;
+    background-color: rgba(219, 203, 203, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

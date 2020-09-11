@@ -3,17 +3,20 @@
 #root .filter{
     /* background: linear-gradient(40deg, #9bccdb, #6ccdda); */
     color: rgb(54, 185, 61);
-    border:2px solid rgb(68, 201, 75);
-    border-radius: 40px;
+    border:0.3vw solid rgb(68, 201, 75);
+    border-radius: 3vw;
     /* color:white; */
-    font-size:18px;
+    font-size:1.5vw;
     align-items: center;
     justify-content: center;
     position: relative;
-    margin: 0 5px 0 5px;
+    margin: 0 0.4vw 0 0.4vw;
     cursor: pointer;
-    padding: 7px 30px 7px 30px;
+    padding: 0.6vw 1vw 0.6vw 1vw;
+    margin-top:2vw;
+    margin-bottom:2vw;
     transition:0.2s;
+    width:23%;
 }
 
 #root .filter:hover{
@@ -39,7 +42,9 @@
 #root .dropdown-item{
     display: flex;
     align-items: center;
-    padding-right:50px;
+    /* padding-right:50px; */
+    padding: 1vw 1.3vw 1vw 1.3vw;
+    width:19vw;
 }
 
 #root .dropdown-item:hover {
@@ -49,9 +54,9 @@
 #root .filter-checkbox{
     color: rgb(233, 208, 208);
     position: absolute;
-    right:15px;
+    right:1.1vw;
     background-color: rgb(239, 238, 245);
-    padding: 3px;
+    padding: 0.5vw;
 }
 
 #root .filter-checkbox-active {
@@ -67,8 +72,7 @@
 }
 
 #root .category-filter-dropdown-item{
-    margin: 5px 0 5px 0;
-    width:200px;
+
 }
 
 
@@ -104,15 +108,17 @@
     color:rgb(156, 158, 12);
     /* background: linear-gradient(40deg, #b0d4fd, #7873f5); */
     /* border-radius: 40px; */
-    border: 1px solid rgb(156, 158, 12);
-    padding: 5px 10px 5px 10px;
-    margin: 0 2.5px 0 2.5px;
-    transition:0.3s
+    border: 0.2vw solid rgb(156, 158, 12);
+    padding: 0.6vw 0.8vw 0.6vw 0.8vw;
+    margin: 0 1vw 0 1vw;
+    transition:0.3s;
+    font-size:1.2vw;
+    cursor: pointer;
 }
 
 #root .page-dots-button{
     color: rgb(179, 157, 63);
-    font-size:20px;
+    font-size:1.3vw;
 }
 
 #root .page-button-active{

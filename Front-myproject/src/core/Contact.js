@@ -5,7 +5,6 @@ import { getCategories } from "./apiCore";
 import { getCart } from "./cartHelpers";
 import NavCartItem from "./NavCartItem";
 import Card2 from "./Card2";
-import Footer from "./Footer";
 
 const Contact = () => {
     const showContactForm = () => {

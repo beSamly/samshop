@@ -73,7 +73,7 @@ exports.userById = userById
 const purchaseHistory = (req, res) => {
     Order.find({ user: req.profile._id })
         .populate("user", "_id name")
-        .populate("products.product", "-photos")
+        .populate("products.product")
         .sort("-created")
         .sort({ 'createdAt': 'desc' })
         .exec((err, orders) => {

@@ -78,9 +78,7 @@ const Checkout = ({ products, history }) => {
         return isAuthenticated() ? (
             <div>{showDropIn()}</div>
         ) : (
-                <Link to="/signin">
-                    <button className="btn btn-primary">Sign in to checkout</button>
-                </Link>
+                <button className="btn-primary">Sign in to checkout</button>
             );
     };
     let deliveryAddress = data.address;
@@ -163,15 +161,15 @@ const Checkout = ({ products, history }) => {
             {data.clientToken !== null && products.length > 0 ? (
                 <div>
                     <form className="address-form" >
-                        <label>address</label>
+                        <label>Address</label>
                         <input type="text-area" className="form-control" required onChange={handleAddress('address')} />
-                        <label>address2</label>
+                        <label>Address2</label>
                         <input className="form-control" onChange={handleAddress('address2')} />
-                        <label>city</label>
+                        <label>City</label>
                         <input className="form-control" required onChange={handleAddress('city')} />
-                        <label>province</label>
+                        <label>Province</label>
                         <input className="form-control" required onChange={handleAddress('province')} />
-                        <label>zip code</label>
+                        <label>Zip code</label>
                         <input type="number" className="form-control" required onChange={handleAddress('zipcode')} />
                     </form>
 
@@ -189,7 +187,7 @@ const Checkout = ({ products, history }) => {
                         }
                     />
                     <button onClick={buy} className="btn btn-success btn-block" disabled={!isNaN(totalPrice) ? "" : "disabled"}>
-                        {!isNaN(totalPrice) ? "Pay" : "Please select option"}
+                        {!isNaN(totalPrice) ? "Pay" : "Select option"}
                     </button>
                 </div>
             ) : null}
@@ -234,7 +232,7 @@ const Checkout = ({ products, history }) => {
         )
     }
 
-    return products ? (
+    return products.length>0 ? (
         <div className="checkout-box">
             <h2 className="checkout-box-title">Total: ${totalPrice}</h2>
             {showLoading(data.loading)}

@@ -14,6 +14,7 @@ import Loader from "./Loader";
 
 const ProductDetail = (props) => {
     const [product, setProduct] = useState();
+    const [reviews, setReviews] = useState([]);
     const [relatedProduct, setRelatedProduct] = useState([]);
     const [error, setError] = useState();
     const [dummy, setDummy] = useState(1)
@@ -23,7 +24,7 @@ const ProductDetail = (props) => {
         const productId = props.match.params.productId;
         loadSingleProduct(productId);
         window.scrollTo(0, 0);
-    }, [props]);
+    }, [props, dummy]);
 
     const addToCart = (purpose) => (e) => {
         alert("add to cart!")
@@ -47,7 +48,9 @@ const ProductDetail = (props) => {
                         selectedOption: {},
                         quantity: 0
                     }],
+                    dummy:dummy+1
                 });
+                setReviews(data.reviews)
                 // fetch related products
                 listRelated(data._id).then(data => {
                     if (data.error) {
@@ -112,8 +115,9 @@ const ProductDetail = (props) => {
         // i = index of selectedDetail array
         var a = product.selectedDetails.map((d, i) => {
             return (
-                <div className="row">
-                    <div className="col-5 px-0" >
+                <div className="row select-detail-box align-items-center">
+
+                    <div className="first px-0" >
                         <select className="form-control" onChange={handleChange(i)}>
                             <option>Select option</option>
                             {product.product.details.map((c) => {
@@ -125,14 +129,14 @@ const ProductDetail = (props) => {
                             })}
                         </select>
                     </div>
-                    <div className="col-4 px-0 row justify-content-center align-product-center">
-                        <button className="btn btn-default py-1 px-3 my-2" onClick={handleQuantity('increase', i)}>+</button>
-                        <input className="quantity form-control p-0 my-2 mx-0 " type="number" value={product.selectedDetails[i].quantity} style={{ width: 30 }} />
-                        <button className="btn btn-default py-1 px-3 my-2" onClick={handleQuantity('decrease', i)} >-</button>
+                    <div className="second row justify-content-center align-product-center">
+                        <button className="btn-default " onClick={handleQuantity('increase', i)}>+</button>
+                        <input className="quantity form-control  " type="number" value={product.selectedDetails[i].quantity} />
+                        <button className="btn-default " onClick={handleQuantity('decrease', i)} >-</button>
                     </div>
-                    <div className="col-3 px-0 row align-product-center">
-                        <button className="btn btn-primary py-1 px-3" onClick={handleAdd}>+</button>
-                        <button className="btn btn-danger py-1 px-3" onClick={handleDelete(i)}>-</button>
+                    <div className="third row align-product-center">
+                        <button className="btn-primary " onClick={handleAdd}>+</button>
+                        <button className="btn-danger " onClick={handleDelete(i)}>-</button>
                     </div>
 
                 </div>
@@ -178,8 +182,8 @@ const ProductDetail = (props) => {
             }
             arr.push(
                 <span>
-                    <span className="mx-1 font-small" style={{ color: '#505763', fontWeight: 600 }}>{avg}</span>
-                    <span className="mx-1 font-small" style={{ color: '#686f7a', fontWeight: 400 }}>({length})</span>
+                    <span className="mx-1 " style={{ color: '#505763', fontWeight: 600 }}>{avg}</span>
+                    <span className="mx-1 " style={{ color: '#686f7a', fontWeight: 400 }}>({length})</span>
                 </span>
             )
         } else {
@@ -190,7 +194,7 @@ const ProductDetail = (props) => {
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
-                    <span className="mx-1 font-small" style={{ color: '#505763', fontWeight: 600 }}>No review</span>
+                    <span className="mx-1 " style={{ color: '#505763', fontWeight: 600 }}>No review</span>
                 </div>
             )
         }
@@ -234,10 +238,10 @@ const ProductDetail = (props) => {
         return (
             <div className="product-information">
                 <div className="row align-items-center">
-                    <div className="product-name mx-2">{product.product.name}</div>
+                    <div className="product-name">{product.product.name}</div>
                     <div className="mx-2">{showTrendyOrNew()}</div>
-                    <div className="mx-2">{showRating()}</div>
-                    <div className="mx-2">Total sold : {product.product.sold}</div>
+                    <div className="show-rating-cont">{showRating()}</div>
+                    <div className="total-sold">Total sold : {product.product.sold}</div>
                 </div>
                 <div className="product-description">{product.product.description}</div>
             </div>
@@ -248,10 +252,10 @@ const ProductDetail = (props) => {
         return (
             <div className="row justify-content-center add-to-cart">
                 <div>
-                    <button className="btn btn-outline-info py-3 px-5 add-to-cart-btn" onClick={addToCart("add")}>Add to cart</button>
+                    <button className="btn-outline-info  add-to-cart-btn" onClick={addToCart("add")}>Add to cart</button>
                 </div>
                 <div>
-                    <button className="btn btn-outline-success  py-3 px-5" onClick={addToCart("buy")}>Buy Now</button>
+                    <button className="btn-outline-success " onClick={addToCart("buy")}>Buy Now</button>
                 </div>
             </div>
         )
@@ -259,7 +263,7 @@ const ProductDetail = (props) => {
 
     const showSelectDetail = () => {
         return (
-            <div className="select-detail-box">
+            <div className="select-detail-cont">
                 <h1 className="select-detail-box-title">Select detail</h1>
                 {showDetails()}
                 {showTotalPrice()}
@@ -270,16 +274,17 @@ const ProductDetail = (props) => {
 
     return product ? (
         <Layout>
-            <Loader loading={loading}/>
-            <div className="row mt-5 productDetail">
-                <div className="col-7 justify-content-center">
+            <Loader loading={loading} />
+            <div className="row productDetail">
+                <div className="col-7 left justify-content-center">
                     {showProductInformation()}
                     <TestCarousel item={product.product} />
-                    <Review reviews={product.product.reviews} product={product.product}/>
                 </div>
-                <div className="col-5">
+                <div className="col-5  right">
                     {showSelectDetail()}
-                    
+                    <Review reviews={reviews} product={product.product} setDummy={setDummy} dummy={dummy}/>
+
+
                 </div>
             </div>
             <div className="row">

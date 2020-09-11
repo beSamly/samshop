@@ -10,7 +10,7 @@ const CateSection = () => {
 
     const showCateSection = () => {
         return (
-            <div className="row">
+            <div className="row category-cont">
                 <div className="col-3 row justify-content-center align-items-center cate-section-item">
                     <Link to={'/products?category=5d5fe94b717b8847484696d1'}>
                         <img src='/img/cate-section-female-top.jpg' />

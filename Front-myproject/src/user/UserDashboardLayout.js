@@ -9,23 +9,27 @@ const UserDashboardLayout = ({ children, history, location, keywordIn }) => {
         if (history.location.pathname === path) {
             return "dashboard-sidebar-item dashboard-sidebar-item-active ";
         } else {
-            return  "dashboard-sidebar-item ";
+            return "dashboard-sidebar-item ";
         }
     };
 
     const showSideBar = () => {
         return (
             <div className="dashboard-sidebar" >
-                <div className="dashboard-sidebar-title">Admin Options</div>
+                <div className="dashboard-sidebar-title">User Options</div>
                 <ul className="dashboard-sidebar-item-box">
                     <Link to={'/user/dashboard/profile'}>
-                        <li className={isActive(history,'/user/dashboard/profile')}>Profile</li>
+                        <div className={isActive(history, '/user/dashboard/profile')}>
+                            <li className="" >Profile</li>
+                        </div>
                     </Link>
-                    <Link to={'/user/dashboard'}>
+                    {/* <Link to={'/user/dashboard'}>
                         <li className={isActive(history, '/user/dashboard')}>Dashboard</li>
-                    </Link>
+                    </Link> */}
                     <Link to={'/user/dashboard/history'}>
-                        <li className={isActive(history, '/user/dashboard/history')}>History</li>
+                        <div className={isActive(history, '/user/dashboard/history')}>
+                            <li >History</li>
+                        </div>
                     </Link>
                 </ul>
             </div>
@@ -34,7 +38,7 @@ const UserDashboardLayout = ({ children, history, location, keywordIn }) => {
 
     return (
         <Layout keywordIn={keywordIn}>
-            <div className="row mt-5">
+            <div className="row dashboard-cont">
                 <div className="col-3">
                     {showSideBar()}
                 </div>

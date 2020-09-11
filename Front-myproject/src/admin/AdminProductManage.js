@@ -177,11 +177,11 @@ const AdminProductManage = ({ history, location }) => {
             <Loader loading={loading}/>
             <Filter myFilters={myFilters} count={count} handleFilters={handleFilters} />
             <PageButton myFilters={myFilters} filters={myFilters} count={count} handleFilters={handleFilters} skip={myFilters.skip} />
-            Total product : {count}
+            <span className="total-product-text">Total product : {count}</span>
             {showSearchBar()}
             <div className="row">
                 {filteredResults.map((product) => {
-                    return (<div className="col-lg-3 col-md-4 col-6">
+                    return (<div className="col-4">
                         <Card product={product} linkTo={'/admin/dashboard/product/update/'} />
                     </div>)
                 })}

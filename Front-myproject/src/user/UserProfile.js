@@ -3,16 +3,19 @@ import { BrowserRouter, Router, Switch, Route, Link, withRouter, Redirect } from
 import { isAuthenticated } from "../auth";
 import { read, update, updateUser } from "./apiUser";
 import UserDashboardLayout from "./UserDashboardLayout";
+import profile from '../css/Profile.scss'
 
 const UserProfile = ({ match }) => {
     const [values, setValues] = useState({
         name: "",
-        email: "",
+        // email: "",
         password: "",
         error: false,
         success: false
     });
 
+    const userId = JSON.parse(localStorage.getItem('jwt')).user._id
+    console.log( JSON.parse(localStorage.getItem('jwt')))
     const { token } = isAuthenticated();
     const { name, email, password, error, success } = values;
 
@@ -28,7 +31,7 @@ const UserProfile = ({ match }) => {
     };
 
     useEffect(() => {
-        init(match.params.userId);
+        init(userId);
     }, []);
 
     const handleChange = name => e => {
@@ -37,7 +40,7 @@ const UserProfile = ({ match }) => {
 
     const clickSubmit = e => {
         e.preventDefault();
-        update(match.params.userId, token, { name, email, password }).then(
+        update(userId, token, { name, email, password }).then(
             data => {
                 if (data.error) {
                     console.log(data.error);
@@ -46,7 +49,8 @@ const UserProfile = ({ match }) => {
                         setValues({
                             ...values,
                             name: data.name,
-                            email: data.email,
+                            // email: data.email,
+                            password:"",
                             success: true
                         });
                     });
@@ -55,14 +59,11 @@ const UserProfile = ({ match }) => {
         );
     };
 
-    const redirectUser = success => {
-        if (success) {
-            return <Redirect to="/cart" />;
-        }
-    };
+   
 
     const profileUpdate = (name, email, password) => (
-        <form>
+        <form className="profile-cont">
+            {success===true&& <div className="success-message">Succesfully changed!</div>}
             <div className="form-group">
                 <label className="text-muted">Name</label>
                 <input
@@ -72,7 +73,7 @@ const UserProfile = ({ match }) => {
                     value={name}
                 />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
                 <label className="text-muted">Email</label>
                 <input
                     type="email"
@@ -80,7 +81,7 @@ const UserProfile = ({ match }) => {
                     className="form-control"
                     value={email}
                 />
-            </div>
+            </div> */}
             <div className="form-group">
                 <label className="text-muted">Password</label>
                 <input
@@ -99,9 +100,8 @@ const UserProfile = ({ match }) => {
 
     return (
         <UserDashboardLayout>
-            <h2 className="mb-4">Profile update</h2>
+            <div className="profile-header">Profile update</div>
             {profileUpdate(name, email, password)}
-            {redirectUser(success)}
         </UserDashboardLayout >
     );
 };

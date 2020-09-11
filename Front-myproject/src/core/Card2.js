@@ -96,7 +96,7 @@ const Card = ({ product, forWhat = "normal", linkTo = '/product/', index = null,
                         </p>
                         {showRating()}
                         <div className="clearfix">
-                            <div className="float-left">{showTrendyOrNew(product)}</div>
+                            {/* <div className="float-left">{showTrendyOrNew(product)}</div> */}
                             <div className="float-right price-tag">${product.price}</div>
                         </div>
                     </div >

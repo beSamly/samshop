@@ -1,25 +1,32 @@
 #root {
-    min-width:1263px;
+    /* min-width:1263px; */
+    font-family: "Helvetica Now Display DW", sans-serif !important;
 }
 
-#root .showError{
-    top:100%;
-    left:4px;
-    color:red;
-    font-size : 14px;
+#root .col-3 {
+    width: 25% !important;
+    margin: 0 !important;
+    padding-left:1vw !important;
+    padding-right:1vw !important;
 }
 
-#root select{
-    display:block !important;
+#root .showError {
+    top: 100%;
+    left: 4px;
+    color: red;
+    font-size: 14px;
 }
 
-#root .no-access-img{
-    width:100%;
-    
+#root select {
+    display: block !important;
 }
 
-#root .admin-category-manage button{
-    font-size:11px;
+#root .no-access-img {
+    width: 100%;
+}
+
+#root .admin-category-manage button {
+    font-size: 11px;
 }
 
 /* Product carousel on Home page */
@@ -28,27 +35,27 @@
     border-bottom: 2px solid grey;
 }
 
-#root .product-carousel .left-btn{
+#root .product-carousel .left-btn {
     position: absolute;
-    left:-3%;
-    top:45%;
+    left: -3%;
+    top: 45%;
 }
 
-#root .product-carousel .right-btn{
+#root .product-carousel .right-btn {
     position: absolute;
-    right:-3%;
-    top:45%;
+    right: -3%;
+    top: 45%;
 }
 
 /* Contact */
-#root .contact-background-img{
+#root .contact-background-img {
     position: relative;
 }
 
-#root .contact-background-img::after{
-    background-image: url("/img/background.jpg"); 
-    background-position: center; 
-    background-repeat: no-repeat; 
+#root .contact-background-img::after {
+    background-image: url("/img/background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
     content: "";
     opacity: 0.2;
@@ -57,25 +64,18 @@
     bottom: 0;
     right: 0;
     position: absolute;
-    z-index: -1;   
+    z-index: -1;
 }
 
-#root .contact-background-img input, #root .contact-background-img textarea{
+#root .contact-background-img input,
+#root .contact-background-img textarea {
     border-bottom: 1px solid rgb(111, 111, 211);
 }
 
-#root .navbar{
-    margin:auto;
-    max-width:1263px;
-}
 /* overwrite bootstrap navbar style */
-#root .navbar{box-shadow: 0 0 0 0}
-#root .navbar-wrapper{
-    box-shadow:  0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.19);  
+#root .navbar {
+    box-shadow: 0 0 0 0;
 }
-
-#root .children-wrapper{
-    margin:auto;
-    max-width:1400px;
+#root .navbar-wrapper {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.19);
 }
-

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route, Redirect,withRouter } from "react-router-dom";
 import { signin, authenticate, isAuthenticated } from '../auth/index'
 import Loader from "../core/Loader";
+import signupcss from '../css/signup.scss';
 
 const { user } = isAuthenticated()
 const Signin = ({history}) => {
@@ -72,7 +73,7 @@ const Signin = ({history}) => {
 
     const showForm = () => {
         return (
-            <div>
+            <div className="signin-cont">
                 <Loader loading={loading} />
 
                 <div class="modal fade" onKeyPress={handleEnter} id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

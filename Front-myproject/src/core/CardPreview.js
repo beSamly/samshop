@@ -85,7 +85,7 @@ const CardPreview = ({ product, forWhat = "normal", linkTo = '/product/', index,
                     <i class="fas fa-chevron-right mr-2"></i>
                 </div>
                 <div className="col-10 px-0">
-                    options available
+                    Options available
                 <i class="fas fa-arrow-down ml-2"></i>
                     {arr}
                 </div>
@@ -133,7 +133,7 @@ const CardPreview = ({ product, forWhat = "normal", linkTo = '/product/', index,
                     </div>
                 </div>
                 {showOptions()}
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-1 mx-0 px-0">
                         <i class="fas fa-chevron-right mr-2"></i>
 
@@ -143,10 +143,10 @@ const CardPreview = ({ product, forWhat = "normal", linkTo = '/product/', index,
                          <i class="far fa-thumbs-up ml-2"></i>
                         {showReview()}
                     </div>
-                </div>
+                </div> */}
             </div >
             <div className="row justify-content-center ">
-                <button className="btn btn-danger add-to-cart-btn" onClick={handleAddToCart}>Add To Cart</button>
+                <button className="btn-danger add-to-cart-btn" onClick={handleAddToCart}>Add To Cart</button>
             </div>
             {/* </Link> */}
         </div>

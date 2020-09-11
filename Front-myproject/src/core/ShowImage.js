@@ -5,18 +5,20 @@ import { API } from '../config'
 
 const ShowImage = ({ item, url, forWhat }) => {
 
-    const photosize={
-        width:200,
-        height:220
+    const photosize = {
+        width: 200,
+        height: 220
     }
     const init = () => {
-     
+
     }
 
     useEffect(() => {
         init()
-    },[])
-    var numberOfPhoto=item?item.photos.length:0
+    }, [])
+    console.log("what is itme :", item)
+    console.log("item.photos :", item.photos)
+    var numberOfPhoto = item ? item.photos.length : 0
 
     const carouselPhoto = () => {
         let arr = []
@@ -24,39 +26,39 @@ const ShowImage = ({ item, url, forWhat }) => {
             if (i === 0) {
                 arr.push(
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src={item.photos[i].image_url}
-                            alt="Second slide" style={{ width: photosize.width, height: photosize.height }} />
+                        <img class="d-block w-100 image" src={item.photos[i].image_url}
+                            alt="Second slide" />
                     </div>
                 )
             } else {
                 arr.push(
                     <div class="carousel-item">
-                        <img class="d-block w-100" src={item.photos[i].image_url}
-                            alt="Second slide" style={{ width: photosize.width, height: photosize.height }} />
+                        <img class="d-block w-100 image" src={item.photos[i].image_url}
+                            alt="Second slide" />
                     </div>
                 )
             }
         }
         return arr
     }
-    
-    const carouselRoundButton=()=>{
-        let arr= []
-        for(let i =0 ; i < numberOfPhoto ; i++){
-            if(i===0){
+
+    const carouselRoundButton = () => {
+        let arr = []
+        for (let i = 0; i < numberOfPhoto; i++) {
+            if (i === 0) {
                 arr.push(
                     <li data-target="#carousel-example-1z" data-slide-to={`${i}`} class="active"></li>
-                    )
+                )
             } else {
                 arr.push(
                     <li data-target="#carousel-example-1z" data-slide-to={`${i}`} ></li>
-                    )
+                )
             }
         }
         return arr
     }
 
-    const corouselId=`${forWhat}-${item._id}`
+    const corouselId = `${forWhat}-${item._id}`
     const carousel = () => {
         return (
             <div id={corouselId} class="carousel slide carousel" data-ride="carousel" data-interval="5000">
@@ -67,10 +69,10 @@ const ShowImage = ({ item, url, forWhat }) => {
                     {carouselPhoto()}
                 </div>
                 <a class="carousel-control-prev" href={`#${corouselId}`} role="button" data-slide="prev">
-                    <i class="fas fa-angle-left fa-3x" style={{color:'rgb(179, 179, 192)'}}></i>
+                    <i class="fas fa-angle-left fa-3x" style={{ color: 'rgb(179, 179, 192)' }}></i>
                 </a>
                 <a class="carousel-control-next" href={`#${corouselId}`} role="button" data-slide="next">
-                    <i class="fas fa-angle-right fa-3x" style={{color:'rgb(179, 179, 192)'}}></i>
+                    <i class="fas fa-angle-right fa-3x" style={{ color: 'rgb(179, 179, 192)' }}></i>
                 </a>
             </div>
         )

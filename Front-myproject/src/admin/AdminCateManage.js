@@ -21,10 +21,12 @@ const AdminCateManage = () => {
     const [dummy, setDummy]=useState(0)
 
     useEffect(() => {
+        
         getCategories().then(data => {
             if (data.error) {
                 setError(data.error);
             } else {
+                console.log("fuckign dat  : " , data)
                 setCategories(data);
                 setLoading(false)
             }
@@ -35,9 +37,10 @@ const AdminCateManage = () => {
         e.preventDefault()
         var productID = categories[index]._id
         var newName = categories[index].name
-        e.target.parentNode.querySelector('.input').setAttribute("disabled","disabled") 
+        e.target.parentNode.parentNode.querySelector('.input').setAttribute("disabled","disabled") 
 
         updateCategory(token, productID, userId, { name: newName }).then(res => {
+            console.log("dam res : ", res)
             if (res.error) {
                 console.log("error in updateCategory : ", res.error)
                 console.log(res.error)
@@ -81,16 +84,16 @@ const AdminCateManage = () => {
             return (
                 // <Link to={`/admin/dashboard/category/update/${c._id}`}>
                 <div className="col-3 px-2 my-2 row justify-content-center align-items-center">
-                    <form className="form-control" onSubmit={handleSubmit(index)}>
+                    <div className="form-control" >
                         <div>
                             <input className="form-control input" value={c.name} onChange={handleChange(index)} disabled="disabled" />
                             <div>
-                                <button className="btn btn-primary px-2 py-1 mx-1" onClick={editClick}>edit</button>
-                                <button className="btn btn-warning px-2 py-1">submit</button>
-                                <button className="btn btn-danger px-1 py-1" onClick={handleDelete(c._id)}>delete</button>
+                                <button className="btn btn-primary px-2 py-1 mx-1" onClick={editClick}>Edit</button>
+                                <button className="btn btn-warning px-2 py-1" onClick={handleSubmit(index)}>Submit</button>
+                                <button className="btn btn-danger px-1 py-1" onClick={handleDelete(c._id)}>Delete</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
                 // </Link>

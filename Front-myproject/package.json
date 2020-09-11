@@ -12,6 +12,7 @@
     "hoverintent-jqplugin": "^0.2.1",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "node-sass": "^4.14.1",
     "query-string": "^6.8.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

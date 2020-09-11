@@ -1,0 +1,30 @@
+// My custome bootstarp
+.row {
+  display: flex;
+}
+
+.JCC,
+.justify-content-center {
+  justify-content: center;
+}
+
+.AIC,
+.align-items-center {
+  align-items: center;
+}
+
+.btn {
+  cursor: pointer;
+  // border-radius: 0.2vw;
+  text-align:center;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+

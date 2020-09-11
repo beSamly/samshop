@@ -74,8 +74,8 @@ const Cart = () => {
         // i = index of selectedDetail array
         var a = product.selectedDetails.map((d, i) => {
             return (
-                <div className="row">
-                    <div className="col-6 px-0" >
+                <div className="row each-option-cont align-items-center">
+                    <div className="first px-0" >
                         <select className="form-control" onChange={handleChange(product, i)}>
                             <option value={JSON.stringify({})}>Select option</option>
                             {product.product.details.map((c) => {
@@ -87,14 +87,14 @@ const Cart = () => {
                             })}
                         </select>
                     </div>
-                    <div className="col-3 px-0 row justify-content-center align-items-center">
-                        <button className="btn btn-default py-1 px-2 m-0" onClick={handleQuantity('increase', index, i)}>+</button>
-                        <input className="quantity form-control p-0 m-1" type="number" value={product.selectedDetails[i].quantity} style={{ width: 30 }} />
-                        <button className="btn btn-default py-1 px-2 m-0" onClick={handleQuantity('decrease', index, i)} >-</button>
+                    <div className="second px-0 row justify-content-center align-items-center">
+                        <button className="btn-default " onClick={handleQuantity('increase', index, i)}>+</button>
+                        <input className="quantity form-control " type="number" value={product.selectedDetails[i].quantity}  />
+                        <button className="btn-default " onClick={handleQuantity('decrease', index, i)} >-</button>
                     </div>
-                    <div className="col-3 px-0 row align-items-center">
-                        <button className="btn btn-primary py-1 px-3" onClick={handleAdd(index)}>+</button>
-                        <button className="btn btn-danger py-1 px-3" onClick={handleDelete(index, i)}>-</button>
+                    <div className="third px-0 row align-items-center">
+                        <button className="btn-primary " onClick={handleAdd(index)}>+</button>
+                        <button className="btn-danger " onClick={handleDelete(index, i)}>-</button>
                     </div>
 
                 </div>
@@ -124,9 +124,9 @@ const Cart = () => {
                     <ShowImage item={item.product} url="product" />
                 </div>
                 <div className="col-9">
-                    <button className="btn delete-item" onClick={deleteItem(index)}>X</button>
+                    <button className="delete-item" onClick={deleteItem(index)}>X</button>
                     <div>{item.product.name}</div>
-                    <div>{item.product.description}</div>
+                    {/* <div>{item.product.description}</div> */}
                     {showDetails(item, index)}
                 </div>
             </div>
@@ -135,7 +135,7 @@ const Cart = () => {
 
     const showItems = () => {
         return (
-            <div>
+            <div className="show-item-cont">
                 <h2>Your cart has {`${items.length}`} items</h2>
                 <hr />
                 {items.map((item, i) => (

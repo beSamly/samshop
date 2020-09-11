@@ -4,7 +4,7 @@ import { isAuthenticated, signout } from '../auth/index'
 import { read } from "../user/apiUser"
 import { createReview, updateReview, deleteReview } from "./apiCore"
 
-const Review = ({ reviews, product }) => {
+const Review = ({ reviews, product, dummy, setDummy }) => {
 
     const [reviewByUser, setReviewByUser] = useState({
         comment: "",
@@ -18,8 +18,6 @@ const Review = ({ reviews, product }) => {
         limit: 7,
         skip: 0
     })
-
-
     const userId = isAuthenticated() && isAuthenticated().user._id
     const userToken = isAuthenticated() && isAuthenticated().token
 
@@ -36,7 +34,7 @@ const Review = ({ reviews, product }) => {
         // document.querySelector('.review-form-box').addEventListener('mouseover',()=>{
         //     alert("?")
         // })
-    }, [user, reviews, values.skip])
+    }, [user, reviews, values.skip, dummy])
 
     const resetPageButtonActive = () => {
         if (reviews.length !== 0) {
@@ -84,13 +82,20 @@ const Review = ({ reviews, product }) => {
     const handleSubmit = (doWhat) => (e) => {
         if (doWhat === "create") {
             console.log("craete fucntion")
-            createReview(reviewByUser, product._id)
+            createReview(reviewByUser, product._id).then(()=>{
+                setDummy(dummy+1)
+            })
         }
         if (doWhat === "delete") {
-            deleteReview(product._id, user._id)
+            deleteReview(product._id, user._id).then(()=>{
+                setDummy(dummy+1)
+
+            })
         }
         if (doWhat === "update") {
-            updateReview(product._id, user._id, reviewByUser)
+            updateReview(product._id, user._id, reviewByUser).then(()=>{
+                setDummy(dummy+1)
+            })
         }
     }
 
@@ -121,18 +126,18 @@ const Review = ({ reviews, product }) => {
         // var returnArr = []
         if (right && reviewByUser.updateOrNew === "update") {
             return (
-                <form className="form-control"  >
+                <form className="form-control update-comment-form "  >
                     {showAlertMessage("update")}
                     {showRatingScore()}
                     <div className="row align-items-end">
                         <div className="col-8">
                             <label>Comment:</label>
-                            <textarea rows="2" className="form-control" value={reviewByUser.comment} cols="45" name="description" placeholder="Comment..." onChange={handleChange('comment')} >
+                            <textarea rows="2" className="form-control text-area" value={reviewByUser.comment} cols="45" name="description" placeholder="Comment..." onChange={handleChange('comment')} >
                             </textarea>
                         </div>
                         <div className="col-4">
-                            <button className="btn btn-primary px-2 py-1" onClick={handleSubmit("update")}>update</button>
-                            <button className="btn btn-danger px-2 py-1" onClick={handleSubmit("delete")}>delete</button>
+                            <button className="btn-primary update-btn" onClick={handleSubmit("update")}>update</button>
+                            <button className="btn-danger delete-btn" onClick={handleSubmit("delete")}>delete</button>
                         </div>
                     </div>
                 </form>
@@ -140,17 +145,17 @@ const Review = ({ reviews, product }) => {
         }
         if (right && reviewByUser.updateOrNew === "new") {
             return (
-                <form className="form-control" onSubmit={handleSubmit('create')} disabled >
+                <form className="form-control new-comment-form" onSubmit={handleSubmit('create')} disabled >
                     {showAlertMessage("create")}
                     {showRatingScore()}
-                    <div className="row align-items-end">
+                    <div className="row  align-items-end">
                         <div className="col-8">
                             <label>Comment:</label>
-                            <textarea rows="2" className="form-control" value={reviewByUser.comment} cols="45" name="description" placeholder="Comment..." onChange={handleChange('comment')} >
+                            <textarea rows="2" className="form-control text-area" value={reviewByUser.comment} cols="45" name="description" placeholder="Comment..." onChange={handleChange('comment')} >
                             </textarea>
                         </div>
                         <div className="col-4">
-                            <button className="btn btn-primary">submit</button>
+                            <button className="submit-btn btn-primary">submit</button>
 
                         </div>
                     </div>
@@ -158,17 +163,17 @@ const Review = ({ reviews, product }) => {
             )
         } else {
             return (
-                <form className="form-control" onSubmit={handleSubmit} disabled >
+                <form className="form-control new-comment-form" onSubmit={handleSubmit} disabled >
                     {/* <div>{showRatingScore()}</div> */}
                     {showRatingScore()}
-                    <div className="row align-items-end">
-                        <div className="col-8">
+                    <div className="">
+                        <div className="">
                             <label>Comment:</label>
-                            <textarea rows="2" cols="45" className="form-control" name="description" placeholder="Purchase before leaving comment..." disabled>
+                            <textarea rows="2" cols="45" className="form-control text-area" name="description" placeholder="Purchase before leaving comment..." disabled>
                             </textarea>
                         </div>
-                        <div className="col-4">
-                            <button className="btn btn-primary" disabled>submit</button>
+                        <div className="">
+                            <button className="submit-btn btn btn-primary" disabled>submit</button>
                         </div>
                     </div>
                 </form>
@@ -391,7 +396,7 @@ const Review = ({ reviews, product }) => {
             </div>
             <div className="review-show-box">
                 <div className="row justify-content-between align-items-center review-show-box-title">
-                    <h4>Reviews</h4>
+                    <div >Reviews</div>
                     <div className="row">
                         {showPageButtonTest()}
                     </div>

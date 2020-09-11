@@ -163,7 +163,7 @@ const Product = ({ location, history }) => {
     const showResult = () => {
         return (
             <div className="product-show-result row justify-content-center align-items-center">
-                <h3 className="ml-3" ><i class="far fa-laugh"></i>  {count} products are found</h3>
+                <div className="ml-3" ><i class="far fa-laugh"></i>  {count} products were found</div>
             </div>
         )
     }

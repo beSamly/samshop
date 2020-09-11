@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import { signup } from "../auth/index";
 import Loader from "../core/Loader";
-import { signin, authenticate, isAuthenticated } from '../auth/index'
+import { signup,  isAuthenticated } from '../auth/index'
+import signupcss from '../css/signup.scss';
 
 const Signup = () => {
     const handleSubmit = (e) => {
@@ -93,7 +93,7 @@ const Signup = () => {
     );
 
     return !isAuthenticated() && (
-        <div>
+        <div className="signup-cont">
             <Loader loading={loading} />
             <form onSubmit={clickSubmit} onKeyPress={handleEnter}>
                 <div class="modal fade" id="elegantModalForm-signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

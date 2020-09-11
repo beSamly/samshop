@@ -77,7 +77,7 @@ const { userById } = require("../routes/user");
 // CRUD
 router.get("/category/:categoryId", read);
 router.post("/category/create/:userId", requireSignin, isAuth, isAdmin, create);
-router.put("/category/:categoryId/:userId", requireSignin, isAuth, isAdmin, update);
+router.post("/category/:categoryId/:userId", requireSignin, isAuth, isAdmin, update);
 router.delete( "/category/:categoryId/:userId", requireSignin, isAuth, isAdmin, remove);
 
 // SHOW FULL LIST OF CATEGORY
